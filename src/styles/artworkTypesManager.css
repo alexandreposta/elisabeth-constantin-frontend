@@ -1,0 +1,194 @@
+/* Artwork Types Manager Styles */
+.artwork-types-manager {
+  margin-bottom: 1rem;
+}
+
+.type-selector label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.type-input-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.type-input-group select {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  background: white;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.type-input-group select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.manage-types-btn {
+  background: #f8f9fa;
+  color: #667eea;
+  border: 2px solid #e0e0e0;
+  padding: 0.75rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 45px;
+}
+
+.manage-types-btn:hover {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.types-manager-panel {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.types-manager-panel h4 {
+  margin: 0 0 1rem 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.add-type-section {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.add-type-section input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.add-type-btn {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-type-btn:hover {
+  background: #219a52;
+}
+
+.types-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.type-item {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.type-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.type-name {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.type-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-type-btn,
+.delete-type-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.edit-type-btn {
+  color: #667eea;
+}
+
+.edit-type-btn:hover {
+  background: #667eea;
+  color: white;
+}
+
+.delete-type-btn {
+  color: #e74c3c;
+}
+
+.delete-type-btn:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+.edit-type-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.edit-type-group input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.save-edit-btn,
+.cancel-edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.save-edit-btn {
+  color: #27ae60;
+}
+
+.save-edit-btn:hover {
+  background: #27ae60;
+  color: white;
+}
+
+.cancel-edit-btn {
+  color: #e74c3c;
+}
+
+.cancel-edit-btn:hover {
+  background: #e74c3c;
+  color: white;
+}

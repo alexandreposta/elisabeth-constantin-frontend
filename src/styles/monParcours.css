@@ -1,0 +1,467 @@
+/* Ma Démarche - Style moderne et minimaliste */
+.parcours-container {
+  min-height: 100vh;
+  background: transparent;
+  font-family: 'Playfair Display', serif;
+}
+
+/* Hero Section */
+.parcours-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 4rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: #34495e;
+  line-height: 1.6;
+  margin-bottom: 0;
+  font-weight: 400;
+}
+
+.hero-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.artist-portrait {
+  position: relative;
+  width: 350px;
+  height: 450px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transform: rotate(-2deg);
+  transition: transform 0.3s ease;
+}
+
+.artist-portrait:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+.portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Sections */
+.parcours-section {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+.parcours-section.reverse {
+  grid-template-columns: 1fr 80px;
+}
+
+.parcours-section.reverse .section-icon {
+  order: 2;
+}
+
+.parcours-section.reverse .section-title,
+.parcours-section.reverse .section-content {
+  text-align: right;
+}
+
+.section-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.8rem;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  position: sticky;
+  top: 120px;
+}
+
+.section-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.section-content {
+  grid-column: 2;
+}
+
+.parcours-section.reverse .section-content {
+  grid-column: 1;
+}
+
+.section-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #34495e;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.section-text:last-child {
+  margin-bottom: 0;
+}
+
+/* Conclusion */
+.parcours-conclusion {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  padding: 5rem 2rem;
+  text-align: center;
+}
+
+.conclusion-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.conclusion-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.conclusion-text {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.conclusion-text:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .parcours-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 3rem 1rem;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .artist-portrait {
+    width: 280px;
+    height: 350px;
+  }
+
+  .parcours-section,
+  .parcours-section.reverse {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 3rem 1rem;
+    text-align: center;
+  }
+
+  .section-icon {
+    margin: 0 auto;
+    position: static;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-text {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .timeline-year {
+    min-width: 60px;
+    font-size: 1.2rem;
+  }
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .parcours-hero {
+    gap: 2rem;
+    padding: 4rem 1rem;
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .artist-portrait {
+    width: 300px;
+    height: 380px;
+  }
+  
+  .parcours-section {
+    padding: 3rem 1rem;
+    gap: 2rem;
+  }
+  
+  .section-title {
+    font-size: 2.2rem;
+  }
+  
+  .section-text {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .parcours-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 3rem 1rem;
+    min-height: auto;
+    text-align: center;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .artist-portrait {
+    width: 280px;
+    height: 350px;
+    margin: 0 auto;
+  }
+  
+  .parcours-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  
+  .parcours-section.reverse {
+    grid-template-columns: 1fr;
+  }
+  
+  .parcours-section.reverse .section-icon {
+    order: 0;
+  }
+  
+  .parcours-section.reverse .section-title,
+  .parcours-section.reverse .section-content {
+    text-align: center;
+  }
+  
+  .section-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .section-text {
+    font-size: 1rem;
+  }
+  
+  .timeline-section {
+    padding: 2rem 1rem;
+  }
+  
+  .timeline-title {
+    font-size: 2.5rem;
+  }
+  
+  .timeline-item {
+    padding: 1.5rem 0;
+  }
+  
+  .timeline-year {
+    font-size: 1.3rem;
+  }
+  
+  .timeline-event {
+    font-size: 1rem;
+  }
+  
+  .timeline-content {
+    margin: 0 0 0 1rem;
+  }
+  
+  .conclusion-section {
+    padding: 2rem 1rem;
+  }
+  
+  .conclusion-title {
+    font-size: 2.2rem;
+  }
+  
+  .conclusion-text {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .parcours-hero {
+    padding: 2rem 0.5rem;
+    gap: 1.5rem;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+  
+  .artist-portrait {
+    width: 250px;
+    height: 300px;
+  }
+  
+  .parcours-section {
+    padding: 1.5rem 0.5rem;
+    gap: 1rem;
+  }
+  
+  .section-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .section-text {
+    font-size: 0.9rem;
+    padding: 0 0.5rem;
+  }
+  
+  .timeline-section {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  .timeline-title {
+    font-size: 2rem;
+  }
+  
+  .timeline-item {
+    padding: 1rem 0;
+  }
+  
+  .timeline-year {
+    font-size: 1.1rem;
+  }
+  
+  .timeline-event {
+    font-size: 0.9rem;
+  }
+  
+  .timeline-content {
+    margin: 0 0 0 0.5rem;
+  }
+  
+  .conclusion-section {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  .conclusion-title {
+    font-size: 1.8rem;
+  }
+  
+  .conclusion-text {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .artist-portrait {
+    width: 200px;
+    height: 250px;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .section-text {
+    font-size: 0.8rem;
+  }
+  
+  .timeline-title {
+    font-size: 1.5rem;
+  }
+  
+  .timeline-year {
+    font-size: 1rem;
+  }
+  
+  .timeline-event {
+    font-size: 0.8rem;
+  }
+  
+  .conclusion-title {
+    font-size: 1.5rem;
+  }
+  
+  .conclusion-text {
+    font-size: 0.9rem;
+  }
+}
+}

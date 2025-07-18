@@ -1,0 +1,581 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Prata&display=swap");
+
+.evenements-page {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #f4f1eb 0%, #eae7df 100%);
+  font-family: 'Playfair Display', serif;
+}
+
+.events-header {
+  text-align: center;
+  padding: 4rem 2rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.events-main-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 5.5rem;
+  color: #2c3e50;
+  margin: 0 0 1rem;
+  letter-spacing: 2px;
+  font-weight: 500;
+}
+
+.events-subtitle {
+  font-size: 1.3rem;
+  color: #7f8c8d;
+  margin: 0 0 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.events-filters {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.filter-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: #2c3e50;
+  border: 2px solid transparent;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Playfair Display', serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: white;
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: #667eea;
+}
+
+.events-container {
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.event-item {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 300px 1fr;
+  min-height: 250px;
+}
+
+.event-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.event-date-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  position: relative;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.event-date-badge .day {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.event-date-badge .month {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.featured-star {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.event-image-container {
+  position: relative;
+  background: #f8f9fa;
+}
+
+.event-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.event-status {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(10px);
+}
+
+.event-status.upcoming {
+  background: rgba(116, 185, 255, 0.9);
+  color: white;
+}
+
+.event-status.ongoing {
+  background: rgba(0, 184, 148, 0.9);
+  color: white;
+}
+
+.event-status.completed {
+  background: rgba(99, 110, 114, 0.9);
+  color: white;
+}
+
+.event-info {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.event-header-info h2 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+
+.event-organizer {
+  color: #7f8c8d;
+  font-style: italic;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.event-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.event-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.detail-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.detail-content strong {
+  display: block;
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-content p {
+  margin: 0;
+  color: #5d6d7e;
+  line-height: 1.4;
+}
+
+.detail-content .address {
+  font-size: 0.9rem;
+  color: #95a5a6;
+}
+
+.sold-out {
+  background: linear-gradient(135deg, #ff7675 0%, #d63031 100%);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 0.5rem;
+}
+
+.event-description {
+  background: rgba(116, 126, 234, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+}
+
+.event-description p {
+  margin: 0;
+  line-height: 1.6;
+  color: #2c3e50;
+  font-size: 1.05rem;
+}
+
+.event-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.event-tag {
+  background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.event-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 2px solid #ecf0f1;
+}
+
+.action-btn {
+  padding: 12px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  text-align: center;
+  border: 2px solid transparent;
+  font-family: 'Playfair Display', serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.action-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.action-btn.secondary {
+  background: rgba(255, 255, 255, 0.8);
+  color: #2c3e50;
+  border-color: #ecf0f1;
+}
+
+.action-btn.secondary:hover {
+  background: white;
+  border-color: #bdc3c7;
+  transform: translateY(-1px);
+}
+
+.no-events {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.no-events h3 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 3rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.no-events p {
+  color: #7f8c8d;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.events-loading,
+.events-error {
+  text-align: center;
+  padding: 4rem 2rem;
+  font-size: 1.3rem;
+  color: #2c3e50;
+}
+
+.events-error {
+  color: #e74c3c;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .events-main-title {
+    font-size: 4.5rem;
+  }
+  
+  .events-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .events-container {
+    padding: 2rem 1rem;
+  }
+  
+  .event-item {
+    grid-template-columns: auto 250px 1fr;
+    min-height: 220px;
+  }
+  
+  .event-date-badge {
+    padding: 1rem;
+  }
+  
+  .event-info {
+    padding: 1.5rem;
+  }
+  
+  .event-image {
+    width: 250px;
+    height: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .events-header {
+    padding: 2rem 1rem 1rem;
+  }
+  
+  .events-main-title {
+    font-size: 3.5rem;
+  }
+  
+  .events-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .events-filters {
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .filter-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .events-container {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  .event-item {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    margin-bottom: 2rem;
+  }
+  
+  .event-date-badge {
+    padding: 1rem;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .event-date-badge .day {
+    font-size: 2rem;
+    margin-bottom: 0;
+  }
+  
+  .event-date-badge .month {
+    font-size: 1rem;
+  }
+  
+  .event-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .event-info {
+    padding: 1.5rem;
+  }
+  
+  .event-header-info h2 {
+    font-size: 1.8rem;
+  }
+  
+  .event-location {
+    font-size: 1rem;
+  }
+  
+  .event-details-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .event-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .event-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .events-header {
+    padding: 1.5rem 0.5rem 0.5rem;
+  }
+  
+  .events-main-title {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+  
+  .events-subtitle {
+    font-size: 0.9rem;
+    padding: 0 0.5rem;
+  }
+  
+  .events-filters {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .filter-btn {
+    width: 80%;
+    max-width: 200px;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+  }
+  
+  .events-container {
+    padding: 1rem 0.25rem;
+  }
+  
+  .event-item {
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .event-date-badge {
+    padding: 0.8rem;
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .event-date-badge .day {
+    font-size: 1.5rem;
+  }
+  
+  .event-date-badge .month {
+    font-size: 0.9rem;
+  }
+  
+  .event-image {
+    height: 150px;
+  }
+  
+  .event-info {
+    padding: 1rem;
+  }
+  
+  .event-header-info h2 {
+    font-size: 1.5rem;
+  }
+  
+  .event-location {
+    font-size: 0.9rem;
+  }
+  
+  .event-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .event-actions .btn {
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .events-main-title {
+    font-size: 2rem;
+  }
+  
+  .event-date-badge {
+    padding: 0.6rem;
+  }
+  
+  .event-date-badge .day {
+    font-size: 1.3rem;
+  }
+  
+  .event-date-badge .month {
+    font-size: 0.8rem;
+  }
+  
+  .event-info {
+    padding: 0.8rem;
+  }
+  
+  .event-header-info h2 {
+    font-size: 1.2rem;
+  }
+  
+  .event-location {
+    font-size: 0.8rem;
+  }
+  
+  .event-description {
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,192 @@
+/* Admin Card Styles */
+.admin-card {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.admin-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.status-indicator {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.status-indicator.available {
+  background: rgba(46, 204, 113, 0.9);
+  color: white;
+}
+
+.status-indicator.unavailable {
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+}
+
+.status-indicator.upcoming {
+  background: rgba(52, 152, 219, 0.9);
+  color: white;
+}
+
+.status-indicator.ongoing {
+  background: rgba(46, 204, 113, 0.9);
+  color: white;
+}
+
+.status-indicator.completed {
+  background: rgba(149, 165, 166, 0.9);
+  color: white;
+}
+
+.status-indicator.cancelled {
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+}
+
+.admin-card-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.admin-card:hover .card-image {
+  transform: scale(1.05);
+}
+
+.admin-card-content {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #27ae60;
+  margin: 0;
+}
+
+.card-dimensions,
+.card-type,
+.card-date,
+.card-location,
+.card-status {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.card-status {
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  display: inline-block;
+  max-width: fit-content;
+}
+
+.card-description {
+  color: #5a6c7d;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0;
+  flex: 1;
+}
+
+.admin-card-actions {
+  padding: 1rem 1.5rem;
+  background: rgba(248, 249, 250, 0.8);
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.edit-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.edit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+}
+
+.delete-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-card-content {
+    padding: 1rem;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+  }
+  
+  .admin-card-actions {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+  }
+  
+  .edit-btn,
+  .delete-btn {
+    padding: 0.5rem 1rem;
+  }
+}
