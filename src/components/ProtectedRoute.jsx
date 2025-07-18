@@ -5,39 +5,22 @@ import { AuthService } from '../api/auth';
 const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [hasChecked, setHasChecked] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
     const checkAuth = async () => {
-      if (hasChecked) {
-        return;
-      }
-      
       try {
-        if (!AuthService.isAuthenticated()) {
-          if (isMounted) {
-            setIsAuthenticated(false);
-            setLoading(false);
-            setHasChecked(true);
-          }
-          return;
-        }
-
-        const isValid = await AuthService.verifyToken();
+        const isValid = await AuthService.isAuthenticated();
         
         if (isMounted) {
           setIsAuthenticated(isValid);
-          setHasChecked(true);
+          setLoading(false);
         }
       } catch (error) {
+        console.error('Erreur lors de la vérification auth:', error);
         if (isMounted) {
           setIsAuthenticated(false);
-          setHasChecked(true);
-        }
-      } finally {
-        if (isMounted) {
           setLoading(false);
         }
       }
@@ -48,7 +31,7 @@ const ProtectedRoute = ({ children }) => {
     return () => {
       isMounted = false;
     };
-  }, [hasChecked]);
+  }, []);
 
   if (loading) {
     return (

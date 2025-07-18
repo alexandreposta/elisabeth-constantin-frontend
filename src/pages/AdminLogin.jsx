@@ -35,10 +35,15 @@ export default function AdminLogin() {
     setError('');
 
     try {
-      await AuthService.login(credentials.username, credentials.password);
-      navigate('/admin/dashboard');
+      const result = await AuthService.login(credentials.username, credentials.password);
+      
+      if (result.success) {
+        navigate('/admin/dashboard');
+      } else {
+        setError(result.message || 'Erreur de connexion');
+      }
     } catch (err) {
-      setError(err.message || 'Erreur de connexion');
+      setError('Erreur de connexion');
     } finally {
       setLoading(false);
     }
@@ -64,7 +69,7 @@ export default function AdminLogin() {
                 value={credentials.username}
                 onChange={handleInputChange}
                 required
-                placeholder="admin"
+                placeholder="Nom d'utilisateur"
                 autoComplete="username"
               />
             </div>
@@ -81,7 +86,7 @@ export default function AdminLogin() {
                 value={credentials.password}
                 onChange={handleInputChange}
                 required
-                placeholder="12345"
+                placeholder="Mot de passe"
                 autoComplete="current-password"
               />
               <button
@@ -118,9 +123,6 @@ export default function AdminLogin() {
 
         <div className="admin-login-footer">
           <p>Interface réservée aux administrateurs</p>
-          <small style={{ color: '#95a5a6', marginTop: '1rem', display: 'block' }}>
-            Identifiants par défaut: admin / 12345
-          </small>
         </div>
       </div>
     </div>
