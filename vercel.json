@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "devCommand": "npm run dev",
   "name": "elisabeth-constantin-frontend",
   "builds": [
     {
