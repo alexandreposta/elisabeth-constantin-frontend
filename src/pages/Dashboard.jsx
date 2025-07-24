@@ -18,14 +18,25 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Vérifier l'authentification
-    if (!AuthService.isAuthenticated()) {
-      navigate('/admin/login');
-      return;
-    }
+    // Vérifier l'authentification de manière asynchrone
+    const checkAuthAndLoadData = async () => {
+      try {
+        const isAuth = await AuthService.isAuthenticated();
+        if (!isAuth) {
+          navigate('/admin/login');
+          return;
+        }
 
-    loadDashboardData();
-    loadAnalyticsData();
+        // Si authentifié, charger les données
+        loadDashboardData();
+        loadAnalyticsData();
+      } catch (error) {
+        console.error('Erreur lors de la vérification d\'authentification:', error);
+        navigate('/admin/login');
+      }
+    };
+
+    checkAuthAndLoadData();
   }, [navigate]);
 
   const loadAnalyticsData = () => {

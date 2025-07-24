@@ -79,6 +79,25 @@ export class AuthService {
     }
   }
 
+  // Alias pour getCurrentUser (pour compatibilité)
+  static async getCurrentAdmin() {
+    return await this.getCurrentUser();
+  }
+
+  // Nettoyer complètement l'authentification
+  static async clearAuth() {
+    try {
+      await fetch(`${API_URL}/admin/clear-auth`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+      return true;
+    } catch (error) {
+      console.error('Erreur lors du nettoyage de l\'authentification:', error);
+      return false;
+    }
+  }
+
   // Méthode pour configurer les requêtes authentifiées
   static async authenticatedFetch(url, options = {}) {
     const defaultOptions = {
