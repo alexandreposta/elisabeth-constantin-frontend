@@ -3,13 +3,17 @@ import { API_URL } from './config';
 const API = `${API_URL}/artworks`;
 
 export async function getAllArtworks() {
-  const res = await fetch(API);
+  const res = await fetch(API, {
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error("Impossible de récupérer les œuvres");  
   return await res.json();
 }
 
 export async function getArtworkById(id) {
-  const res = await fetch(`${API}/${id}`);
+  const res = await fetch(`${API}/${id}`, {
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error("Œuvre introuvable");
   return await res.json();
 }
@@ -17,6 +21,7 @@ export async function getArtworkById(id) {
 export async function createArtwork(payload) {
   const res = await fetch(API, {
     method: "POST",
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json"
     },
@@ -29,6 +34,7 @@ export async function createArtwork(payload) {
 export async function updateArtwork(id, payload) {
   const res = await fetch(`${API}/${id}`, {
     method: "PUT",
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json"
     },
@@ -39,7 +45,10 @@ export async function updateArtwork(id, payload) {
 }
 
 export async function deleteArtworkById(id) {
-  const res = await fetch(`${API}/${id}`, { method: "DELETE" });
+  const res = await fetch(`${API}/${id}`, { 
+    method: "DELETE",
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error("Suppression impossible");
   return await res.json();
 }
@@ -48,7 +57,9 @@ export async function getGalleryTypes() {
   const timestamp = Date.now();
   const url = `${API}/gallery-types?_t=${timestamp}`;
   
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    credentials: 'include',
+  });
   if (!res.ok) {
     throw new Error("Impossible de récupérer les types de galerie");
   }

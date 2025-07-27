@@ -5,7 +5,9 @@ const API_BASE_URL = API_URL;
 export const eventsAPI = {
   // Récupérer tous les événements
   getAllEvents: async () => {
-    const response = await fetch(`${API_BASE_URL}/events/`);
+    const response = await fetch(`${API_BASE_URL}/events/`, {
+      credentials: 'include',
+    });
     if (!response.ok) {
       throw new Error('Erreur lors de la récupération des événements');
     }
@@ -14,7 +16,9 @@ export const eventsAPI = {
 
   // Récupérer un événement par ID
   getEventById: async (id) => {
-    const response = await fetch(`${API_BASE_URL}/events/${id}`);
+    const response = await fetch(`${API_BASE_URL}/events/${id}`, {
+      credentials: 'include',
+    });
     if (!response.ok) {
       throw new Error('Erreur lors de la récupération de l\'événement');
     }
@@ -25,6 +29,7 @@ export const eventsAPI = {
   createEvent: async (eventData) => {
     const response = await fetch(`${API_BASE_URL}/events/`, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },

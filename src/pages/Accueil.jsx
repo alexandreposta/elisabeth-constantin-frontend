@@ -11,7 +11,8 @@ import img5 from "../assets/Tableau_2/1.jpg";
 import img6 from "../assets/Tableau_5/1.jpg";
 import img7 from "../assets/Tableau_6/3.jpg";
 import card from "../assets/card.jpg";
-import { FaInstagram, FaFacebookF, FaYoutube, FaRecycle } from "react-icons/fa";
+import trefle from "../assets/trefle-a-quatre-feuilles.png";
+import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 
 export default function Accueil() {
   const [artworks, setArtworks] = useState([]);
@@ -73,29 +74,13 @@ export default function Accueil() {
           <button
             onClick={redistributeImages}
             disabled={isAnimating}
-            style={{
-              width: '60px',
-              height: '60px',
-              background: isAnimating ? '#bdc3c7' : '#6c757d',
-              color: 'white',
-              border: 'none',
-              borderRadius: '50%',
-              cursor: isAnimating ? 'not-allowed' : 'pointer',
-              fontSize: '1.5rem',
-              transition: 'all 0.3s ease',
-              boxShadow: isAnimating ? 'none' : '0 4px 15px rgba(108, 117, 125, 0.3)',
-              transform: isAnimating ? 'scale(0.95)' : 'scale(1)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto'
-            }}
+            className="redistribute-btn"
             title="Redistribuer les images"
           >
-            <FaRecycle 
-              style={{
-                animation: isAnimating ? 'spin 1s linear infinite' : 'none'
-              }}
+            <img 
+              src={trefle}
+              alt="Trèfle à quatre feuilles"
+              className={`trefle-icon ${isAnimating ? 'spinning' : ''}`}
             />
           </button>
         </div>

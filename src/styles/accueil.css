@@ -432,6 +432,69 @@
   transform: scale(1.1);
 }
 
+/* Bouton redistribution avec trèfle à quatre feuilles */
+.redistribute-btn {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transform: scale(1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+.redistribute-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.redistribute-btn:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  transform: scale(0.95);
+  box-shadow: none;
+}
+
+.redistribute-btn:disabled:hover {
+  transform: scale(0.95);
+  box-shadow: none;
+  background: #bdc3c7;
+}
+
+.trefle-icon {
+  width: 32px;
+  height: 32px;
+  filter: brightness(0) invert(1); /* Rendre l'image blanche */
+  transition: all 0.3s ease;
+}
+
+.trefle-icon.spinning {
+  animation: spin 1s linear infinite;
+}
+
+/* Animation de rotation pour le trèfle */
+@keyframes trefle-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.redistribute-btn:hover .trefle-icon:not(.spinning) {
+  transform: scale(1.1);
+  filter: brightness(0) invert(1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+}
+
 /* Responsive styles */
 @media (max-width: 1024px) {
   .mosaic-item-absolute {
@@ -541,15 +604,9 @@
     font-size: 1.1rem;
   }
   
-  .discover-content .social-links {
-    gap: 2rem;
-    justify-content: center;
-  }
-  
-  .social-links a {
-    font-size: 1.5rem;
-    width: 45px;
-    height: 45px;
+  .redistribute-btn {
+    width: 50px;
+    height: 50px;
   }
 }
 

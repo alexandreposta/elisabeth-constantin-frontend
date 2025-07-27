@@ -31,7 +31,13 @@ export const ordersAdminAPI = {
   // Récupérer toutes les commandes (admin)
   getAllOrders: async () => {
     try {
-      const response = await fetch(`${API_URL}/orders/admin/all`);
+      const response = await fetch(`${API_URL}/orders/admin/all`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -45,7 +51,13 @@ export const ordersAdminAPI = {
   // Récupérer une commande par ID (admin)
   getOrderById: async (orderId) => {
     try {
-      const response = await fetch(`${API_URL}/orders/admin/${orderId}`);
+      const response = await fetch(`${API_URL}/orders/admin/${orderId}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -61,6 +73,7 @@ export const ordersAdminAPI = {
     try {
       const response = await fetch(`${API_URL}/orders/admin/${orderId}/status`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
