@@ -61,7 +61,8 @@ export const useMosaicAnimation = (images, initialDelay = 500) => {
     const containerHeight = 700;
     const placedImages = [];
     const maxAttempts = 500;
-    const margin = 15;
+    const isMobile = containerWidth <= 768;
+    const margin = isMobile ? 5 : 15; // Espacement réduit sur mobile
     
     const doOverlap = (rect1, rect2, marginValue = margin) => {
       return !(
@@ -76,26 +77,27 @@ export const useMosaicAnimation = (images, initialDelay = 500) => {
       shuffled.map(src => getImageDimensions(src))
     );
     
-    const scaleFactors = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3];
+    const scaleFactors = isMobile ? [0.5, 0.4, 0.3, 0.25, 0.2] : [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3];
     
     shuffled.forEach((imageSrc, index) => {
       let placed = false;
       const originalDims = imageDimensions[index];
-      const maxWidth = 350;
-      const maxHeight = 350;
+      const maxWidth = isMobile ? 180 : 350; // Taille maximale réduite sur mobile
+      const maxHeight = isMobile ? 180 : 350;
       const ratio = Math.min(maxWidth / originalDims.width, maxHeight / originalDims.height);
       
       for (let scaleIndex = 0; scaleIndex < scaleFactors.length && !placed; scaleIndex++) {
         const scaleFactor = scaleFactors[scaleIndex] + Math.random() * 0.1;
         const finalWidth = Math.floor(originalDims.width * ratio * scaleFactor);
         const finalHeight = Math.floor(originalDims.height * ratio * scaleFactor);
-        const minSize = 120;
+        const minSize = isMobile ? 60 : 120; // Taille minimale réduite sur mobile
         const width = Math.max(finalWidth, minSize);
         const height = Math.max(finalHeight, minSize);
         
         let attempts = 0;
         while (!placed && attempts < maxAttempts) {
-          const x = Math.max(0, Math.random() * (containerWidth - width));
+          // Assurer que l'image ne dépasse pas sur les côtés
+          const x = Math.max(0, Math.min(Math.random() * (containerWidth - width), containerWidth - width));
           const y = Math.max(0, Math.random() * (containerHeight - height));
           
           const newRect = {
