@@ -3,7 +3,7 @@ import '../styles/adminCard.css';
 
 const AdminCard = ({ 
   item, 
-  type, // 'artwork' ou 'event'
+  type,
   onEdit, 
   onDelete,
   statusIndicator 

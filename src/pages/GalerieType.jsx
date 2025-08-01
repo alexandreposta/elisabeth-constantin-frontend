@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getArtworksByGallery } from '../api/artworks';
+import SortButton from '../components/SortButton';
 import '../styles/galerieType.css';
 
 export default function GalerieType() {
@@ -9,6 +10,7 @@ export default function GalerieType() {
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentSort, setCurrentSort] = useState({ field: "title", direction: "asc" });
 
   useEffect(() => {
     loadArtworks();
@@ -44,6 +46,34 @@ export default function GalerieType() {
     const subject = `Intérêt pour l'œuvre : ${artwork.title}`;
     const body = `Bonjour,\n\nJe suis intéressé(e) par l'œuvre "${artwork.title}" de ${artwork.width}x${artwork.height}cm au prix de ${artwork.price}€.\n\nPouvez-vous me donner plus d'informations ?\n\nCordialement.`;
     window.location.href = `mailto:contact@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  const handleSort = (sortConfig) => {
+    setCurrentSort(sortConfig);
+  };
+
+  const getSortedArtworks = () => {
+    return [...artworks].sort((a, b) => {
+      let result = 0;
+      
+      switch (currentSort.field) {
+        case 'title':
+          result = a.title.localeCompare(b.title);
+          break;
+        case 'price':
+          result = (a.price || 0) - (b.price || 0);
+          break;
+        case 'size':
+          const sizeA = (a.width || 0) * (a.height || 0);
+          const sizeB = (b.width || 0) * (b.height || 0);
+          result = sizeA - sizeB;
+          break;
+        default:
+          result = 0;
+      }
+      
+      return currentSort.direction === 'desc' ? -result : result;
+    });
   };
 
   if (loading) {
@@ -93,6 +123,8 @@ export default function GalerieType() {
     );
   }
 
+  const sortedArtworks = getSortedArtworks();
+
   return (
     <div className="galerie-page">
       <div className="galerie-header">
@@ -102,8 +134,38 @@ export default function GalerieType() {
         </p>
       </div>
 
+      <div className="galerie-controls">
+        <div className="sort-buttons-group">
+          <span className="sort-buttons-label">Trier par :</span>
+          <SortButton
+            field="title"
+            currentSort={currentSort}
+            onSort={handleSort}
+            label="Nom"
+            size="small"
+            className="rounded"
+          />
+          <SortButton
+            field="price"
+            currentSort={currentSort}
+            onSort={handleSort}
+            label="Prix"
+            size="small"
+            className="rounded"
+          />
+          <SortButton
+            field="size"
+            currentSort={currentSort}
+            onSort={handleSort}
+            label="Taille"
+            size="small"
+            className="rounded"
+          />
+        </div>
+      </div>
+
       <div className="artworks-grid">
-        {artworks.map((artwork) => (
+        {sortedArtworks.map((artwork) => (
           <div key={artwork._id} className="artwork-card" onClick={() => handleArtworkClick(artwork)}>
             <div className="artwork-image-container">
               <img src={artwork.main_image} alt={artwork.title} className="artwork-image" />

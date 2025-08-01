@@ -74,3 +74,90 @@ header.admin-header {
 .admin-nav-link.active {
   border-bottom: 2px solid white;
 }
+
+/* Bouton menu mobile */
+.mobile-menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.mobile-menu-toggle svg {
+  color: white;
+}
+
+/* Responsive pour tablettes et téléphones */
+@media (max-width: 768px) {
+  .admin-header-container {
+    padding: 0 1rem;
+    position: relative;
+  }
+
+  .admin-dashboard-link {
+    font-size: 1.2rem;
+    padding: 0.5rem;
+  }
+
+  .admin-dashboard-link span {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .admin-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 12px 12px;
+    gap: 0.5rem;
+    z-index: 100;
+  }
+
+  .admin-nav.mobile-menu-open {
+    display: flex;
+  }
+
+  .admin-nav-link {
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border-bottom: none;
+    justify-content: flex-start;
+  }
+
+  .admin-nav-link.active {
+    background: rgba(255, 255, 255, 0.2);
+    border-bottom: none;
+  }
+}
+
+/* Responsive pour très petits écrans */
+@media (max-width: 480px) {
+  .admin-header-container {
+    padding: 0 0.5rem;
+  }
+
+  .admin-dashboard-link {
+    font-size: 1rem;
+    padding: 0.25rem;
+  }
+
+  .admin-nav {
+    padding: 0.75rem;
+  }
+
+  .admin-nav-link {
+    font-size: 1rem;
+    padding: 0.625rem 0.75rem;
+  }
+}

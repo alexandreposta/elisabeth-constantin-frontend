@@ -134,13 +134,8 @@ export default function Dashboard() {
         <header className="dashboard-header">
           <div className="dashboard-title">
             <h1>Dashboard Administrateur</h1>
-            <p>Bienvenue, {admin?.username}</p>
           </div>
         <div className="dashboard-actions">
-          <div className="admin-info">
-            <FaUser />
-            <span>{admin?.role}</span>
-          </div>
           <button onClick={handleLogout} className="logout-btn">
             <FaSignOutAlt />
             Déconnexion

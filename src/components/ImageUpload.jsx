@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { FaPlus, FaTimes } from 'react-icons/fa';
+import '../styles/imageUpload.css';
 
 const ImageUpload = ({ 
   images = [], 
@@ -7,7 +8,8 @@ const ImageUpload = ({
   multiple = false, 
   maxImages = 5,
   className = "",
-  label = "Images"
+  label = "Images",
+  showInCanvas = false
 }) => {
   const fileInputRef = useRef();
 
@@ -41,8 +43,8 @@ const ImageUpload = ({
   };
 
   return (
-    <div className={`image-upload ${className}`}>
-      <label className="image-upload-label">{label}</label>
+    <div className={`image-upload ${className} ${showInCanvas ? 'canvas-mode' : ''}`}>
+      {label && <label className="image-upload-label">{label}</label>}
       
       <div className="image-upload-container">
         {multiple ? (
@@ -73,13 +75,13 @@ const ImageUpload = ({
             )}
           </>
         ) : (
-          <div className="single-image-upload">
+          <div className={`single-image-upload ${showInCanvas ? 'canvas-container' : ''}`}>
             {images ? (
               <div className="image-preview">
                 <img 
                   src={getImageSrc(images)} 
                   alt="Preview"
-                  className="preview-image"
+                  className={`preview-image ${showInCanvas ? 'canvas-image' : ''}`}
                 />
                 <button
                   type="button"
@@ -91,9 +93,9 @@ const ImageUpload = ({
                 </button>
               </div>
             ) : (
-              <div className="add-image-btn" onClick={openFileSelector}>
+              <div className={`add-image-btn ${showInCanvas ? 'canvas-add-btn' : ''}`} onClick={openFileSelector}>
                 <FaPlus />
-                <span>Ajouter</span>
+                <span>{showInCanvas ? 'Ajouter l\'image du tableau' : 'Ajouter'}</span>
               </div>
             )}
           </div>

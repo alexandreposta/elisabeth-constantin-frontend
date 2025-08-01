@@ -27,10 +27,8 @@ const TypesManager = ({ availableTypes, onTypesChange }) => {
   const handleEditType = async (oldType, newValue) => {
     if (newValue.trim() && newValue.trim().toLowerCase() !== oldType && !availableTypes.includes(newValue.trim().toLowerCase())) {
       try {
-        // Mettre à jour le type dans la base de données
         const result = await updateArtworkType(oldType, newValue.trim().toLowerCase());
         
-        // Mettre à jour l'état local
         const updatedTypes = availableTypes.map(type => 
           type === oldType ? newValue.trim().toLowerCase() : type
         );

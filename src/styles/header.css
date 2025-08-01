@@ -244,9 +244,12 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #222;
   padding: 0.5rem;
   z-index: 1001;
+}
+
+.mobile-menu-toggle svg {
+  color: #000;
 }
 
 @media (min-width: 769px) {

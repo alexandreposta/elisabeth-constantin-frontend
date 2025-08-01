@@ -4,9 +4,10 @@ import "../styles/adminArtworks.css";
 import "../styles/imageUpload.css";
 import "../styles/typesManager.css";
 import AdminHeader from "../components/AdminHeader";
-import ImageUpload from "../components/ImageUpload";
+import ModalForm from "../components/ModalForm";
 import TypesManager from "../components/TypesManager";
 import AdminCard from "../components/AdminCard";
+import SortButton from "../components/SortButton";
 import {
   getAllArtworks,
   createArtwork,
@@ -21,9 +22,10 @@ const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 export default function Admin() {
   const [artworks, setArtworks] = useState([]);
   const [artworkTypes, setArtworkTypes] = useState([]);
-  const [sortBy, setSortBy] = useState("title");
+  const [currentSort, setCurrentSort] = useState({ field: "title", direction: "asc" });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingArtwork, setEditingArtwork] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -71,22 +73,30 @@ export default function Admin() {
   };
 
   const sortedArtworks = [...artworks].sort((a, b) => {
-    switch (sortBy) {
+    let result = 0;
+    
+    switch (currentSort.field) {
       case "title":
-        return a.title.localeCompare(b.title);
+        result = a.title.localeCompare(b.title);
+        break;
       case "price":
-        return a.price - b.price;
+        result = a.price - b.price;
+        break;
       case "date":
-        return new Date(b.created_at || b.createdAt || Date.now()) - new Date(a.created_at || a.createdAt || Date.now());
+        result = new Date(b.created_at || b.createdAt || Date.now()) - new Date(a.created_at || a.createdAt || Date.now());
+        break;
       case "status":
-        return b.is_available - a.is_available;
+        result = b.is_available - a.is_available;
+        break;
       default:
-        return 0;
+        result = 0;
     }
+    
+    return currentSort.direction === 'desc' ? -result : result;
   });
 
-  const handleSort = (e) => {
-    setSortBy(e.target.value);
+  const handleSort = (sortConfig) => {
+    setCurrentSort(sortConfig);
   };
 
   const openModal = (artwork = null) => {
@@ -120,12 +130,52 @@ export default function Admin() {
     setIsModalOpen(true);
   };
 
-  const handleMainImageChange = (image) => {
-    setFormData({ ...formData, main_image: image });
+  // Upload Cloudinary pour image principale
+  const handleMainImageChange = async (image) => {
+    if (!image) {
+      setFormData((prev) => ({ ...prev, main_image: null }));
+      return;
+    }
+    if (typeof image === "string") {
+      setFormData((prev) => ({ ...prev, main_image: image }));
+      return;
+    }
+    setIsUploading(true);
+    const formCloud = new FormData();
+    formCloud.append("file", image);
+    formCloud.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    const cloudRes = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`,
+      { method: "POST", body: formCloud }
+    );
+    const cloudData = await cloudRes.json();
+    setIsUploading(false);
+    if (cloudData.secure_url) {
+      setFormData((prev) => ({ ...prev, main_image: cloudData.secure_url }));
+    }
   };
 
-  const handleOtherImagesChange = (images) => {
-    setFormData({ ...formData, other_images: images });
+  // Upload Cloudinary pour images secondaires
+  const handleOtherImagesChange = async (images) => {
+    setIsUploading(true);
+    const urls = [];
+    for (const img of images) {
+      if (typeof img === "string") {
+        urls.push(img);
+      } else {
+        const formCloud = new FormData();
+        formCloud.append("file", img);
+        formCloud.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+        const cloudRes = await fetch(
+          `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`,
+          { method: "POST", body: formCloud }
+        );
+        const cloudData = await cloudRes.json();
+        if (cloudData.secure_url) urls.push(cloudData.secure_url);
+      }
+    }
+    setFormData((prev) => ({ ...prev, other_images: urls }));
+    setIsUploading(false);
   };
 
   const handleDelete = async () => {
@@ -142,48 +192,7 @@ export default function Admin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      let mainUrl = editingArtwork?.main_image || "";
-      if (formData.main_image && typeof formData.main_image !== 'string') {
-        const formCloud = new FormData();
-        formCloud.append("file", formData.main_image);
-        formCloud.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-
-        const cloudRes = await fetch(
-          `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`,
-          { method: "POST", body: formCloud }
-        );
-        const cloudData = await cloudRes.json();
-        if (!cloudData.secure_url) {
-          alert("L'upload de l'image principale a échoué !");
-          return;
-        }
-        mainUrl = cloudData.secure_url;
-      } else if (typeof formData.main_image === 'string') {
-        mainUrl = formData.main_image;
-      }
-
-      const otherUrls = [];
-      for (const img of formData.other_images) {
-        if (typeof img === "string") {
-          otherUrls.push(img);
-        } else {
-          const formCloud = new FormData();
-          formCloud.append("file", img);
-          formCloud.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-
-          const cloudRes = await fetch(
-            `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`,
-            { method: "POST", body: formCloud }
-          );
-          const cloudData = await cloudRes.json();
-          if (cloudData.secure_url) {
-            otherUrls.push(cloudData.secure_url);
-          }
-        }
-      }
-
       const payload = {
         title: formData.title,
         description: formData.description,
@@ -192,21 +201,18 @@ export default function Admin() {
         height: parseFloat(formData.height),
         type: formData.type,
         is_available: formData.is_available,
-        main_image: mainUrl,
-        other_images: otherUrls,
+        main_image: formData.main_image,
+        other_images: formData.other_images,
       };
-
       if (!payload.title || !payload.main_image || isNaN(payload.price) || isNaN(payload.width) || isNaN(payload.height)) {
         alert("Titre, image principale, prix, largeur et hauteur sont obligatoires !");
         return;
       }
-
       if (editingArtwork) {
         await updateArtwork(editingArtwork["_id"] || editingArtwork.id, payload);
       } else {
         await createArtwork(payload);
       }
-
       await fetchArtworks();
       closeModal();
     } catch (error) {
@@ -250,184 +256,71 @@ export default function Admin() {
             </button>
           </div>
         </div>
-        
         <div className="admin-controls">
-          <div className="sort-controls">
-            <select
-              className="sort-select"
-              value={sortBy}
-              onChange={handleSort}
-            >
-              <option value="title">Trier par titre</option>
-              <option value="price">Trier par prix</option>
-              <option value="date">Trier par date</option>
-              <option value="status">Trier par disponibilité</option>
-            </select>
+          <div className="sort-buttons-group">
+            <span className="sort-buttons-label">Trier par :</span>
+            <SortButton
+              field="title"
+              currentSort={currentSort}
+              onSort={handleSort}
+              label="Titre"
+              size="medium"
+            />
+            <SortButton
+              field="price"
+              currentSort={currentSort}
+              onSort={handleSort}
+              label="Prix"
+              size="medium"
+            />
+            <SortButton
+              field="date"
+              currentSort={currentSort}
+              onSort={handleSort}
+              label="Date"
+              size="medium"
+            />
+            <SortButton
+              field="status"
+              currentSort={currentSort}
+              onSort={handleSort}
+              label="Disponibilité"
+              size="medium"
+            />
           </div>
         </div>
-
-      <div className="artworks-grid">
-        {sortedArtworks.map((artwork) => (
-          <AdminCard
-            key={artwork._id}
-            item={artwork}
-            type="artwork"
-            onEdit={() => openModal(artwork)}
-            statusIndicator={artwork.is_available ? 'available' : 'sold'}
-          />
-        ))}
-      </div>
-
-      {isModalOpen && (
-        <div
-          className="modal-overlay"
-          onClick={() => setIsModalOpen(false)}
-        >
-          <div className="edit-modal" onClick={(e) => e.stopPropagation()}>
-            <h2 className="modal-title">{editingArtwork ? "Modifier l'œuvre" : "Nouvelle œuvre"}</h2>
-            <form onSubmit={handleSubmit} className="edit-form">
-              {/* Titre */}
-              <div className="form-group">
-                <label>Titre</label>
-                <input
-                  type="text"
-                  value={formData.title}
-                  onChange={(e) =>
-                    setFormData({ ...formData, title: e.target.value })
-                  }
-                  required
-                />
-              </div>
-              
-              {/* Type - Disponible */}
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Type d'œuvre</label>
-                  <select
-                    value={formData.type}
-                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                    required
-                  >
-                    {artworkTypes.map(type => (
-                      <option key={type} value={type}>
-                        {type.charAt(0).toUpperCase() + type.slice(1)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                
-                <div className="form-group checkbox-group">
-                  <label>Disponible</label>
-                  <input
-                    type="checkbox"
-                    checked={formData.is_available}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        is_available: e.target.checked,
-                      })
-                    }
-                  />
-                </div>
-              </div>
-              
-              {/* Prix - Largeur - Longueur */}
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Prix (€)</label>
-                  <input
-                    type="number"
-                    value={formData.price}
-                    onChange={(e) =>
-                      setFormData({ ...formData, price: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label>Largeur (cm)</label>
-                  <input
-                    type="number"
-                    value={formData.width}
-                    onChange={(e) =>
-                      setFormData({ ...formData, width: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label>Longueur (cm)</label>
-                  <input
-                    type="number"
-                    value={formData.height}
-                    onChange={(e) =>
-                      setFormData({ ...formData, height: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-              </div>
-              
-              {/* Description */}
-              <div className="form-group">
-                <label>Description</label>
-                <textarea
-                  value={formData.description}
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
-                  required
-                  rows={4}
-                />
-              </div>
-              
-              {/* Image principale */}
-              <ImageUpload
-                images={formData.main_image}
-                onImagesChange={handleMainImageChange}
-                multiple={false}
-                label="Image principale"
-              />
-              
-              {/* Images secondaires */}
-              <ImageUpload
-                images={formData.other_images}
-                onImagesChange={handleOtherImagesChange}
-                multiple={true}
-                maxImages={5}
-                label="Images secondaires"
-              />
-              
-              <div className="form-actions">
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  Annuler
-                </button>
-                {editingArtwork && (
-                  <button
-                    type="button"
-                    className="btn-danger"
-                    onClick={handleDelete}
-                  >
-                    <FaTrash /> Supprimer
-                  </button>
-                )}
-                <button
-                  type="submit"
-                  className="btn-primary"
-                >
-                  {editingArtwork ? "Enregistrer" : "Créer"}
-                </button>
-              </div>
-            </form>
-          </div>
+        <div className="artworks-grid">
+          {sortedArtworks.map((artwork) => (
+            <AdminCard
+              key={artwork._id}
+              item={artwork}
+              type="artwork"
+              onEdit={() => openModal(artwork)}
+              onDelete={async (item) => {
+                if (window.confirm("Voulez-vous vraiment supprimer ce tableau ? Cette action est irréversible.")) {
+                  await deleteArtworkById(item["_id"] || item.id);
+                  await fetchArtworks();
+                }
+              }}
+              statusIndicator={artwork.is_available ? 'available' : 'sold'}
+            />
+          ))}
         </div>
-      )}
+        <ModalForm
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onSubmit={handleSubmit}
+          onDelete={editingArtwork ? handleDelete : undefined}
+          title={editingArtwork ? "Modifier l'œuvre" : "Nouvelle œuvre"}
+          isEditing={!!editingArtwork}
+          formType="artwork"
+          formData={formData}
+          setFormData={setFormData}
+          onMainImageChange={handleMainImageChange}
+          onOtherImagesChange={handleOtherImagesChange}
+          availableTypes={artworkTypes}
+          isUploading={isUploading}
+        />
       </div>
     </>
   );

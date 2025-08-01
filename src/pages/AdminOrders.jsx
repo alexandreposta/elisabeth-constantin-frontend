@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ordersAdminAPI } from '../api/orders';
 import AdminHeader from '../components/AdminHeader';
+import SortButton from '../components/SortButton';
 import { FaEye, FaEdit, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaEuroSign } from 'react-icons/fa';
 import '../styles/adminOrders.css';
 
@@ -27,7 +28,7 @@ export default function AdminOrders() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [filterStatus, setFilterStatus] = useState('all');
-  const [sortBy, setSortBy] = useState('created_at');
+  const [currentSort, setCurrentSort] = useState({ field: "created_at", direction: "desc" });
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
 
   useEffect(() => {
@@ -88,18 +89,29 @@ export default function AdminOrders() {
       filtered = filtered.filter(order => order.status === filterStatus);
     }
     
-    return filtered.sort((a, b) => {
-      switch (sortBy) {
+    return [...filtered].sort((a, b) => {
+      let result = 0;
+      
+      switch (currentSort.field) {
         case 'created_at':
-          return new Date(b.created_at) - new Date(a.created_at);
+          result = new Date(b.created_at) - new Date(a.created_at);
+          break;
         case 'total':
-          return b.total - a.total;
+          result = b.total - a.total;
+          break;
         case 'status':
-          return a.status.localeCompare(b.status);
+          result = a.status.localeCompare(b.status);
+          break;
         default:
-          return 0;
+          result = 0;
       }
+      
+      return currentSort.direction === 'desc' ? result : -result;
     });
+  };
+
+  const handleSort = (sortConfig) => {
+    setCurrentSort(sortConfig);
   };
 
   const sendEmail = (email, subject = 'Concernant votre commande') => {
@@ -159,16 +171,31 @@ export default function AdminOrders() {
             <option value="delivered">Livrée</option>
             <option value="cancelled">Annulée</option>
           </select>
-          
-          <select 
-            value={sortBy} 
-            onChange={(e) => setSortBy(e.target.value)}
-            className="admin-select"
-          >
-            <option value="created_at">Date de création</option>
-            <option value="total">Montant</option>
-            <option value="status">Statut</option>
-          </select>
+        </div>
+        
+        <div className="sort-buttons-group">
+          <span className="sort-buttons-label">Trier par :</span>
+          <SortButton
+            field="created_at"
+            currentSort={currentSort}
+            onSort={handleSort}
+            label="Date"
+            size="medium"
+          />
+          <SortButton
+            field="total"
+            currentSort={currentSort}
+            onSort={handleSort}
+            label="Montant"
+            size="medium"
+          />
+          <SortButton
+            field="status"
+            currentSort={currentSort}
+            onSort={handleSort}
+            label="Statut"
+            size="medium"
+          />
         </div>
       </div>
 

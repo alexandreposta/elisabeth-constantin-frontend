@@ -113,7 +113,6 @@
 /* Gallery section */
 .gallery-section {
   padding: 4rem 0;
-  background: white;
 }
 
 .gallery-header {
@@ -352,8 +351,8 @@
 }
 
 .discover-image {
-  flex: 1;
-  max-width: 500px;
+  flex: 0.8;
+  max-width: 400px;
 }
 
 .discover-image img {
@@ -364,7 +363,7 @@
 }
 
 .discover-content {
-  flex: 1;
+  flex: 1.5;
 }
 
 .discover-title {
@@ -436,12 +435,11 @@
 .redistribute-btn {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: transparent;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
   transform: scale(1);
   display: flex;
   align-items: center;
@@ -452,47 +450,32 @@
 
 .redistribute-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
 }
 
 .redistribute-btn:disabled {
-  background: #bdc3c7;
+  background: transparent;
   cursor: not-allowed;
   transform: scale(0.95);
-  box-shadow: none;
+  opacity: 0.5;
 }
 
 .redistribute-btn:disabled:hover {
   transform: scale(0.95);
-  box-shadow: none;
-  background: #bdc3c7;
+  background: transparent;
 }
 
 .trefle-icon {
   width: 32px;
   height: 32px;
-  filter: brightness(0) invert(1); /* Rendre l'image blanche */
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .trefle-icon.spinning {
   animation: spin 1s linear infinite;
 }
 
-/* Animation de rotation pour le trèfle */
-@keyframes trefle-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .redistribute-btn:hover .trefle-icon:not(.spinning) {
   transform: scale(1.1);
-  filter: brightness(0) invert(1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
 }
 
 /* Responsive styles */
@@ -571,6 +554,10 @@
     gap: 1rem;
   }
   
+  .gallery-main-title {
+    font-size: 3.5rem;
+  }
+  
   .discover-section {
     padding: 2rem 0;
   }
@@ -588,7 +575,7 @@
   
   .discover-image {
     flex: none;
-    max-width: 80%;
+    max-width: 60%;
   }
   
   .discover-content {
@@ -636,6 +623,10 @@
     gap: 0.5rem;
   }
   
+  .gallery-main-title {
+    font-size: 2.8rem;
+  }
+  
   .discover-section {
     padding: 1.5rem 0;
   }
@@ -645,7 +636,7 @@
   }
   
   .discover-image {
-    max-width: 100%;
+    max-width: 70%;
   }
   
   .discover-title {

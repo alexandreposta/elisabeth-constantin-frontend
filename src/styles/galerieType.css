@@ -29,6 +29,17 @@
   font-weight: 400;
 }
 
+.galerie-controls {
+  padding: 0 2rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.galerie-controls .sort-buttons-group {
+  justify-content: center;
+  margin-bottom: 0;
+}
+
 .artworks-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

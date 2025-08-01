@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { eventsAPI } from '../api/events';
 import EventSkeletonLoader from '../components/EventSkeleton';
+import SortButton from '../components/SortButton';
 import '../styles/evenements.css';
 
 export default function Evenements() {
@@ -8,6 +9,7 @@ export default function Evenements() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // all, upcoming, ongoing
+  const [currentSort, setCurrentSort] = useState({ field: "date", direction: "asc" });
 
   useEffect(() => {
     loadEvents();
@@ -57,14 +59,42 @@ export default function Evenements() {
   };
 
   const getFilteredEvents = () => {
+    let filtered;
     switch (filter) {
       case 'upcoming':
-        return events.filter(event => event.status === 'upcoming');
+        filtered = events.filter(event => event.status === 'upcoming');
+        break;
       case 'ongoing':
-        return events.filter(event => event.status === 'ongoing');
+        filtered = events.filter(event => event.status === 'ongoing');
+        break;
       default:
-        return events.filter(event => event.status !== 'cancelled');
+        filtered = events.filter(event => event.status !== 'cancelled');
     }
+    
+    // Appliquer le tri
+    return [...filtered].sort((a, b) => {
+      let result = 0;
+      
+      switch (currentSort.field) {
+        case 'date':
+          result = new Date(a.start_date) - new Date(b.start_date);
+          break;
+        case 'title':
+          result = a.title.localeCompare(b.title);
+          break;
+        case 'status':
+          result = a.status.localeCompare(b.status);
+          break;
+        default:
+          result = 0;
+      }
+      
+      return currentSort.direction === 'desc' ? -result : result;
+    });
+  };
+
+  const handleSort = (sortConfig) => {
+    setCurrentSort(sortConfig);
   };
 
   const filteredEvents = getFilteredEvents();
@@ -99,6 +129,34 @@ export default function Evenements() {
             En cours
           </button>
         </div>
+        
+        <div className="sort-buttons-group">
+          <span className="sort-buttons-label">Trier par :</span>
+          <SortButton
+            field="date"
+            currentSort={currentSort}
+            onSort={handleSort}
+            label="Date"
+            size="small"
+            className="rounded"
+          />
+          <SortButton
+            field="title"
+            currentSort={currentSort}
+            onSort={handleSort}
+            label="Titre"
+            size="small"
+            className="rounded"
+          />
+          <SortButton
+            field="status"
+            currentSort={currentSort}
+            onSort={handleSort}
+            label="Statut"
+            size="small"
+            className="rounded"
+          />
+        </div>
       </div>
 
       {loading ? (
@@ -107,8 +165,11 @@ export default function Evenements() {
         <div className="events-container">
           {filteredEvents.length === 0 ? (
             <div className="no-events">
-              <h3>Aucun événement trouvé</h3>
-              <p>Revenez bientôt pour découvrir nos prochains événements !</p>
+              <h3>Aucun événement disponible</h3>
+              <p>Cette section ne contient actuellement aucun événement.</p>
+              <button onClick={() => window.location.href = '/'} className="back-button">
+                Retour à l'accueil
+              </button>
             </div>
           ) : (
             filteredEvents.map((event) => (

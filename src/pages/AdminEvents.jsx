@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import { eventsAPI } from '../api/events';
 import AdminHeader from '../components/AdminHeader';
-import ImageUpload from '../components/ImageUpload';
+import ModalForm from '../components/ModalForm';
 import AdminCard from '../components/AdminCard';
+import SortButton from '../components/SortButton';
 import '../styles/adminArtworks.css';
 import '../styles/imageUpload.css';
 
@@ -12,7 +13,7 @@ const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
 function AdminEvents() {
   const [events, setEvents] = useState([]);
-  const [sortBy, setSortBy] = useState('title');
+  const [currentSort, setCurrentSort] = useState({ field: "title", direction: "asc" });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -65,20 +66,27 @@ function AdminEvents() {
   };
 
   const sortedEvents = [...events].sort((a, b) => {
-    switch (sortBy) {
+    let result = 0;
+    
+    switch (currentSort.field) {
       case 'title':
-        return a.title.localeCompare(b.title);
+        result = a.title.localeCompare(b.title);
+        break;
       case 'date':
-        return new Date(a.start_date) - new Date(b.start_date);
+        result = new Date(a.start_date) - new Date(b.start_date);
+        break;
       case 'status':
-        return a.status.localeCompare(b.status);
+        result = a.status.localeCompare(b.status);
+        break;
       default:
-        return 0;
+        result = 0;
     }
+    
+    return currentSort.direction === 'desc' ? -result : result;
   });
 
-  const handleSort = (e) => {
-    setSortBy(e.target.value);
+  const handleSort = (sortConfig) => {
+    setCurrentSort(sortConfig);
   };
 
   const openModal = (event = null) => {
@@ -122,71 +130,49 @@ function AdminEvents() {
     }));
   };
 
-  const handleImageChange = async (image) => {
+  // Upload Cloudinary pour image principale
+  const handleMainImageChange = async (image) => {
     if (!image) {
-      setFormData(prev => ({ ...prev, main_image: null }));
+      setFormData((prev) => ({ ...prev, main_image: null }));
       return;
     }
-
-    if (typeof image === 'string') {
-      setFormData(prev => ({ ...prev, main_image: image }));
+    if (typeof image === "string") {
+      setFormData((prev) => ({ ...prev, main_image: image }));
       return;
     }
-
-    setFormData(prev => ({ ...prev, main_image: image }));
+    setIsUploading(true);
+    const formCloud = new FormData();
+    formCloud.append("file", image);
+    formCloud.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    const cloudRes = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`,
+      { method: "POST", body: formCloud }
+    );
+    const cloudData = await cloudRes.json();
+    setIsUploading(false);
+    if (cloudData.secure_url) {
+      setFormData((prev) => ({ ...prev, main_image: cloudData.secure_url }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let imageUrl = formData.main_image;
-      
-      // Upload image si c'est un fichier
-      if (formData.main_image && typeof formData.main_image !== 'string') {
-        setIsUploading(true);
-        const cloudFormData = new FormData();
-        cloudFormData.append('file', formData.main_image);
-        cloudFormData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-        
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`,
-          {
-            method: 'POST',
-            body: cloudFormData,
-          }
-        );
-        
-        const data = await response.json();
-        
-        if (data.secure_url) {
-          imageUrl = data.secure_url;
-        } else {
-          alert('Erreur lors de l\'upload de l\'image');
-          return;
-        }
-      }
-
-      // Préparer les données de l'événement
       const eventData = {
         ...formData,
-        main_image: imageUrl,
         start_date: new Date(formData.start_date).toISOString(),
-        end_date: new Date(formData.end_date).toISOString()
+        end_date: new Date(formData.end_date).toISOString(),
       };
-
       if (editingEvent) {
         await eventsAPI.updateEvent(editingEvent.id, eventData);
       } else {
         await eventsAPI.createEvent(eventData);
       }
-
       await loadEvents();
       setIsModalOpen(false);
     } catch (err) {
       alert('Erreur lors de la sauvegarde de l\'événement');
       console.error(err);
-    } finally {
-      setIsUploading(false);
     }
   };
 
@@ -227,16 +213,31 @@ function AdminEvents() {
           </button>
         </div>
         
-        <div className="sort-controls">
-          <select
-            className="sort-select"
-            value={sortBy}
-            onChange={handleSort}
-          >
-            <option value="title">Trier par titre</option>
-            <option value="date">Trier par date</option>
-            <option value="status">Trier par statut</option>
-          </select>
+        <div className="admin-controls">
+          <div className="sort-buttons-group">
+            <span className="sort-buttons-label">Trier par :</span>
+            <SortButton
+              field="title"
+              currentSort={currentSort}
+              onSort={handleSort}
+              label="Titre"
+              size="medium"
+            />
+            <SortButton
+              field="date"
+              currentSort={currentSort}
+              onSort={handleSort}
+              label="Date"
+              size="medium"
+            />
+            <SortButton
+              field="status"
+              currentSort={currentSort}
+              onSort={handleSort}
+              label="Statut"
+              size="medium"
+            />
+          </div>
         </div>
 
         <div className="artworks-grid">
@@ -251,143 +252,19 @@ function AdminEvents() {
           ))}
         </div>
 
-        {isModalOpen && (
-          <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
-            <div className="edit-modal" onClick={(e) => e.stopPropagation()}>
-              <h2 className="modal-title">{editingEvent ? "Modifier l'événement" : "Nouvel événement"}</h2>
-              <form onSubmit={handleSubmit} className="edit-form">
-                <div className="form-group">
-                  <label>Titre</label>
-                  <input
-                    type="text"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Date de début</label>
-                    <input
-                      type="date"
-                      name="start_date"
-                      value={formData.start_date}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Date de fin</label>
-                    <input
-                      type="date"
-                      name="end_date"
-                      value={formData.end_date}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Heure de début</label>
-                    <input
-                      type="time"
-                      name="start_time"
-                      value={formData.start_time}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Heure de fin</label>
-                    <input
-                      type="time"
-                      name="end_time"
-                      value={formData.end_time}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Lieu</label>
-                    <input
-                      type="text"
-                      name="location"
-                      value={formData.location}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Statut</label>
-                    <select
-                      name="status"
-                      value={formData.status}
-                      onChange={handleInputChange}
-                    >
-                      <option value="upcoming">À venir</option>
-                      <option value="ongoing">En cours</option>
-                      <option value="completed">Terminé</option>
-                      <option value="cancelled">Annulé</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Description</label>
-                  <textarea
-                    name="description"
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    required
-                    rows={4}
-                    placeholder="Décrivez votre événement en détail..."
-                  />
-                </div>
-
-                <ImageUpload
-                  images={formData.main_image}
-                  onImagesChange={handleImageChange}
-                  multiple={false}
-                  label="Image principale"
-                />
-
-                {isUploading && <p>Upload en cours...</p>}
-
-                <div className="form-actions">
-                  <button
-                    type="button"
-                    className="btn-secondary"
-                    onClick={() => setIsModalOpen(false)}
-                  >
-                    Annuler
-                  </button>
-                  {editingEvent && (
-                    <button
-                      type="button"
-                      className="btn-danger"
-                      onClick={handleDelete}
-                    >
-                      <FaTrash /> Supprimer
-                    </button>
-                  )}
-                  <button
-                    type="submit"
-                    className="btn-primary"
-                  >
-                    {editingEvent ? "Enregistrer" : "Créer"}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+        <ModalForm
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleSubmit}
+          onDelete={editingEvent ? handleDelete : undefined}
+          title={editingEvent ? "Modifier l'événement" : "Nouvel événement"}
+          isEditing={!!editingEvent}
+          formType="event"
+          formData={formData}
+          setFormData={setFormData}
+          onMainImageChange={handleMainImageChange}
+          isUploading={isUploading}
+        />
       </div>
     </>
   );
