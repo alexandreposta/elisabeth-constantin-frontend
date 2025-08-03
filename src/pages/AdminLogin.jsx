@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock, FaSignInAlt, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthService } from '../api/auth';
@@ -13,23 +13,6 @@ export default function AdminLogin() {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Vérifier l'authentification de manière asynchrone
-    const checkAuth = async () => {
-      try {
-        const isAuth = await AuthService.isAuthenticated();
-        if (isAuth) {
-          navigate('/admin/dashboard');
-        }
-      } catch (error) {
-        console.error('Erreur lors de la vérification d\'authentification:', error);
-        // En cas d'erreur, rester sur la page de login
-      }
-    };
-
-    checkAuth();
-  }, [navigate]);
 
   const handleInputChange = (e) => {
     setCredentials({

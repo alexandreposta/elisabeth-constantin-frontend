@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children }) => {
           setLoading(false);
         }
       } catch (error) {
-        console.error('Erreur lors de la vérification auth:', error);
+          console.error('Erreur lors de la vérification auth:', error);
         if (isMounted) {
           setIsAuthenticated(false);
           setLoading(false);
