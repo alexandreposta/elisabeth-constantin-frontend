@@ -49,22 +49,56 @@ export default function Dashboard() {
   const loadDashboardData = async () => {
     try {
       setLoading(true);
-      const [statsData, adminData] = await Promise.all([
-        AuthService.getDashboardStats(),
-        AuthService.getCurrentAdmin()
-      ]);
+      setError(''); // Réinitialiser l'erreur
       
-      setStats(statsData);
-      setAdmin(adminData);
+      // Charger les données séparément pour éviter qu'une erreur bloque tout
+      const statsPromise = AuthService.getDashboardStats().catch(err => {
+        console.warn('Erreur stats dashboard:', err);
+        return null; // Retourner null en cas d'erreur
+      });
+      
+      const adminPromise = AuthService.getCurrentAdmin().catch(err => {
+        console.warn('Erreur données admin:', err);
+        return null;
+      });
+      
+      const [statsData, adminData] = await Promise.all([statsPromise, adminPromise]);
+      
+      // Définir les stats même si elles sont nulles
+      if (statsData) {
+        setStats(statsData);
+        
+        // Afficher un message si les données contiennent une erreur
+        if (statsData.error) {
+          setError(`Données partielles: ${statsData.errorMessage}`);
+        }
+      } else {
+        // Définir des données par défaut
+        setStats({
+          sales: { daily_sales: [], popular_artworks: [], monthly_trends: [] },
+          inventory: { artwork_types: [], price_ranges: [] },
+          performance: { conversion_data: { total_artworks: 0, total_orders: 0, conversion_rate: 0 }, avg_days_between_orders: 0 },
+          last_updated: new Date().toISOString()
+        });
+        setError('Impossible de charger les statistiques. Données par défaut affichées.');
+      }
+      
+      if (adminData) {
+        setAdmin(adminData);
+      }
 
       // Charger les analytics si disponibles
       if (window.analytics) {
-        const analytics = window.analytics.getDashboardStats();
-        setAnalyticsStats(analytics);
+        try {
+          const analytics = window.analytics.getDashboardStats();
+          setAnalyticsStats(analytics);
+        } catch (analyticsErr) {
+          console.warn('Erreur analytics:', analyticsErr);
+        }
       }
     } catch (err) {
       setError('Erreur lors du chargement des données');
-      console.error(err);
+      console.error('Erreur générale dashboard:', err);
     } finally {
       setLoading(false);
     }

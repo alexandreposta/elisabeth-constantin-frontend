@@ -75,17 +75,8 @@ header.admin-header {
   border-bottom: 2px solid white;
 }
 
-/* Bouton menu mobile */
-.mobile-menu-toggle {
-  display: none;
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
 .mobile-menu-toggle svg {
-  color: white;
+  color: white !important;
 }
 
 /* Responsive pour tablettes et téléphones */

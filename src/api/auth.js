@@ -55,8 +55,15 @@ export class AuthService {
         const data = await response.json();
         return data.valid;
       }
+      
+      // Si le statut est 401, c'est normal (pas encore authentifié)
+      if (response.status === 401) {
+        return false;
+      }
+      
       return false;
     } catch (error) {
+      // Erreur réseau ou serveur indisponible - retourner false silencieusement
       return false;
     }
   }
@@ -116,14 +123,35 @@ export class AuthService {
     try {
       const response = await this.authenticatedFetch(`${API_URL}/admin/dashboard/stats`);
       
+      if (response.status === 401) {
+        // Session expirée, rediriger vers login
+        window.location.href = '/admin/login';
+        throw new Error('Session expirée');
+      }
+      
       if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des statistiques');
+        const errorText = await response.text();
+        console.error('Erreur API dashboard:', response.status, errorText);
+        throw new Error(`Erreur ${response.status}: ${errorText || 'Erreur serveur'}`);
       }
 
       return await response.json();
     } catch (error) {
+      if (error.message === 'Session expirée') {
+        throw error; // Re-throw pour permettre la redirection
+      }
+      
       console.error('Erreur lors de la récupération des statistiques:', error);
-      throw error;
+      
+      // Retourner des données par défaut plutôt que de faire planter l'app
+      return {
+        sales: { daily_sales: [], popular_artworks: [], monthly_trends: [] },
+        inventory: { artwork_types: [], price_ranges: [] },
+        performance: { conversion_data: { total_artworks: 0, total_orders: 0, conversion_rate: 0 }, avg_days_between_orders: 0 },
+        last_updated: new Date().toISOString(),
+        error: true,
+        errorMessage: error.message || 'Erreur de connexion'
+      };
     }
   }
 }
