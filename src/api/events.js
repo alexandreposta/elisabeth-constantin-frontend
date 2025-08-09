@@ -45,6 +45,7 @@ export const eventsAPI = {
   updateEvent: async (id, eventData) => {
     const response = await fetch(`${API_BASE_URL}/events/${id}`, {
       method: 'PUT',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -60,6 +61,7 @@ export const eventsAPI = {
   deleteEvent: async (id) => {
     const response = await fetch(`${API_BASE_URL}/events/${id}`, {
       method: 'DELETE',
+      credentials: 'include',
     });
     if (!response.ok) {
       throw new Error('Erreur lors de la suppression de l\'événement');

@@ -27,8 +27,8 @@ function AdminEvents() {
     start_date: '',
     end_date: '',
     location: '',
-    start_time: '',
-    end_time: '',
+    start_time: '09:00',
+    end_time: '18:00',
     main_image: null,
     status: 'upcoming',
     is_active: true
@@ -89,19 +89,45 @@ function AdminEvents() {
     setCurrentSort(sortConfig);
   };
 
+  // Fonction utilitaire pour convertir une date ISO en format YYYY-MM-DD
+  const formatDateForInput = (isoDate) => {
+    if (!isoDate) return '';
+    try {
+      const date = new Date(isoDate);
+      if (isNaN(date.getTime())) return '';
+      return date.toISOString().split('T')[0];
+    } catch (error) {
+      console.error('Erreur de conversion de date:', error);
+      return '';
+    }
+  };
+
+  // Fonction utilitaire pour extraire l'heure d'une date ISO en format HH:MM
+  const formatTimeForInput = (isoDate) => {
+    if (!isoDate) return '00:00';
+    try {
+      const date = new Date(isoDate);
+      if (isNaN(date.getTime())) return '00:00';
+      return date.toTimeString().split(' ')[0].substring(0, 5); // HH:MM
+    } catch (error) {
+      console.error('Erreur de conversion d\'heure:', error);
+      return '00:00';
+    }
+  };
+
   const openModal = (event = null) => {
     if (event) {
       setFormData({
         title: event.title || '',
         description: event.description || '',
-        start_date: event.start_date || '',
-        end_date: event.end_date || '',
+        start_date: formatDateForInput(event.start_date),
+        end_date: formatDateForInput(event.end_date),
         location: event.location || '',
-        start_time: event.start_time || '',
-        end_time: event.end_time || '',
+        start_time: (event.start_time && event.start_time !== '') ? event.start_time : formatTimeForInput(event.start_date),
+        end_time: (event.end_time && event.end_time !== '') ? event.end_time : formatTimeForInput(event.end_date),
         main_image: event.main_image || null,
         status: event.status || 'upcoming',
-        is_active: event.is_active || true
+        is_active: event.is_active !== undefined ? event.is_active : true
       });
       setEditingEvent(event);
     } else {
@@ -111,8 +137,8 @@ function AdminEvents() {
         start_date: '',
         end_date: '',
         location: '',
-        start_time: '',
-        end_time: '',
+        start_time: '09:00',
+        end_time: '18:00',
         main_image: null,
         status: 'upcoming',
         is_active: true
@@ -158,11 +184,55 @@ function AdminEvents() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Validation des dates
+      if (!formData.start_date || !formData.end_date) {
+        alert('Les dates de début et de fin sont obligatoires');
+        return;
+      }
+
+      // Validation et nettoyage des heures
+      const startTime = formData.start_time || '09:00';
+      const endTime = formData.end_time || '18:00';
+      
+      // Validation du format des heures (HH:MM)
+      const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      if (!timeRegex.test(startTime) || !timeRegex.test(endTime)) {
+        alert('Les heures doivent être au format HH:MM (ex: 09:30)');
+        return;
+      }
+
+      // Combiner date et heure pour créer des timestamps complets
+      const startDateString = `${formData.start_date}T${startTime}:00`;
+      const endDateString = `${formData.end_date}T${endTime}:00`;
+      
+      const startDateTime = new Date(startDateString);
+      const endDateTime = new Date(endDateString);
+      
+      // Vérifier que les dates sont valides
+      if (isNaN(startDateTime.getTime()) || isNaN(endDateTime.getTime())) {
+        alert('Les dates ou heures saisies ne sont pas valides');
+        return;
+      }
+      
+      // Vérifier que la date de fin est après la date de début
+      if (endDateTime <= startDateTime) {
+        alert('La date et heure de fin doivent être postérieures à celles de début');
+        return;
+      }
+      
       const eventData = {
-        ...formData,
-        start_date: new Date(formData.start_date).toISOString(),
-        end_date: new Date(formData.end_date).toISOString(),
+        title: formData.title,
+        description: formData.description,
+        start_date: startDateTime.toISOString(),
+        end_date: endDateTime.toISOString(),
+        location: formData.location,
+        start_time: startTime,
+        end_time: endTime,
+        main_image: formData.main_image,
+        status: formData.status,
+        is_active: formData.is_active
       };
+            
       if (editingEvent) {
         await eventsAPI.updateEvent(editingEvent.id, eventData);
       } else {
