@@ -104,10 +104,10 @@ body.modal-open {
 .admin-form-container {
   background: white;
   border-radius: 16px;
-  padding: 2rem;
-  max-width: 800px;
+  padding: 1.5rem;
+  max-width: 650px;
   width: 100%;
-  max-height: 90vh;
+  max-height: 75vh;
   overflow-y: auto;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
@@ -169,7 +169,7 @@ body.modal-open {
 
 .form-group textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 10vh;
 }
 
 .image-preview {
@@ -178,7 +178,7 @@ body.modal-open {
 
 .image-preview img {
   max-width: 200px;
-  max-height: 200px;
+  max-height: 20vh;
   object-fit: cover;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -207,7 +207,7 @@ body.modal-open {
   transition: all 0.3s ease;
   display: grid;
   grid-template-columns: 300px 1fr auto;
-  min-height: 250px;
+  min-height: 25vh;
 }
 
 .event-card:hover {
@@ -430,6 +430,7 @@ body.modal-open {
   }
   
   .admin-form-container {
-    padding: 1.5rem;
+    padding: 1rem;
+    max-height: 70vh;
   }
 }

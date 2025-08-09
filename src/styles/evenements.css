@@ -83,7 +83,7 @@
   position: relative;
   display: grid;
   grid-template-columns: auto 300px 1fr;
-  min-height: 250px;
+  min-height: 25vh;
 }
 
 .event-item:hover {
@@ -383,7 +383,7 @@
   
   .event-item {
     grid-template-columns: auto 250px 1fr;
-    min-height: 220px;
+    min-height: 22vh;
   }
   
   .event-date-badge {
@@ -396,7 +396,7 @@
   
   .event-image {
     width: 250px;
-    height: 220px;
+    height: 22vh;
   }
 }
 
@@ -452,7 +452,7 @@
   
   .event-image {
     width: 100%;
-    height: 200px;
+    height: 20vh;
     object-fit: cover;
   }
   
@@ -535,7 +535,7 @@
   }
   
   .event-image {
-    height: 150px;
+    height: 15vh;
   }
   
   .event-info {

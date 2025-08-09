@@ -249,7 +249,7 @@
 }
 
 .mobile-menu-toggle svg {
-  color: #000;
+  color: black !important;
 }
 
 @media (min-width: 769px) {

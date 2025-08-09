@@ -164,20 +164,22 @@ body.modal-open {
   justify-content: center;
   overflow: hidden;
   overscroll-behavior: contain;
+  padding: 3rem 1rem;
 }
 
 .edit-modal {
   background: white;
-  padding: 2.5rem;
+  padding: 1.5rem;
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   width: 90%;
-  max-width: 700px;
-  max-height: 90vh;
+  max-width: 600px;
+  max-height: 60vh;
   overflow-y: auto;
   z-index: 1001;
   transform: scale(1);
   transition: transform 0.2s ease;
+  margin: 2rem 0;
 }
 
 .edit-form {
@@ -292,10 +294,10 @@ body.modal-open {
 .edit-modal {
   background: white;
   border-radius: 8px;
-  padding: 2rem;
+  padding: 1.5rem;
   width: 90%;
-  max-width: 600px;
-  max-height: 90vh;
+  max-width: 500px;
+  max-height: 75vh;
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
@@ -397,7 +399,8 @@ body.modal-open {
   
   .edit-modal {
     width: 95%;
-    padding: 1.5rem;
+    padding: 1rem;
+    max-height: 70vh;
   }
   
   .form-row {
@@ -413,7 +416,8 @@ body.modal-open {
   }
   
   .edit-modal {
-    padding: 1.5rem;
+    padding: 1rem;
+    max-height: 65vh;
   }
 }
 

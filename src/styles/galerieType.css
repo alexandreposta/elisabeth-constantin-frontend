@@ -66,7 +66,7 @@
 
 .artwork-image-container {
   position: relative;
-  height: 250px;
+  height: 25vh;
   overflow: hidden;
 }
 
@@ -337,7 +337,7 @@
   }
   
   .artwork-image-container {
-    height: 220px;
+    height: 22vh;
   }
 }
 
@@ -366,7 +366,7 @@
   }
   
   .artwork-image-container {
-    height: 200px;
+    height: 20vh;
   }
   
   .artwork-info {
@@ -422,7 +422,7 @@
   }
   
   .artwork-image-container {
-    height: 180px;
+    height: 18vh;
   }
   
   .artwork-info {
@@ -476,7 +476,7 @@
   }
   
   .artwork-image-container {
-    height: 150px;
+    height: 15vh;
   }
   
   .artwork-info {

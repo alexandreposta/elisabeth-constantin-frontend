@@ -8,7 +8,6 @@ export default function Evenements() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filter, setFilter] = useState('all'); // all, upcoming, ongoing
   const [currentSort, setCurrentSort] = useState({ field: "date", direction: "asc" });
 
   useEffect(() => {
@@ -58,21 +57,12 @@ export default function Evenements() {
     }
   };
 
-  const getFilteredEvents = () => {
-    let filtered;
-    switch (filter) {
-      case 'upcoming':
-        filtered = events.filter(event => event.status === 'upcoming');
-        break;
-      case 'ongoing':
-        filtered = events.filter(event => event.status === 'ongoing');
-        break;
-      default:
-        filtered = events.filter(event => event.status !== 'cancelled');
-    }
+  const getSortedEvents = () => {
+    // Filtrer seulement les événements actifs (non annulés)
+    const activeEvents = events.filter(event => event.status !== 'cancelled');
     
     // Appliquer le tri
-    return [...filtered].sort((a, b) => {
+    return [...activeEvents].sort((a, b) => {
       let result = 0;
       
       switch (currentSort.field) {
@@ -97,7 +87,7 @@ export default function Evenements() {
     setCurrentSort(sortConfig);
   };
 
-  const filteredEvents = getFilteredEvents();
+  const sortedEvents = getSortedEvents();
 
   if (error) return <div className="events-error">{error}</div>;
 
@@ -108,27 +98,6 @@ export default function Evenements() {
         <p className="events-subtitle">
           Découvrez nos expositions, vernissages et ateliers artistiques
         </p>
-        
-        <div className="events-filters">
-          <button 
-            className={filter === 'all' ? 'filter-btn active' : 'filter-btn'}
-            onClick={() => setFilter('all')}
-          >
-            Tous
-          </button>
-          <button 
-            className={filter === 'upcoming' ? 'filter-btn active' : 'filter-btn'}
-            onClick={() => setFilter('upcoming')}
-          >
-            À venir
-          </button>
-          <button 
-            className={filter === 'ongoing' ? 'filter-btn active' : 'filter-btn'}
-            onClick={() => setFilter('ongoing')}
-          >
-            En cours
-          </button>
-        </div>
         
         <div className="sort-buttons-group">
           <span className="sort-buttons-label">Trier par :</span>
@@ -163,7 +132,7 @@ export default function Evenements() {
         <EventSkeletonLoader count={3} />
       ) : (
         <div className="events-container">
-          {filteredEvents.length === 0 ? (
+          {sortedEvents.length === 0 ? (
             <div className="no-events">
               <h3>Aucun événement disponible</h3>
               <p>Cette section ne contient actuellement aucun événement.</p>
@@ -172,7 +141,7 @@ export default function Evenements() {
               </button>
             </div>
           ) : (
-            filteredEvents.map((event) => (
+            sortedEvents.map((event) => (
               <div key={event.id} className="event-item">
                 <div className="event-date-badge">
                   <div className="day">{formatDateShort(event.start_date).split(' ')[0]}</div>
