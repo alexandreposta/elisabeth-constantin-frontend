@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&display=swap');
 
 header.admin-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 0.5rem 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 99;
   min-height: 50px;
-  color: white !important;
+  color: #fff;
 }
 
 .admin-header-container {
@@ -18,14 +18,14 @@ header.admin-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: transparent !important;
+  background: transparent;
 }
 
 .admin-dashboard-link {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: white;
+  color: #fff;
   text-decoration: none;
   font-weight: 800;
   font-size: 1.5rem;
@@ -38,12 +38,10 @@ header.admin-header {
 
 .admin-dashboard-link:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: white !important;
+  color: #fff;
 }
 
-.admin-dashboard-link.active {
-  border-bottom: 2px solid white;
-}
+.admin-dashboard-link.active { border-bottom: 2px solid #fff; }
 
 .admin-nav {
   display: flex;
@@ -55,7 +53,7 @@ header.admin-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: white !important;
+  color: #fff;
   text-decoration: none;
   font-weight: 800;
   font-size: 1.5rem;
@@ -68,15 +66,18 @@ header.admin-header {
 
 .admin-nav-link:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: white !important;
+  color: #fff;
 }
 
-.admin-nav-link.active {
-  border-bottom: 2px solid white;
-}
+.admin-nav-link.active { border-bottom: 2px solid #fff; }
 
-.mobile-menu-toggle svg {
-  color: white !important;
+/* Force le style du bouton mobile dans le header admin (évite les overrides globaux) */
+header.admin-header .mobile-menu-toggle,
+header.admin-header .mobile-menu-toggle svg,
+header.admin-header .mobile-menu-toggle svg path {
+  color: #fff !important;
+  fill: #fff !important;
+  stroke: #fff !important;
 }
 
 /* Responsive pour tablettes et téléphones */
@@ -91,20 +92,15 @@ header.admin-header {
     padding: 0.5rem;
   }
 
-  .admin-dashboard-link span {
-    display: none;
-  }
+  .admin-dashboard-link span { display: none; }
 
-  .mobile-menu-toggle {
-    display: block;
-  }
+  .mobile-menu-toggle { display: block; }
 
   .admin-nav {
     display: none;
     position: absolute;
     top: 100%;
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     flex-direction: column;
     padding: 1rem;
@@ -114,9 +110,7 @@ header.admin-header {
     z-index: 100;
   }
 
-  .admin-nav.mobile-menu-open {
-    display: flex;
-  }
+  .admin-nav.mobile-menu-open { display: flex; }
 
   .admin-nav-link {
     font-size: 1.1rem;
@@ -134,18 +128,14 @@ header.admin-header {
 
 /* Responsive pour très petits écrans */
 @media (max-width: 480px) {
-  .admin-header-container {
-    padding: 0 0.5rem;
-  }
+  .admin-header-container { padding: 0 0.5rem; }
 
   .admin-dashboard-link {
     font-size: 1rem;
     padding: 0.25rem;
   }
 
-  .admin-nav {
-    padding: 0.75rem;
-  }
+  .admin-nav { padding: 0.75rem; }
 
   .admin-nav-link {
     font-size: 1rem;

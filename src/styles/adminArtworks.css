@@ -164,22 +164,20 @@ body.modal-open {
   justify-content: center;
   overflow: hidden;
   overscroll-behavior: contain;
-  padding: 3rem 1rem;
 }
 
 .edit-modal {
   background: white;
-  padding: 1.5rem;
+  padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   width: 90%;
   max-width: 600px;
-  max-height: 60vh;
+  max-height: 75vh;
   overflow-y: auto;
   z-index: 1001;
   transform: scale(1);
   transition: transform 0.2s ease;
-  margin: 2rem 0;
 }
 
 .edit-form {
