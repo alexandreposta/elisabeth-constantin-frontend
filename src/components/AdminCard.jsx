@@ -27,7 +27,7 @@ const AdminCard = ({
   };
 
   return (
-    <div className="admin-card" onClick={() => onEdit(item)}>
+    <div className="admin-card" onClick={() => onEdit && onEdit(item)}>
       {statusIndicator && (
         <div className={`status-indicator ${statusIndicator.class}`}>
           {statusIndicator.label}
@@ -71,16 +71,7 @@ const AdminCard = ({
       
       <div className="admin-card-actions">
         <button 
-          className="edit-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            onEdit(item);
-          }}
-        >
-          Modifier
-        </button>
-        <button 
-          className="delete-btn"
+          className="delete-btn centered"
           onClick={(e) => {
             e.stopPropagation();
             onDelete(item);

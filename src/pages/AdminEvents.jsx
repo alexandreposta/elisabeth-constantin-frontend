@@ -317,6 +317,12 @@ function AdminEvents() {
               item={event}
               type="event"
               onEdit={() => openModal(event)}
+              onDelete={async (item) => {
+                if (window.confirm("Voulez-vous vraiment supprimer cet événement ? Cette action est irréversible.")) {
+                  await eventsAPI.deleteEvent(item.id);
+                  await loadEvents();
+                }
+              }}
               statusIndicator={event.status === 'upcoming' ? 'upcoming' : 'past'}
             />
           ))}
