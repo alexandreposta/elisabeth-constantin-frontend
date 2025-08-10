@@ -15,6 +15,7 @@ import {
   deleteArtworkById,
   getAllGalleryTypes,
 } from "../api/artworks";
+import { getAllArtworkTypes, ensureDefaultTypes } from "../api/artworkTypes";
 
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
@@ -33,7 +34,7 @@ export default function Admin() {
     width: "",
     height: "",
     type: "paint",
-    is_available: true,
+    status: "Disponible",
     main_image: null,
     other_images: [],
   });
@@ -64,6 +65,23 @@ export default function Admin() {
 
   const fetchArtworkTypes = async () => {
     try {
+      // D'abord, s'assurer que les types par défaut existent
+      try {
+        await ensureDefaultTypes();
+      } catch (error) {
+        console.warn('Erreur lors de l\'initialisation des types par défaut:', error);
+      }
+      
+      // Essayer d'abord la nouvelle API
+      try {
+        const types = await getAllArtworkTypes();
+        setArtworkTypes(types);
+        return;
+      } catch (error) {
+        console.warn('Nouvelle API échoue, fallback vers l\'ancienne:', error);
+      }
+      
+      // Fallback vers l'ancienne API
       const types = await getAllGalleryTypes();
       setArtworkTypes(types);
     } catch (error) {
@@ -86,7 +104,11 @@ export default function Admin() {
         result = new Date(b.created_at || b.createdAt || Date.now()) - new Date(a.created_at || a.createdAt || Date.now());
         break;
       case "status":
-        result = b.is_available - a.is_available;
+        // Tri par statut : Disponible > Indisponible > Vendu
+        const statusOrder = { "Disponible": 3, "Indisponible": 2, "Vendu": 1 };
+        const statusA = artwork => artwork.status || (artwork.is_available ? "Disponible" : "Vendu");
+        const statusB = artwork => artwork.status || (artwork.is_available ? "Disponible" : "Vendu");
+        result = (statusOrder[statusA(b)] || 0) - (statusOrder[statusA(a)] || 0);
         break;
       default:
         result = 0;
@@ -109,7 +131,7 @@ export default function Admin() {
         width: artwork.width || "",
         height: artwork.height || "",
         type: artwork.type || "peinture",
-        is_available: artwork.is_available,
+        status: artwork.status || (artwork.is_available ? "Disponible" : "Vendu"),
         main_image: artwork.main_image,
         other_images: artwork.other_images || [],
       });
@@ -122,7 +144,7 @@ export default function Admin() {
         width: "",
         height: "",
         type: "peinture",
-        is_available: true,
+        status: "Disponible",
         main_image: null,
         other_images: [],
       });
@@ -184,7 +206,8 @@ export default function Admin() {
         "Voulez-vous vraiment supprimer ce tableau ? Cette action est irréversible."
       )
     ) {
-      await deleteArtworkById(editingArtwork["_id"] || editingArtwork.id);
+      const artworkId = editingArtwork.id || editingArtwork._id;
+      await deleteArtworkById(artworkId);
       await fetchArtworks();
       setIsModalOpen(false);
     }
@@ -200,16 +223,18 @@ export default function Admin() {
         width: parseFloat(formData.width),
         height: parseFloat(formData.height),
         type: formData.type,
-        is_available: formData.is_available,
+        status: formData.status,
         main_image: formData.main_image,
         other_images: formData.other_images,
       };
+      
       if (!payload.title || !payload.main_image || isNaN(payload.price) || isNaN(payload.width) || isNaN(payload.height)) {
         alert("Titre, image principale, prix, largeur et hauteur sont obligatoires !");
         return;
       }
       if (editingArtwork) {
-        await updateArtwork(editingArtwork["_id"] || editingArtwork.id, payload);
+        const artworkId = editingArtwork.id || editingArtwork._id;
+        await updateArtwork(artworkId, payload);
       } else {
         await createArtwork(payload);
       }
@@ -231,7 +256,7 @@ export default function Admin() {
       width: "",
       height: "",
       type: "paint",
-      is_available: true,
+      status: "Disponible",
       main_image: null,
       other_images: [],
     });
@@ -292,17 +317,23 @@ export default function Admin() {
         <div className="artworks-grid">
           {sortedArtworks.map((artwork) => (
             <AdminCard
-              key={artwork._id}
+              key={artwork.id || artwork._id}
               item={artwork}
               type="artwork"
               onEdit={() => openModal(artwork)}
               onDelete={async (item) => {
                 if (window.confirm("Voulez-vous vraiment supprimer ce tableau ? Cette action est irréversible.")) {
-                  await deleteArtworkById(item["_id"] || item.id);
+                  const artworkId = item.id || item._id;
+                  await deleteArtworkById(artworkId);
                   await fetchArtworks();
                 }
               }}
-              statusIndicator={artwork.is_available ? 'available' : 'sold'}
+              statusIndicator={
+                artwork.status === 'Disponible' ? 'available' : 
+                artwork.status === 'Vendu' ? 'sold' : 
+                artwork.status === 'Indisponible' ? 'unavailable' :
+                artwork.is_available ? 'available' : 'sold'  // Fallback pour compatibilité
+              }
             />
           ))}
         </div>

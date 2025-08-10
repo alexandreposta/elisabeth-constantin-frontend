@@ -119,8 +119,8 @@ export default function Accueil() {
         <div className="gallery-grid">
           {artworks.slice(0, 8).map((artwork) => (
             <Link 
-              key={artwork._id} 
-              to={`/tableau/${artwork._id}`}
+              key={artwork.id} 
+              to={`/tableau/${artwork.id}`}
               className="gallery-item"
             >
               <img
@@ -130,6 +130,9 @@ export default function Accueil() {
               />
               <h3 className="gallery-title">{artwork.title}</h3>
               <p className="gallery-price">{artwork.price} €</p>
+              <div className={`gallery-status ${artwork.status?.toLowerCase()}`}>
+                {artwork.status || 'Non défini'}
+              </div>
             </Link>
           ))}
         </div>

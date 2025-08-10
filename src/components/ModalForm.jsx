@@ -87,14 +87,17 @@ export default function ModalForm({
                     ))}
                   </select>
                 </div>
-                <div className="form-group checkbox-group">
-                  <label>Disponible</label>
-                  <input
-                    type="checkbox"
-                    name="is_available"
-                    checked={formData.is_available}
+                <div className="form-group">
+                  <label>Statut</label>
+                  <select
+                    name="status"
+                    value={formData.status}
                     onChange={handleInputChange}
-                  />
+                  >
+                    <option value="Disponible">Disponible</option>
+                    <option value="Vendu">Vendu</option>
+                    <option value="Indisponible">Indisponible</option>
+                  </select>
                 </div>
                 <div className="form-group">
                   <label>Prix (€)</label>

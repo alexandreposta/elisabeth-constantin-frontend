@@ -193,7 +193,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
           fetch(`${API_URL}/artworks/${item.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...item, is_available: false }),
+            body: JSON.stringify({ ...item, status: 'Vendu' }),
           })
         ));
         

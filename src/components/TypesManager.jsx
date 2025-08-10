@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlus, FaTrash, FaEdit, FaCog, FaTimes, FaCheck } from 'react-icons/fa';
 import { updateArtworkType } from '../api/artworks';
+import { createArtworkType, deleteArtworkType as deleteArtworkTypeAPI } from '../api/artworkTypes';
 import '../styles/typesManager.css';
 
 const TypesManager = ({ availableTypes, onTypesChange }) => {
@@ -9,18 +10,30 @@ const TypesManager = ({ availableTypes, onTypesChange }) => {
   const [editingType, setEditingType] = useState(null);
   const [editingValue, setEditingValue] = useState('');
 
-  const handleAddType = () => {
+  const handleAddType = async () => {
     if (newType.trim() && !availableTypes.includes(newType.trim().toLowerCase())) {
-      const updatedTypes = [...availableTypes, newType.trim().toLowerCase()];
-      onTypesChange(updatedTypes);
-      setNewType('');
+      try {
+        const result = await createArtworkType(newType.trim().toLowerCase());
+        const updatedTypes = [...availableTypes, newType.trim().toLowerCase()];
+        onTypesChange(updatedTypes);
+        setNewType('');
+      } catch (error) {
+        console.error('Erreur lors de la création du type:', error);
+        alert('Erreur lors de la création du type d\'œuvre: ' + error.message);
+      }
     }
   };
 
-  const handleDeleteType = (typeToDelete) => {
+  const handleDeleteType = async (typeToDelete) => {
     if (window.confirm(`Êtes-vous sûr de vouloir supprimer le type "${getDisplayName(typeToDelete)}" ?`)) {
-      const updatedTypes = availableTypes.filter(type => type !== typeToDelete);
-      onTypesChange(updatedTypes);
+      try {
+        await deleteArtworkTypeAPI(typeToDelete);
+        const updatedTypes = availableTypes.filter(type => type !== typeToDelete);
+        onTypesChange(updatedTypes);
+      } catch (error) {
+        console.error('Erreur lors de la suppression du type:', error);
+        alert('Erreur lors de la suppression du type d\'œuvre: ' + error.message);
+      }
     }
   };
 

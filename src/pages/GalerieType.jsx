@@ -37,9 +37,9 @@ export default function GalerieType() {
   const handleArtworkClick = (artwork) => {
     // Tracker la vue d'œuvre pour les analytics
     if (window.analytics) {
-      window.analytics.trackArtworkView(artwork._id, artwork.title, artwork.type);
+      window.analytics.trackArtworkView(artwork.id, artwork.title, artwork.type);
     }
-    navigate(`/tableau/${artwork._id}`);
+    navigate(`/tableau/${artwork.id}`);
   };
 
   const handleContactClick = (artwork) => {
@@ -98,8 +98,8 @@ export default function GalerieType() {
         </div>
         <div className="error-container">
           <p>{error}</p>
-          <button onClick={() => navigate('/galerie')} className="back-button">
-            Retour à la galerie
+          <button onClick={() => navigate('/')} className="back-button">
+            Retour à la page d'accueil
           </button>
         </div>
       </div>
@@ -115,8 +115,8 @@ export default function GalerieType() {
         <div className="no-artworks">
           <h3>Aucune œuvre disponible</h3>
           <p>Cette galerie ne contient actuellement aucune œuvre.</p>
-          <button onClick={() => navigate('/galerie')} className="back-button">
-            Retour à la galerie
+          <button onClick={() => navigate('/')} className="back-button">
+            Retour à la page d'accueil
           </button>
         </div>
       </div>
@@ -166,13 +166,16 @@ export default function GalerieType() {
 
       <div className="artworks-grid">
         {sortedArtworks.map((artwork) => (
-          <div key={artwork._id} className="artwork-card" onClick={() => handleArtworkClick(artwork)}>
+          <div key={artwork.id} className="artwork-card" onClick={() => handleArtworkClick(artwork)}>
             <div className="artwork-image-container">
               <img src={artwork.main_image} alt={artwork.title} className="artwork-image" />
             </div>
             <div className="artwork-info">
               <h3 className="artwork-title">{artwork.title}</h3>
               <p className="artwork-dimensions">{artwork.width} x {artwork.height} cm</p>
+              <div className={`artwork-status ${artwork.status?.toLowerCase()}`}>
+                {artwork.status || 'Non défini'}
+              </div>
             </div>
           </div>
         ))}

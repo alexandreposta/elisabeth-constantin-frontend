@@ -4,7 +4,8 @@ import { FaHeart, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import { useCart } from "../context/CartContext";
 import { useState, useEffect } from "react";
-import { getGalleryTypes } from "../api/artworks";
+import { getAllGalleryTypes } from "../api/artworks";
+import { getAllArtworkTypes } from "../api/artworkTypes";
 
 export default function Header() {
   const location = useLocation();
@@ -18,10 +19,22 @@ export default function Header() {
   useEffect(() => {
     const fetchGalleryTypes = async () => {
       try {
-        const types = await getGalleryTypes();
+        // Essayer d'abord la nouvelle API pour tous les types
+        try {
+          const types = await getAllArtworkTypes();
+          setGalleryTypes(types);
+          return;
+        } catch (error) {
+          console.warn('Nouvelle API échoue, fallback vers getAllGalleryTypes:', error);
+        }
+        
+        // Fallback vers l'ancienne API
+        const types = await getAllGalleryTypes();
         setGalleryTypes(types);
       } catch (error) {
         console.error('Erreur lors du chargement des types de galerie:', error);
+        // Fallback avec types par défaut
+        setGalleryTypes(['peinture', '3d', 'sculpture', 'aquarelle']);
       }
     };
     

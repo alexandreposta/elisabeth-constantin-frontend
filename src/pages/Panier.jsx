@@ -359,7 +359,7 @@ const PanierContent = () => {
         },
         body: JSON.stringify({
           ...item,
-          is_available: false,
+          status: 'Vendu',
         }),
       });
     });

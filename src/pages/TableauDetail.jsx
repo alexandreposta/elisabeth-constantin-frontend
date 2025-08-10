@@ -23,7 +23,7 @@ export default function TableauDetail() {
         
         // Adapter les données de l'API au format attendu
         const tableauData = {
-          id: artwork._id,
+          id: artwork.id,
           titre: artwork.title,
           prix: artwork.price,
           description: artwork.description || "Description non disponible pour cette œuvre.",
@@ -34,7 +34,7 @@ export default function TableauDetail() {
           dimensions: artwork.width && artwork.height ? `${artwork.width} x ${artwork.height} cm` : "Dimensions non spécifiées",
           technique: artwork.type === "3D" ? "Tableau 3 dimensions" : "Peinture",
           type: artwork.type,
-          disponible: artwork.is_available !== false // Par défaut disponible si pas spécifié
+          disponible: artwork.status ? artwork.status === 'Disponible' : artwork.is_available !== false // Nouveau statut ou fallback
         };
         
         setTableau(tableauData);
@@ -73,7 +73,7 @@ export default function TableauDetail() {
       width: tableau.dimensions.split(' x ')[0],
       height: tableau.dimensions.split(' x ')[1]?.replace(' cm', ''),
       type: tableau.type,
-      is_available: tableau.disponible
+      status: tableau.disponible ? 'Disponible' : 'Vendu'
     });
   };
 
