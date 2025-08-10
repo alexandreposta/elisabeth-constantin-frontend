@@ -200,6 +200,16 @@ export default function Dashboard() {
         </div>
 
         <div className="stat-card">
+          <div className="stat-icon newsletter">
+            <FaUsers />
+          </div>
+          <div className="stat-content">
+            <div className="stat-number">{stats?.newsletter_subscribers || 0}</div>
+            <div className="stat-label">Abonnés Newsletter</div>
+          </div>
+        </div>
+
+        <div className="stat-card">
           <div className="stat-icon artworks">
             <FaPalette />
           </div>

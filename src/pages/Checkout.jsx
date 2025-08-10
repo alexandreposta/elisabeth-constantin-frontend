@@ -5,6 +5,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { FaLock, FaCreditCard, FaPaypal, FaArrowLeft, FaCheck, FaExclamationTriangle } from 'react-icons/fa';
 import { API_URL } from '../api/config';
+import { checkNewsletterDiscount } from '../api/newsletter';
 import '../styles/checkout.css';
 
 // Récupérer la clé publique depuis les variables d'environnement
@@ -44,6 +45,10 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
   const [cardComplete, setCardComplete] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState(false); // Nouveau état pour éviter la redirection après paiement
   
+  // États pour la réduction newsletter
+  const [newsletterDiscount, setNewsletterDiscount] = useState(null);
+  const [checkingDiscount, setCheckingDiscount] = useState(false);
+  
   const [buyerInfo, setBuyerInfo] = useState({
     email: '',
     firstName: '',
@@ -56,6 +61,23 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
   });
 
   const total = getTotalPrice();
+  const discountedTotal = newsletterDiscount ? total * newsletterDiscount.discount_multiplier : total;
+
+  // Fonction pour vérifier la réduction newsletter
+  const checkNewsletterDiscountForEmail = async (email) => {
+    if (!email || !email.includes('@')) return;
+    
+    setCheckingDiscount(true);
+    try {
+      const discountInfo = await checkNewsletterDiscount(email);
+      setNewsletterDiscount(discountInfo);
+    } catch (error) {
+      console.error('Erreur vérification newsletter:', error);
+      setNewsletterDiscount(null);
+    } finally {
+      setCheckingDiscount(false);
+    }
+  };
 
   useEffect(() => {
     // Rediriger vers le panier si celui-ci est vide ET que le paiement n'est pas terminé
@@ -69,6 +91,12 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
       ...buyerInfo,
       [e.target.name]: e.target.value,
     });
+    
+    // Vérifier la réduction newsletter quand l'email change
+    if (e.target.name === 'email') {
+      // Délai pour éviter trop d'appels API
+      setTimeout(() => checkNewsletterDiscountForEmail(e.target.value), 500);
+    }
   };
 
   const handlePaymentMethodChange = (method) => {
@@ -131,7 +159,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
             price: item.price,
           })),
           buyer_info: buyerInfo,
-          total: total,
+          total: discountedTotal, // Utiliser le total avec réduction
         }),
       });
 
@@ -229,6 +257,14 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
             onChange={handleInputChange}
             required
           />
+          {checkingDiscount && (
+            <p className="newsletter-checking">Vérification de la réduction newsletter...</p>
+          )}
+          {newsletterDiscount && newsletterDiscount.is_subscribed && (
+            <p className="newsletter-discount-info">
+              ✅ Réduction newsletter de {newsletterDiscount.discount_percentage}% appliquée !
+            </p>
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="firstName">Prénom *</label>
@@ -510,11 +546,11 @@ export default function Checkout() {
 
 // Composant séparé pour le résumé de commande
 const CheckoutSummary = ({ confirmedOrder }) => {
-  const { items } = useCart();
+  const { items, getTotalPrice } = useCart();
   
   // Utiliser soit les items du panier, soit ceux de la commande confirmée
   const displayItems = confirmedOrder?.items || items;
-  const displayTotal = confirmedOrder?.total || items.reduce((sum, item) => sum + item.price, 0);
+  const originalTotal = confirmedOrder?.total || getTotalPrice();
   
   return (
     <div className="checkout-summary">
@@ -536,7 +572,7 @@ const CheckoutSummary = ({ confirmedOrder }) => {
       <div className="checkout-summary-totals">
         <div className="summary-row">
           <span>Sous-total</span>
-          <span>{displayTotal.toFixed(2)} €</span>
+          <span>{originalTotal.toFixed(2)} €</span>
         </div>
         <div className="summary-row">
           <span>Livraison</span>
@@ -544,7 +580,7 @@ const CheckoutSummary = ({ confirmedOrder }) => {
         </div>
         <div className="summary-row total">
           <span>Total</span>
-          <span>{displayTotal.toFixed(2)} €</span>
+          <span>{originalTotal.toFixed(2)} €</span>
         </div>
         {confirmedOrder && (
           <div className="summary-row confirmed">
