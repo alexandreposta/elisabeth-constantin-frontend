@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/accueil.css";
 import { getAllArtworks } from "../api/artworks";
+import { useLanguage } from "../context/LanguageContext";
 import { useMosaicAnimation } from "../hooks/useMosaicAnimation";
 import img1 from "../assets/Salon/1.jpg";
 import img2 from "../assets/Tableau_1/1.jpg";
@@ -16,17 +17,18 @@ import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 
 export default function Accueil() {
   const [artworks, setArtworks] = useState([]);
+  const { currentLanguage } = useLanguage();
   const mosaicImages = [img1, img2, img3, img4, img5, img6, img7];
   
   const { mosaicLayout, isAnimating, redistributeImages, imagesLoaded } = useMosaicAnimation(mosaicImages);
 
   useEffect(() => {
     const fetchArtworks = async () => {
-      const data = await getAllArtworks();
+      const data = await getAllArtworks(currentLanguage);
       setArtworks(data);
     };
     fetchArtworks();
-  }, []);
+  }, [currentLanguage]);
 
   return (
     <div className="accueil">

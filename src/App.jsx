@@ -20,7 +20,9 @@ import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import './styles/footer.css';
 import AdminArtworks from './pages/AdminArtworks';
+import AdminTranslations from './pages/AdminTranslations';
 import { CartProvider } from './context/CartContext';
+import { LanguageProvider } from './context/LanguageContext';
 import SimpleAnalytics from './services/SimpleAnalytics';
 import { useEffect } from 'react';
 
@@ -88,6 +90,11 @@ function AppContent() {
             <AdminOrders />
           </ProtectedRoute>
         } />
+        <Route path="/admin/translations" element={
+          <ProtectedRoute>
+            <AdminTranslations />
+          </ProtectedRoute>
+        } />
       </Routes>
       {!isAdminRoute && <Footer />}
     </>
@@ -96,10 +103,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <CartProvider>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
-    </CartProvider>
+    <LanguageProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </CartProvider>
+    </LanguageProvider>
   );
 }

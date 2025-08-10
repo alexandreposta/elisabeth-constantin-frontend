@@ -2,16 +2,16 @@ import { API_URL } from './config';
 
 const API = `${API_URL}/artworks`;
 
-export async function getAllArtworks() {
-  const res = await fetch(API, {
+export async function getAllArtworks(language = 'fr') {
+  const res = await fetch(`${API}?language=${language}`, {
     credentials: 'include',
   });
   if (!res.ok) throw new Error("Impossible de récupérer les œuvres");  
   return await res.json();
 }
 
-export async function getArtworkById(id) {
-  const res = await fetch(`${API}/${id}`, {
+export async function getArtworkById(id, language = 'fr') {
+  const res = await fetch(`${API}/${id}?language=${language}`, {
     credentials: 'include',
   });
   if (!res.ok) throw new Error("Œuvre introuvable");
@@ -54,29 +54,24 @@ export async function deleteArtworkById(id) {
 }
 
 export async function getGalleryTypes() {
-  const timestamp = Date.now();
-  const url = `${API}/gallery-types?_t=${timestamp}`;
-  
-  const res = await fetch(url, {
+  const res = await fetch(`${API}/gallery-types`, {
     credentials: 'include',
   });
-  if (!res.ok) {
-    throw new Error("Impossible de récupérer les types de galerie");
-  }
-  
-  const data = await res.json();
-  return data;
+  if (!res.ok) throw new Error("Impossible de récupérer les types d'œuvres");
+  return await res.json();
+}
+
+export async function getArtworksByGallery(galleryType, language = 'fr') {
+  const res = await fetch(`${API}/by-gallery/${encodeURIComponent(galleryType)}?language=${language}`, {
+    credentials: 'include',
+  });
+  if (!res.ok) throw new Error("Impossible de récupérer les œuvres de cette galerie");
+  return await res.json();
 }
 
 export async function getAllGalleryTypes() {
   const res = await fetch(`${API}/gallery-types/all`);
   if (!res.ok) throw new Error("Impossible de récupérer tous les types de galerie");
-  return await res.json();
-}
-
-export async function getArtworksByGallery(galleryType) {
-  const res = await fetch(`${API}/by-gallery/${encodeURIComponent(galleryType)}`);
-  if (!res.ok) throw new Error("Impossible de récupérer les œuvres de cette galerie");
   return await res.json();
 }
 

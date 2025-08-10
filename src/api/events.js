@@ -4,8 +4,8 @@ const API_BASE_URL = API_URL;
 
 export const eventsAPI = {
   // Récupérer tous les événements
-  getAllEvents: async () => {
-    const response = await fetch(`${API_BASE_URL}/events/`, {
+  getAllEvents: async (language = 'fr') => {
+    const response = await fetch(`${API_BASE_URL}/events/?language=${language}`, {
       credentials: 'include',
     });
     if (!response.ok) {
@@ -15,8 +15,8 @@ export const eventsAPI = {
   },
 
   // Récupérer un événement par ID
-  getEventById: async (id) => {
-    const response = await fetch(`${API_BASE_URL}/events/${id}`, {
+  getEventById: async (id, language = 'fr') => {
+    const response = await fetch(`${API_BASE_URL}/events/${id}?language=${language}`, {
       credentials: 'include',
     });
     if (!response.ok) {

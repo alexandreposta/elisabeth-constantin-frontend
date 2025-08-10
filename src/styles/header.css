@@ -20,6 +20,13 @@
   position: relative;
 }
 
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1001;
+}
+
 .header-logo {
   display: flex;
   align-items: center;

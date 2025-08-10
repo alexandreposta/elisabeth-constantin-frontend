@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getArtworksByGallery } from '../api/artworks';
+import { useLanguage } from '../context/LanguageContext';
 import SortButton from '../components/SortButton';
 import '../styles/galerieType.css';
 
@@ -11,19 +12,20 @@ export default function GalerieType() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentSort, setCurrentSort] = useState({ field: "title", direction: "asc" });
+  const { currentLanguage, t } = useLanguage();
 
   useEffect(() => {
     loadArtworks();
-  }, [galleryType]);
+  }, [galleryType, currentLanguage]);
 
   const loadArtworks = async () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await getArtworksByGallery(galleryType);
+      const data = await getArtworksByGallery(galleryType, currentLanguage);
       setArtworks(data);
     } catch (err) {
-      setError('Erreur lors du chargement des œuvres');
+      setError(t('common.error', 'Erreur lors du chargement des œuvres'));
       console.error(err);
     } finally {
       setLoading(false);
@@ -31,7 +33,8 @@ export default function GalerieType() {
   };
 
   const formatGalleryTitle = (type) => {
-    return type.charAt(0).toUpperCase() + type.slice(1);
+    const typeKey = `gallery.${type.toLowerCase()}`;
+    return t(typeKey, type.charAt(0).toUpperCase() + type.slice(1));
   };
 
   const handleArtworkClick = (artwork) => {

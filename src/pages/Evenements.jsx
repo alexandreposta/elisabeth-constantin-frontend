@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { eventsAPI } from '../api/events';
+import { useLanguage } from '../context/LanguageContext';
 import EventSkeletonLoader from '../components/EventSkeleton';
 import SortButton from '../components/SortButton';
 import '../styles/evenements.css';
@@ -9,22 +10,23 @@ export default function Evenements() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentSort, setCurrentSort] = useState({ field: "date", direction: "asc" });
+  const { currentLanguage, t } = useLanguage();
 
   useEffect(() => {
     loadEvents();
-  }, []);
+  }, [currentLanguage]);
 
   const loadEvents = async () => {
     try {
       setLoading(true);
-      const data = await eventsAPI.getAllEvents();
+      const data = await eventsAPI.getAllEvents(currentLanguage);
       // Filtrer les événements actifs et les trier par date
       const activeEvents = data
         .filter(event => event.is_active)
         .sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
       setEvents(activeEvents);
     } catch (err) {
-      setError('Erreur lors du chargement des événements');
+      setError(t('common.error', 'Erreur lors du chargement des événements'));
       console.error(err);
     } finally {
       setLoading(false);
@@ -48,13 +50,7 @@ export default function Evenements() {
   };
 
   const getStatusLabel = (status) => {
-    switch (status) {
-      case 'upcoming': return 'À venir';
-      case 'ongoing': return 'En cours';
-      case 'completed': return 'Terminé';
-      case 'cancelled': return 'Annulé';
-      default: return status;
-    }
+    return t(`event.status.${status}`, status);
   };
 
   const getSortedEvents = () => {

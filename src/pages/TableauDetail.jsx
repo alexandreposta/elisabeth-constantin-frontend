@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getArtworkById } from '../api/artworks';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import { FaShoppingCart, FaCheck } from 'react-icons/fa';
 import '../styles/tableauDetail.css';
 
 export default function TableauDetail() {
   const { id } = useParams();
   const { addToCart, isInCart } = useCart();
+  const { currentLanguage, t } = useLanguage();
   const [tableau, setTableau] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
@@ -19,7 +21,7 @@ export default function TableauDetail() {
     const fetchTableau = async () => {
       try {
         setLoading(true);
-        const artwork = await getArtworkById(id);
+        const artwork = await getArtworkById(id, currentLanguage);
         
         // Adapter les données de l'API au format attendu
         const tableauData = {
@@ -40,7 +42,7 @@ export default function TableauDetail() {
         setTableau(tableauData);
       } catch (error) {
         console.error('Erreur lors du chargement du tableau:', error);
-        setError('Impossible de charger les détails de cette œuvre.');
+        setError(t('common.error', 'Impossible de charger les détails de cette œuvre.'));
       } finally {
         setLoading(false);
       }
@@ -49,7 +51,7 @@ export default function TableauDetail() {
     if (id) {
       fetchTableau();
     }
-  }, [id]);
+  }, [id, currentLanguage]);
 
   const handleMouseMove = (e) => {
     if (!isZooming) return;

@@ -1,7 +1,10 @@
 import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
+import { useLanguage } from "../context/LanguageContext";
 import "../styles/footer.css";
 
 export default function Footer() {
+  const { t } = useLanguage();
+  
   return (
     <footer className="footer">
       <div className="footer-social">
@@ -35,29 +38,29 @@ export default function Footer() {
       </div>
       <div className="footer-links">
         <a href="/mes-commandes" className="footer-link">
-          Suivi de commandes
+          {t('footer.track_orders', 'Suivi de commandes')}
         </a>
         <a href="/mentions-legales" className="footer-link">
-          Mentions légales
+          {t('footer.legal_notice', 'Mentions légales')}
         </a>
         <a href="/politique-confidentialite" className="footer-link">
-          Politique de confidentialité
+          {t('footer.privacy_policy', 'Politique de confidentialité')}
         </a>
         <a href="/conditions-generales-vente" className="footer-link">
-          CGV
+          {t('footer.terms', 'CGV')}
         </a>
         <a href="/politique-cookies" className="footer-link">
-          Cookies
+          {t('footer.cookies', 'Cookies')}
         </a>
         <a href="/admin/dashboard" className="footer-link admin-link">
-          Dashboard Admin
+          {t('admin.dashboard', 'Dashboard Admin')}
         </a>
       </div>
       <div className="footer-copy">
-        © {new Date().getFullYear()} Elisabeth Constantin. Tous droits réservés.
+        © {new Date().getFullYear()} Elisabeth Constantin. {t('footer.rights', 'Tous droits réservés.')}
       </div>
       <div className="footer-oblig">
-        Pour toute question, contactez-moi via les réseaux sociaux.
+        {t('footer.contact', 'Pour toute question, contactez-moi via les réseaux sociaux.')}
       </div>
     </footer>
   );

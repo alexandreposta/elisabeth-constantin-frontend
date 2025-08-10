@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { FaHome, FaPaintBrush, FaCalendarAlt, FaShoppingCart, FaTachometerAlt, FaBars, FaTimes } from "react-icons/fa";
+import { FaHome, FaPaintBrush, FaCalendarAlt, FaShoppingCart, FaTachometerAlt, FaBars, FaTimes, FaGlobe } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import "../styles/adminHeader.css";
 
@@ -68,6 +68,15 @@ export default function AdminHeader() {
           >
             <FaShoppingCart />
             <span>Commandes</span>
+          </Link>
+          
+          <Link 
+            to="/admin/translations" 
+            className={`admin-nav-link ${isActive('/admin/translations') ? 'active' : ''}`}
+            onClick={closeMobileMenu}
+          >
+            <FaGlobe />
+            <span>Traductions</span>
           </Link>
           
           <Link 

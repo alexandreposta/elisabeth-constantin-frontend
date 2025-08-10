@@ -3,12 +3,15 @@ import { Link, useLocation } from "react-router-dom";
 import { FaHeart, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import { useCart } from "../context/CartContext";
+import { useLanguage } from "../context/LanguageContext";
 import { useState, useEffect } from "react";
 import { getGalleryTypes } from "../api/artworks";
+import LanguageSelector from "./LanguageSelector";
 
 export default function Header() {
   const location = useLocation();
   const { getItemCount } = useCart();
+  const { t } = useLanguage();
   const cartItemCount = getItemCount();
   const [galleryTypes, setGalleryTypes] = useState([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -57,14 +60,8 @@ export default function Header() {
   };
 
   const getGalleryDisplayName = (type) => {
-    const displayNames = {
-      'peinture': 'Peinture',
-      'paint': 'Peinture',
-      '3d': '3D', 
-      'sculpture': 'Sculpture',
-      'aquarelle': 'Aquarelle'
-    };
-    return displayNames[type.toLowerCase()] || type.charAt(0).toUpperCase() + type.slice(1);
+    const typeKey = `gallery.${type.toLowerCase()}`;
+    return t(typeKey, type.charAt(0).toUpperCase() + type.slice(1));
   };
 
   const getGalleryPath = (type) => {
@@ -98,13 +95,17 @@ export default function Header() {
           <img src={logo} alt="Logo Elisabeth Constantin" />
         </Link>
         
+        <div className="header-controls">
+          <LanguageSelector />
+        </div>
+        
         <nav className={`header-nav ${isMobileMenuOpen ? 'mobile-menu-open' : ''}`}>
           <Link
             to="/accueil"
             className={`nav-link ${isActive("/accueil") ? `active ${getPastelClass()}` : ""}`}
             onClick={closeMobileMenu}
           >
-            Accueil
+            {t('nav.home')}
           </Link>
           
           <div className="nav-dropdown">
@@ -116,7 +117,7 @@ export default function Header() {
               } ${isMobile ? 'no-underline' : ''}`}
               onClick={toggleGalleryDropdown}
             >
-              Galerie
+              {t('nav.gallery')}
               <FaHeart className="dropdown-icon" />
             </span>
             <div className={`dropdown-content ${isGalleryDropdownOpen ? 'dropdown-open' : ''}`}>
@@ -140,7 +141,7 @@ export default function Header() {
             className={`nav-link ${isActive("/evenements") ? `active ${getPastelClass()}` : ""}`}
             onClick={closeMobileMenu}
           >
-            Événements
+            {t('nav.events')}
           </Link>
           
           <Link
@@ -149,7 +150,7 @@ export default function Header() {
             onClick={closeMobileMenu}
           >
             <FaShoppingCart className="cart-icon" />
-            <span>Panier</span>
+            <span>{t('nav.cart')}</span>
             {cartItemCount > 0 && (
               <span className="cart-badge">{cartItemCount}</span>
             )}
