@@ -23,7 +23,7 @@ export default function TableauDetail() {
         
         // Adapter les données de l'API au format attendu
         const tableauData = {
-          id: artwork.id,
+          id: artwork._id,  // Utiliser _id comme id
           titre: artwork.title,
           prix: artwork.price,
           description: artwork.description || "Description non disponible pour cette œuvre.",

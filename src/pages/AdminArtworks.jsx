@@ -206,7 +206,7 @@ export default function Admin() {
         "Voulez-vous vraiment supprimer ce tableau ? Cette action est irréversible."
       )
     ) {
-      const artworkId = editingArtwork.id || editingArtwork._id;
+      const artworkId = editingArtwork._id;
       await deleteArtworkById(artworkId);
       await fetchArtworks();
       setIsModalOpen(false);
@@ -233,7 +233,7 @@ export default function Admin() {
         return;
       }
       if (editingArtwork) {
-        const artworkId = editingArtwork.id || editingArtwork._id;
+        const artworkId = editingArtwork._id;
         await updateArtwork(artworkId, payload);
       } else {
         await createArtwork(payload);
@@ -317,7 +317,7 @@ export default function Admin() {
         <div className="artworks-grid">
           {sortedArtworks.map((artwork) => (
             <AdminCard
-              key={artwork.id || artwork._id}
+              key={artwork._id}
               item={artwork}
               type="artwork"
               onEdit={() => openModal(artwork)}

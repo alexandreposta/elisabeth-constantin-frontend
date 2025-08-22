@@ -37,9 +37,9 @@ export default function GalerieType() {
   const handleArtworkClick = (artwork) => {
     // Tracker la vue d'œuvre pour les analytics
     if (window.analytics) {
-      window.analytics.trackArtworkView(artwork.id, artwork.title, artwork.type);
+      window.analytics.trackArtworkView(artwork._id, artwork.title, artwork.type);
     }
-    navigate(`/tableau/${artwork.id}`);
+    navigate(`/tableau/${artwork._id}`);
   };
 
   const handleContactClick = (artwork) => {
@@ -166,7 +166,7 @@ export default function GalerieType() {
 
       <div className="artworks-grid">
         {sortedArtworks.map((artwork) => (
-          <div key={artwork.id} className="artwork-card" onClick={() => handleArtworkClick(artwork)}>
+          <div key={artwork._id} className="artwork-card" onClick={() => handleArtworkClick(artwork)}>
             <div className="artwork-image-container">
               <img src={artwork.main_image} alt={artwork.title} className="artwork-image" />
             </div>
