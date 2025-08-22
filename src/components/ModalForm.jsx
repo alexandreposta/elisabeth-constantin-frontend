@@ -264,7 +264,6 @@ export default function ModalForm({
                 images={formData.other_images}
                 onImagesChange={onOtherImagesChange}
                 multiple
-                maxImages={5}
                 label="Images secondaires"
               />
             </div>

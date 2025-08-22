@@ -6,7 +6,7 @@ const ImageUpload = ({
   images = [], 
   onImagesChange, 
   multiple = false, 
-  maxImages = 5,
+  maxImages = null,
   className = "",
   label = "Images",
   showInCanvas = false
@@ -17,7 +17,7 @@ const ImageUpload = ({
     const files = Array.from(e.target.files);
     if (multiple) {
       const newImages = [...images, ...files];
-      onImagesChange(newImages.slice(0, maxImages));
+      onImagesChange(maxImages ? newImages.slice(0, maxImages) : newImages);
     } else {
       onImagesChange(files[0] || null);
     }
@@ -67,7 +67,7 @@ const ImageUpload = ({
               </div>
             ))}
             
-            {images.length < maxImages && (
+            {(!maxImages || images.length < maxImages) && (
               <div className="add-image-btn" onClick={openFileSelector}>
                 <FaPlus />
                 <span>Ajouter</span>
