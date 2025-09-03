@@ -114,7 +114,11 @@
 }
 
 /* Gallery section */
-.gallery-section { padding: 4rem 0; }
+.gallery-section { 
+  padding: 4rem 0; 
+  width: 100%;
+  box-sizing: border-box;
+}
 
 .gallery-header {
   text-align: center;
@@ -138,10 +142,11 @@
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 2rem;
   max-width: 1400px;
-  margin: 2rem;
+  margin: 2rem auto;
+  padding: 0 2rem;
 }
 
 .gallery-item {
@@ -425,7 +430,19 @@
 
 @media (max-width: 992px) {
   /* suppression des règles grid inopérantes sur .artwork-mosaic */
-  .gallery-grid { grid-template-columns: repeat(3, 1fr);}
+  .gallery-grid { 
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1000px;
+  }
+}
+
+/* Media query pour les grands écrans PC */
+@media (min-width: 1200px) {
+  .gallery-grid {
+    grid-template-columns: repeat(5, 1fr);
+    max-width: 1600px;
+    gap: 2rem;
+  }
 }
 
 @media (max-width: 768px) {

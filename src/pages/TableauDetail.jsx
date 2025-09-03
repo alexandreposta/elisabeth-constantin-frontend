@@ -15,7 +15,15 @@ export default function TableauDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Scroll vers le haut à chaque changement d'ID
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [id]);
+
+  useEffect(() => {
+    // Faire défiler vers le haut de la page à chaque fois qu'on arrive sur cette page
+    window.scrollTo(0, 0);
+    
     const fetchTableau = async () => {
       try {
         setLoading(true);

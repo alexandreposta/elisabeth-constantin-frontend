@@ -117,7 +117,7 @@ export default function Accueil() {
       <section className="gallery-section">
         <h2 className="gallery-main-title">Galerie</h2>
         <div className="gallery-grid">
-          {artworks.slice(0, 8).map((artwork) => (
+          {artworks.map((artwork) => (
             <Link 
               key={artwork._id} 
               to={`/tableau/${artwork._id}`}
