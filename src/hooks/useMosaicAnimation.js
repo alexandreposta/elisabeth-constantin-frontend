@@ -111,7 +111,7 @@ export const useMosaicAnimation = (images, initialDelay = 500) => {
             doOverlap(newRect, placedImg.rect, margin)
           );
           
-          if (!hasCollision) {
+            if (!hasCollision) {
             placedImages.push({
               src: imageSrc,
               id: index,
@@ -119,14 +119,11 @@ export const useMosaicAnimation = (images, initialDelay = 500) => {
               y: y,
               width: width,
               height: height,
-              opacity: 0,
               animationClass: '',
               rect: newRect
             });
             placed = true;
-          }
-          
-          attempts++;
+          }          attempts++;
         }
       }
     });
@@ -195,7 +192,6 @@ export const useMosaicAnimation = (images, initialDelay = 500) => {
     setMosaicLayout(prevLayout => 
       prevLayout.map(img => ({ 
         ...img, 
-        opacity: 0,
         animationClass: 'animate-out'
       }))
     );
@@ -210,8 +206,7 @@ export const useMosaicAnimation = (images, initialDelay = 500) => {
               prevIndex === index 
                 ? { 
                     ...prevImg, 
-                    opacity: 1,
-                    animationClass: 'animate-in'
+                    animationClass: 'animate-in visible'
                   }
                 : prevImg
             )
@@ -224,7 +219,7 @@ export const useMosaicAnimation = (images, initialDelay = 500) => {
         setMosaicLayout(prevLayout => 
           prevLayout.map(img => ({ 
             ...img, 
-            animationClass: ''
+            animationClass: 'visible'
           }))
         );
       }, layout.length * 300 + 800);

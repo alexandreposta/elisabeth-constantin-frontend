@@ -239,12 +239,24 @@
 .mosaic-item-absolute {
   position: absolute;
   display: block;
-  transition: transform 0.3s ease, opacity 0.6s ease;
+  transition: transform 0.3s ease;
   opacity: 0;
+  visibility: hidden;
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   overflow: hidden;
 }
+
+/* Rendre visible uniquement pendant et après l'animation */
+.mosaic-item-absolute.animate-in,
+.mosaic-item-absolute.visible {
+  visibility: visible;
+}
+
+.mosaic-item-absolute.visible {
+  opacity: 1;
+}
+
 .mosaic-item-absolute:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
@@ -306,11 +318,15 @@
 
 /* Classes d'animation (tolère les deux noms) */
 .mosaic-item.animate-in,
-.mosaic-item-absolute.animate-in { animation: fadeInUp 0.6s ease forwards; }
+.mosaic-item-absolute.animate-in { 
+  animation: fadeInUp 0.6s ease forwards; 
+}
 .mosaic-item.animate-out,
-.mosaic-item-absolute.animate-out { animation: fadeOutDown 0.3s ease forwards; }
+.mosaic-item-absolute.animate-out { 
+  animation: fadeOutDown 0.3s ease forwards; 
+}
 
-/* Discover section */
+/* Découvrir section */
 .discover-section {
   padding: 4rem 0;
   background: #f8f9fa;

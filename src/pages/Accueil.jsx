@@ -58,7 +58,6 @@ export default function Accueil() {
               top: `${item.y}px`,
               width: `${item.width}px`,
               height: `${item.height}px`,
-              opacity: item.opacity,
               transition: 'opacity 0.6s ease, transform 0.3s ease',
               zIndex: 1
             }}
