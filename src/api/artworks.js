@@ -83,10 +83,11 @@ export async function getArtworksByGallery(galleryType) {
 // API pour la gestion des types d'œuvres
 export async function updateArtworkType(oldType, newType) {
   const payload = { oldType, newType };
-  const url = `${API}/update-type`;
+  const url = `${API}/type/update`;
   try {
     const res = await fetch(url, {
       method: 'PUT',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },

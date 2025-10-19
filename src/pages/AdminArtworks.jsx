@@ -15,7 +15,7 @@ import {
   deleteArtworkById,
   getAllGalleryTypes,
 } from "../api/artworks";
-import { getAllArtworkTypes, ensureDefaultTypes } from "../api/artworkTypes";
+import { getAllArtworkTypes } from "../api/artworkTypes";
 
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
@@ -65,28 +65,13 @@ export default function Admin() {
 
   const fetchArtworkTypes = async () => {
     try {
-      // D'abord, s'assurer que les types par défaut existent
-      try {
-        await ensureDefaultTypes();
-      } catch (error) {
-        console.warn('Erreur lors de l\'initialisation des types par défaut:', error);
-      }
-      
-      // Essayer d'abord la nouvelle API
-      try {
-        const types = await getAllArtworkTypes();
-        setArtworkTypes(types);
-        return;
-      } catch (error) {
-        console.warn('Nouvelle API échoue, fallback vers l\'ancienne:', error);
-      }
-      
-      // Fallback vers l'ancienne API
-      const types = await getAllGalleryTypes();
+      // Récupérer directement les types depuis l'API
+      const types = await getAllArtworkTypes();
       setArtworkTypes(types);
     } catch (error) {
       console.error('Erreur lors du chargement des types d\'œuvres:', error);
-      setArtworkTypes(['paint', '3D']); // Fallback
+      // En cas d'erreur, afficher un tableau vide
+      setArtworkTypes([]);
     }
   };
 

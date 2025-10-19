@@ -46,17 +46,3 @@ export async function deleteArtworkType(typeName) {
   
   return await res.json();
 }
-
-export async function ensureDefaultTypes() {
-  const res = await fetch(`${API}/ensure-defaults`, {
-    method: 'POST',
-    credentials: 'include',
-  });
-  
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`Erreur ${res.status}: ${errorText}`);
-  }
-  
-  return await res.json();
-}
