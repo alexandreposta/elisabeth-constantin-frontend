@@ -94,10 +94,24 @@ export default function Accueil() {
             alt="Elisabeth Constantin dans son atelier"
           />
           <div className="discover-content">
-            <h2 className="discover-title">Découvrez mon univers...</h2>
+            <h2 className="discover-title">Mon univers</h2>
             <p className="discover-text">
-              Passionnée par mon métier, je m'investis dans la création et les projets artistiques depuis plus de 20 ans.<br/><br/>
-              Mon style s'imprègne de ce qui m'entoure : je trace par des croquis les idées, saisies avec une exécution rapide qui engendre d'autres idées...
+              Dès l'enfance, je suis attirée par l'art.
+              Formée à Lyon, je construis depuis plus de 25 ans une œuvre ancrée dans le geste pictural, la couleur et l'observation du réel.<br/><br/>
+              
+              En 2017, un tournant majeur se produit : j'abandonne le support classique au profit d'un matériau transparent — le verre synthétique.
+              Je l'apprivoise et le transforme en territoire d'expérimentation.<br/><br/>
+              
+              Ces strates transparentes, une fois superposées, donnent naissance à une image tridimensionnelle suspendue dans l'espace.<br/><br/>
+              
+              <strong>Procédé et perception</strong><br/>
+              L'œuvre devient mouvement : elle vit à travers les déplacements du spectateur, les jeux d'ombre, de lumière et de transparence.
+              Selon l'angle ou l'éclairage, les lignes se décalent, des formes apparaissent ou disparaissent, et la profondeur se modifie.<br/><br/>
+
+              <strong>Le pourquoi</strong><br/>
+              Mon travail s'inscrit dans une recherche visant à dépasser l'image fixe.
+              Chaque œuvre interroge notre perception : elle devient à la fois image et volume, une peinture vivante et changeante.
+              L'œuvre ne se lit pas d'un seul point de vue : elle se révèle dans le dialogue avec le regard.
             </p>
             <div className="social-links">
               <a className="social-icon" href="https://www.instagram.com/elisabeth_constantin/?hl=fr" target="_blank" rel="noopener noreferrer">
