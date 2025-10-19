@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { eventsAPI } from '../api/events';
 import EventSkeletonLoader from '../components/EventSkeleton';
 import SortButton from '../components/SortButton';
+import SEO from '../components/SEO';
 import '../styles/evenements.css';
 
 export default function Evenements() {
@@ -92,12 +93,19 @@ export default function Evenements() {
   if (error) return <div className="events-error">{error}</div>;
 
   return (
-    <div className="evenements-page">
-      <div className="events-header">
-        <h1 className="events-main-title">Événements</h1>
-        <p className="events-subtitle">
-          Découvrez nos expositions, vernissages et ateliers artistiques
-        </p>
+    <>
+      <SEO 
+        title="Événements - Élisabeth Constantin | Expositions et Vernissages"
+        description="Découvrez les prochains événements d'Élisabeth Constantin : expositions, vernissages, ateliers artistiques et rencontres autour de l'art et de la technique multiplan 3D."
+        keywords="événements, expositions, vernissages, ateliers, Elisabeth Constantin, art, galerie"
+        url="https://elisabeth-constantin.fr/evenements"
+      />
+      <div className="evenements-page">
+        <div className="events-header">
+          <h1 className="events-main-title">Événements</h1>
+          <p className="events-subtitle">
+            Découvrez nos expositions, vernissages et ateliers artistiques
+          </p>
         
         <div className="sort-buttons-group">
           <span className="sort-buttons-label">Trier par :</span>
@@ -203,6 +211,7 @@ export default function Evenements() {
           )}
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }

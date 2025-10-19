@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Page d'accueil -->
+  <url>
+    <loc>https://elisabeth-constantin.fr/</loc>
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  
+  <!-- Page Accueil -->
+  <url>
+    <loc>https://elisabeth-constantin.fr/accueil</loc>
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  
+  <!-- Galerie Peinture -->
+  <url>
+    <loc>https://elisabeth-constantin.fr/galerie/peinture</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  
+  <!-- Galerie Plan 3D -->
+  <url>
+    <loc>https://elisabeth-constantin.fr/galerie/plan%203d</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  
+  <!-- Événements -->
+  <url>
+    <loc>https://elisabeth-constantin.fr/evenements</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  
+  <!-- Mon Parcours -->
+  <url>
+    <loc>https://elisabeth-constantin.fr/mon-parcours</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  
+  <!-- Panier -->
+  <url>
+    <loc>https://elisabeth-constantin.fr/panier</loc>
+    <priority>0.5</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  
+  <!-- Mentions légales -->
+  <url>
+    <loc>https://elisabeth-constantin.fr/mentions-legales</loc>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  
+  <!-- Politique de confidentialité -->
+  <url>
+    <loc>https://elisabeth-constantin.fr/politique-confidentialite</loc>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  
+  <!-- CGV -->
+  <url>
+    <loc>https://elisabeth-constantin.fr/cgv</loc>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  
+  <!-- Politique de cookies -->
+  <url>
+    <loc>https://elisabeth-constantin.fr/politique-cookies</loc>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+</urlset>

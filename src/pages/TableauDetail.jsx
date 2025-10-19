@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { getArtworkById } from '../api/artworks';
 import { useCart } from '../context/CartContext';
 import { FaShoppingCart, FaCheck } from 'react-icons/fa';
+import SEO from '../components/SEO';
+import ArtworkSchema from '../components/ArtworkSchema';
 import '../styles/tableauDetail.css';
 
 export default function TableauDetail() {
@@ -110,8 +112,17 @@ export default function TableauDetail() {
   }
 
   return (
-    <div className="tableau-detail">
-      <div className="tableau-container">
+    <>
+      <SEO 
+        title={`${tableau.titre} - Élisabeth Constantin`}
+        description={tableau.description}
+        keywords={`${tableau.titre}, ${tableau.type}, œuvre art, Elisabeth Constantin, ${tableau.technique}`}
+        image={tableau.images[0]}
+        url={`https://elisabeth-constantin.fr/tableau/${tableau.id}`}
+      />
+      <ArtworkSchema artwork={tableau} />
+      <div className="tableau-detail">
+        <div className="tableau-container">
         
         {/* Galerie photos - Gauche */}
         <div className="tableau-gallery">
@@ -207,6 +218,7 @@ export default function TableauDetail() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

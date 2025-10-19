@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../styles/accueil.css";
 import { getAllArtworks } from "../api/artworks";
 import { useMosaicAnimation } from "../hooks/useMosaicAnimation";
+import SEO from "../components/SEO";
 import img1 from "../assets/Salon/1.jpg";
 import img2 from "../assets/Tableau_1/1.jpg";
 import img3 from "../assets/Salon/3.jpg";
@@ -29,8 +30,16 @@ export default function Accueil() {
   }, []);
 
   return (
-    <div className="accueil">
-      <h1 className="hero-title">Elisabeth Constantin</h1>
+    <>
+      <SEO 
+        title="Accueil - Élisabeth Constantin | Artiste Peintre Multiplan 3D"
+        description="Découvrez l'univers artistique d'Élisabeth Constantin, artiste peintre spécialisée dans la technique unique du multiplan 3D. Explorez ses œuvres originales, peintures et créations événementielles."
+        keywords="Elisabeth Constantin, artiste peintre, multiplan 3D, peinture, art contemporain, galerie art, œuvres originales, plan 3D"
+        image={img1}
+        url="https://elisabeth-constantin.fr/accueil"
+      />
+      <div className="accueil">
+        <h1 className="hero-title">Elisabeth Constantin</h1>
 
       <div className="artwork-mosaic">
         {!imagesLoaded && (
@@ -151,6 +160,7 @@ export default function Accueil() {
           ))}
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

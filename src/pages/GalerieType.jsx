@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getArtworksByGallery } from '../api/artworks';
 import SortButton from '../components/SortButton';
+import SEO from '../components/SEO';
 import '../styles/galerieType.css';
 
 export default function GalerieType() {
@@ -125,8 +126,24 @@ export default function GalerieType() {
 
   const sortedArtworks = getSortedArtworks();
 
+  const getGalleryDescription = (type) => {
+    const descriptions = {
+      'peinture': 'Découvrez la collection de peintures originales d\'Élisabeth Constantin, œuvres uniques et créations artistiques contemporaines.',
+      'plan 3d': 'Explorez les œuvres en multiplan 3D d\'Élisabeth Constantin, une technique unique qui donne vie et profondeur aux créations artistiques.',
+      'plan3d': 'Explorez les œuvres en multiplan 3D d\'Élisabeth Constantin, une technique unique qui donne vie et profondeur aux créations artistiques.'
+    };
+    return descriptions[type] || `Découvrez les œuvres de la galerie ${type} d'Élisabeth Constantin`;
+  };
+
   return (
-    <div className="galerie-page">
+    <>
+      <SEO 
+        title={`${formatGalleryTitle(galleryType)} - Galerie Élisabeth Constantin`}
+        description={getGalleryDescription(galleryType)}
+        keywords={`${galleryType}, galerie art, Elisabeth Constantin, œuvres, peinture, multiplan 3D`}
+        url={`https://elisabeth-constantin.fr/galerie/${galleryType}`}
+      />
+      <div className="galerie-page">
       <div className="galerie-header">
         <h1 className="galerie-title">{formatGalleryTitle(galleryType)}</h1>
         <p className="galerie-subtitle">
@@ -180,6 +197,7 @@ export default function GalerieType() {
           </div>
         ))}
       </div>
-    </div>
+      </div>
+    </>
   );
 }
