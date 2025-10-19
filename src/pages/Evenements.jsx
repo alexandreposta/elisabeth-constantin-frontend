@@ -3,6 +3,8 @@ import { eventsAPI } from '../api/events';
 import EventSkeletonLoader from '../components/EventSkeleton';
 import SortButton from '../components/SortButton';
 import SEO from '../components/SEO';
+import EventSchema from '../components/EventSchema';
+import BreadcrumbSchema from '../components/BreadcrumbSchema';
 import '../styles/evenements.css';
 
 export default function Evenements() {
@@ -100,6 +102,10 @@ export default function Evenements() {
         keywords="événements, expositions, vernissages, ateliers, Elisabeth Constantin, art, galerie"
         url="https://elisabeth-constantin.fr/evenements"
       />
+      <BreadcrumbSchema items={[
+        { name: 'Accueil', url: 'https://elisabeth-constantin.fr' },
+        { name: 'Événements', url: 'https://elisabeth-constantin.fr/evenements' }
+      ]} />
       <div className="evenements-page">
         <div className="events-header">
           <h1 className="events-main-title">Événements</h1>
@@ -150,11 +156,25 @@ export default function Evenements() {
             </div>
           ) : (
             sortedEvents.map((event) => (
-              <div key={event.id} className="event-item">
-                <div className="event-date-badge">
-                  <div className="day">{formatDateShort(event.start_date).split(' ')[0]}</div>
-                  <div className="month">{formatDateShort(event.start_date).split(' ')[1]}</div>
-                </div>
+              <React.Fragment key={event.id}>
+                <EventSchema event={{
+                  title: event.title,
+                  description: event.description,
+                  startDate: new Date(event.start_date).toISOString(),
+                  endDate: new Date(event.end_date).toISOString(),
+                  locationName: event.location,
+                  address: event.location,
+                  city: event.location?.split(',')[1]?.trim() || '',
+                  postalCode: '',
+                  image: event.main_image,
+                  price: 0,
+                  id: event.id
+                }} />
+                <div className="event-item">
+                  <div className="event-date-badge">
+                    <div className="day">{formatDateShort(event.start_date).split(' ')[0]}</div>
+                    <div className="month">{formatDateShort(event.start_date).split(' ')[1]}</div>
+                  </div>
                 
                 <div className="event-image-container">
                   <img 
@@ -212,6 +232,7 @@ export default function Evenements() {
                   </div>
                 </div>
               </div>
+              </React.Fragment>
             ))
           )}
         </div>

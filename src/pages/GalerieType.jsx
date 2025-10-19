@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getArtworksByGallery } from '../api/artworks';
 import SortButton from '../components/SortButton';
 import SEO from '../components/SEO';
+import BreadcrumbSchema from '../components/BreadcrumbSchema';
 import '../styles/galerieType.css';
 
 export default function GalerieType() {
@@ -143,6 +144,11 @@ export default function GalerieType() {
         keywords={`${galleryType}, galerie art, Elisabeth Constantin, œuvres, peinture, multiplan 3D`}
         url={`https://elisabeth-constantin.fr/galerie/${galleryType}`}
       />
+      <BreadcrumbSchema items={[
+        { name: 'Accueil', url: 'https://elisabeth-constantin.fr' },
+        { name: 'Galeries', url: 'https://elisabeth-constantin.fr/#galeries' },
+        { name: formatGalleryTitle(galleryType), url: `https://elisabeth-constantin.fr/galerie/${galleryType}` }
+      ]} />
       <div className="galerie-page">
       <div className="galerie-header">
         <h1 className="galerie-title">{formatGalleryTitle(galleryType)}</h1>

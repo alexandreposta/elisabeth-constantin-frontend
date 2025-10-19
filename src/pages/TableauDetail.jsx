@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { FaShoppingCart, FaCheck } from 'react-icons/fa';
 import SEO from '../components/SEO';
 import ArtworkSchema from '../components/ArtworkSchema';
+import BreadcrumbSchema from '../components/BreadcrumbSchema';
 import '../styles/tableauDetail.css';
 
 export default function TableauDetail() {
@@ -121,6 +122,12 @@ export default function TableauDetail() {
         url={`https://elisabeth-constantin.fr/tableau/${tableau.id}`}
       />
       <ArtworkSchema artwork={tableau} />
+      <BreadcrumbSchema items={[
+        { name: 'Accueil', url: 'https://elisabeth-constantin.fr' },
+        { name: 'Galeries', url: 'https://elisabeth-constantin.fr/#galeries' },
+        { name: tableau.type || 'Œuvre', url: `https://elisabeth-constantin.fr/galerie/${tableau.type?.toLowerCase().replace(/ /g, '-')}` },
+        { name: tableau.titre, url: `https://elisabeth-constantin.fr/tableau/${tableau.id}` }
+      ]} />
       <div className="tableau-detail">
         <div className="tableau-container">
         
