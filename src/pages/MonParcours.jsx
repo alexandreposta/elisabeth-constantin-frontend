@@ -2,10 +2,18 @@ import React from 'react';
 import { FaPalette, FaHeart, FaLightbulb, FaUsers, FaCertificate, FaNewspaper } from 'react-icons/fa';
 import '../styles/monParcours.css';
 import image from '../assets/Salon/3.jpg';
+import ArtistSchema from '../components/ArtistSchema';
+import SEO from '../components/SEO';
 
 export default function MonParcours() {
   return (
     <div className="parcours-container">
+      <SEO 
+        title="Mon Parcours - Élisabeth Constantin"
+        description="Découvrez le parcours artistique d'Élisabeth Constantin, sa démarche créative unique dans le multiplan 3D, ses influences et sa vision de l'art contemporain."
+        url="https://elisabeth-constantin.fr/mon-parcours"
+      />
+      <ArtistSchema />
       <section className="parcours-hero">
         <div className="hero-content">
           <h1 className="hero-title">Ma Démarche</h1>

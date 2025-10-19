@@ -1,9 +1,14 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import '../styles/legal.css';
 
 export default function PolitiqueCookies() {
   return (
     <div className="legal-page-container">
+      <Helmet>
+        <title>Politique de Cookies - Élisabeth Constantin</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <div className="legal-content">
         <h1>Politique de Cookies</h1>
         

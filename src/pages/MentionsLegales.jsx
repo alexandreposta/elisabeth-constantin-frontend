@@ -1,9 +1,14 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import '../styles/legal.css';
 
 export default function MentionsLegales() {
   return (
     <div className="legal-page-container">
+      <Helmet>
+        <title>Mentions Légales - Élisabeth Constantin</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <div className="legal-content">
         <h1>Mentions Légales</h1>
         
