@@ -84,3 +84,7 @@ coverage/
 # PWA
 sw.js
 workbox-*.js
+
+#Docker
+docker-compose.yml
+Dockerfile
