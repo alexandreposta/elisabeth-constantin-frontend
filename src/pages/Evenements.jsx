@@ -157,7 +157,12 @@ export default function Evenements() {
                 </div>
                 
                 <div className="event-image-container">
-                  <img src={event.main_image} alt={event.title} className="event-image" />
+                  <img 
+                    src={event.main_image} 
+                    alt={event.title} 
+                    className="event-image" 
+                    loading="lazy"
+                  />
                   <div className={`event-status ${event.status}`}>
                     {getStatusLabel(event.status)}
                   </div>

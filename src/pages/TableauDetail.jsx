@@ -161,7 +161,7 @@ export default function TableauDetail() {
                   className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
                   onClick={() => setSelectedImage(index)}
                 >
-                  <img src={image} alt={`Vue ${index + 1}`} />
+                  <img src={image} alt={`Vue ${index + 1}`} loading="lazy" />
                 </div>
               ))}
             </div>

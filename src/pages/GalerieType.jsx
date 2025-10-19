@@ -185,7 +185,12 @@ export default function GalerieType() {
         {sortedArtworks.map((artwork) => (
           <div key={artwork._id} className="artwork-card" onClick={() => handleArtworkClick(artwork)}>
             <div className="artwork-image-container">
-              <img src={artwork.main_image} alt={artwork.title} className="artwork-image" />
+              <img 
+                src={artwork.main_image} 
+                alt={artwork.title} 
+                className="artwork-image" 
+                loading="lazy"
+              />
             </div>
             <div className="artwork-info">
               <h3 className="artwork-title">{artwork.title}</h3>

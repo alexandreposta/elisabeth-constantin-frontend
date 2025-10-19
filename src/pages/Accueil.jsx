@@ -150,6 +150,7 @@ export default function Accueil() {
                 className="gallery-image"
                 src={artwork.main_image}
                 alt={artwork.title}
+                loading="lazy"
               />
               <h3 className="gallery-title">{artwork.title}</h3>
               <p className="gallery-price">{artwork.price} €</p>
