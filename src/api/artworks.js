@@ -1,6 +1,6 @@
 import { API_URL } from './config';
 
-const API = `${API_URL}/artworks`;
+const API = `${API_URL}/artworks/`;
 
 export async function getAllArtworks() {
   const res = await fetch(API, {
