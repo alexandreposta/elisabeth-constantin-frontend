@@ -1,9 +1,9 @@
 import { API_URL } from './config';
 
-const API = `${API_URL}/artwork-types/`;
+const API = `${API_URL}/artwork-types`;
 
 export async function getAllArtworkTypes() {
-  const res = await fetch(`${API}`, {
+  const res = await fetch(`${API}/`, {
     credentials: 'include',
   });
   if (!res.ok) throw new Error("Impossible de récupérer les types d'œuvres");
@@ -16,7 +16,7 @@ export async function createArtworkType(name, displayName = null) {
     display_name: displayName || null
   };
   
-  const res = await fetch(`${API}`, {
+  const res = await fetch(`${API}/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

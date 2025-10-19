@@ -1,9 +1,9 @@
 import { API_URL } from './config';
 
-const API = `${API_URL}/artworks/`;
+const API = `${API_URL}/artworks`;
 
 export async function getAllArtworks() {
-  const res = await fetch(API, {
+  const res = await fetch(`${API}/`, {
     credentials: 'include',
   });
   if (!res.ok) throw new Error("Impossible de récupérer les œuvres");  
@@ -19,7 +19,7 @@ export async function getArtworkById(id) {
 }
 
 export async function createArtwork(payload) {
-  const res = await fetch(API, {
+  const res = await fetch(`${API}/`, {
     method: "POST",
     credentials: 'include',
     headers: {
