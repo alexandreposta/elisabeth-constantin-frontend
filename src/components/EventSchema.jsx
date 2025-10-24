@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+import SchemaScript from './SchemaScript';
 
 /**
  * Schema.org pour événements (expositions, salons)
@@ -54,11 +54,7 @@ const EventSchema = ({ event }) => {
   }
 
   return (
-    <Helmet>
-      <script type="application/ld+json">
-        {JSON.stringify(eventSchema)}
-      </script>
-    </Helmet>
+    <SchemaScript schema={eventSchema} id={`event-schema-${event.id}`} />
   );
 };
 

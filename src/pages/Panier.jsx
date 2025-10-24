@@ -4,6 +4,7 @@ import { FaTrash, FaShoppingCart, FaCreditCard, FaLock } from 'react-icons/fa';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { API_URL } from '../api/config';
+import SEO from '../components/SEO';
 import '../styles/panier.css';
 
 // Clé publique Stripe depuis les variables d'environnement
@@ -390,7 +391,13 @@ const PanierContent = () => {
   }
 
   return (
-    <div className="panier-container">
+    <>
+      <SEO 
+        title="Mon Panier - Élisabeth Constantin"
+        description="Consultez votre panier et finalisez votre commande d'œuvres d'art d'Élisabeth Constantin. Paiement sécurisé par Stripe."
+        url="https://elisabeth-constantin.fr/panier"
+      />
+      <div className="panier-container">
       <div className="panier-header">
         <h1>Mon Panier</h1>
       </div>
@@ -459,6 +466,7 @@ const PanierContent = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

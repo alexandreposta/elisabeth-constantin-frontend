@@ -5,6 +5,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { FaLock, FaCreditCard, FaPaypal, FaArrowLeft, FaCheck, FaExclamationTriangle } from 'react-icons/fa';
 import { API_URL } from '../api/config';
+import SEO from '../components/SEO';
 import '../styles/checkout.css';
 
 // Récupérer la clé publique depuis les variables d'environnement
@@ -494,7 +495,13 @@ export default function Checkout() {
   }, [items, navigate, confirmedOrder]);
   
   return (
-    <div className="checkout-container">
+    <>
+      <SEO 
+        title="Paiement Sécurisé - Élisabeth Constantin"
+        description="Finalisez votre achat en toute sécurité. Paiement par carte bancaire sécurisé via Stripe."
+        url="https://elisabeth-constantin.fr/checkout"
+      />
+      <div className="checkout-container">
       <div className="checkout-main">
         <div className="checkout-content">
           <Elements stripe={stripePromise} options={stripeOptions}>
@@ -505,6 +512,7 @@ export default function Checkout() {
         <CheckoutSummary confirmedOrder={confirmedOrder} />
       </div>
     </div>
+    </>
   );
 }
 

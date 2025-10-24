@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+import SchemaScript from './SchemaScript';
 
 export default function ArtworkSchema({ artwork }) {
   const schema = {
@@ -35,10 +35,6 @@ export default function ArtworkSchema({ artwork }) {
   };
 
   return (
-    <Helmet>
-      <script type="application/ld+json">
-        {JSON.stringify(schema)}
-      </script>
-    </Helmet>
+    <SchemaScript schema={schema} id={`artwork-schema-${artwork.id}`} />
   );
 }

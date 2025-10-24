@@ -1,14 +1,15 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '../components/SEOHead';
 import '../styles/legal.css';
 
 export default function ConditionsGeneralesVente() {
   return (
     <div className="legal-page-container">
-      <Helmet>
-        <title>Conditions Générales de Vente - Élisabeth Constantin</title>
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
+      <SEOHead
+        title="Conditions Générales de Vente - Élisabeth Constantin"
+        description="Conditions générales de vente du site elisabeth-constantin.fr"
+        noindex={true}
+      />
       <div className="legal-content">
         <h1>Conditions Générales de Vente</h1>
         

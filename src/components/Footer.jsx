@@ -1,9 +1,13 @@
 import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 import "../styles/footer.css";
+import NewsletterSubscribe from './NewsletterSubscribe';
 
 export default function Footer() {
   return (
     <footer className="footer">
+      <div className="footer-newsletter">
+        <NewsletterSubscribe />
+      </div>
       <div className="footer-social">
         <a
           className="footer-icon"

@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+import SchemaScript from './SchemaScript';
 
 /**
  * Schema.org Organization pour la page d'accueil
@@ -29,11 +29,7 @@ const OrganizationSchema = () => {
   };
 
   return (
-    <Helmet>
-      <script type="application/ld+json">
-        {JSON.stringify(organizationSchema)}
-      </script>
-    </Helmet>
+    <SchemaScript schema={organizationSchema} id="organization-schema" />
   );
 };
 

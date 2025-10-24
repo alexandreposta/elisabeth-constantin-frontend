@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getOrdersByEmail } from '../api/orders';
 import { FaBox, FaCheckCircle, FaShippingFast, FaBoxOpen, FaRegTimesCircle } from 'react-icons/fa';
+import SEO from '../components/SEO';
 import '../styles/mesCommandes.css';
 
 const statusIcons = {
@@ -73,7 +74,13 @@ export default function MesCommandes() {
   };
 
   return (
-    <div className="mes-commandes-container">
+    <>
+      <SEO 
+        title="Mes Commandes - Suivi de Commande | Élisabeth Constantin"
+        description="Suivez l'état de votre commande d'œuvres d'art d'Élisabeth Constantin. Consultez le statut de livraison et l'historique de vos achats."
+        url="https://elisabeth-constantin.fr/mes-commandes"
+      />
+      <div className="mes-commandes-container">
       <h1>Mes Commandes</h1>
       
       <div className="search-orders">
@@ -168,5 +175,6 @@ export default function MesCommandes() {
         <p>N'hésitez pas à me contacter par email à <a href="mailto:contact@elisabethconstantin.com">contact@elisabethconstantin.com</a> ou par téléphone au +33 6 85 50 09 73.</p>
       </div>
     </div>
+    </>
   );
 }

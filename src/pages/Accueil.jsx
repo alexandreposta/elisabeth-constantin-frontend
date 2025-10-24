@@ -4,7 +4,6 @@ import "../styles/accueil.css";
 import { getAllArtworks } from "../api/artworks";
 import { useMosaicAnimation } from "../hooks/useMosaicAnimation";
 import SEO from "../components/SEO";
-import OrganizationSchema from "../components/OrganizationSchema";
 import img1 from "../assets/Salon/1.jpg";
 import img2 from "../assets/Tableau_1/1.jpg";
 import img3 from "../assets/Salon/3.jpg";
@@ -39,7 +38,6 @@ export default function Accueil() {
         image={img1}
         url="https://elisabeth-constantin.fr/accueil"
       />
-      <OrganizationSchema />
       <div className="accueil">
         <h1 className="hero-title">Elisabeth Constantin</h1>
 

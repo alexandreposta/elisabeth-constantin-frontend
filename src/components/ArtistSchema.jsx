@@ -1,6 +1,6 @@
-import { Helmet } from 'react-helmet-async';
+import SchemaScript from './SchemaScript';
 
-export default function ArtistSchema({
+export default function ArtistSchema( {
   name = "Élisabeth Constantin",
   url = "https://elisabeth-constantin.fr",
   image = "https://elisabeth-constantin.fr/logo.png",
@@ -35,10 +35,6 @@ export default function ArtistSchema({
   };
 
   return (
-    <Helmet>
-      <script type="application/ld+json">
-        {JSON.stringify(schema)}
-      </script>
-    </Helmet>
+    <SchemaScript schema={schema} id="artist-schema" />
   );
 }

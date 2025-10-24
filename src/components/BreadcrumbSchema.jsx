@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+import SchemaScript from './SchemaScript';
 
 /**
  * Fil d'Ariane avec Schema.org pour améliorer la navigation Google
@@ -23,11 +23,7 @@ const BreadcrumbSchema = ({ items }) => {
   };
 
   return (
-    <Helmet>
-      <script type="application/ld+json">
-        {JSON.stringify(breadcrumbSchema)}
-      </script>
-    </Helmet>
+    <SchemaScript schema={breadcrumbSchema} id="breadcrumb-schema" />
   );
 };
 

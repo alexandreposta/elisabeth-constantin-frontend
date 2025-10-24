@@ -1,0 +1,34 @@
+.newsletter-subscribe {
+  margin: 12px 0;
+}
+.newsletter-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.newsletter-input-row {
+  display: flex;
+  gap: 8px;
+}
+.newsletter-input-row input[type="email"] {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+.newsletter-input-row button {
+  background: #1f2937;
+  color: #fff;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.newsletter-success {
+  margin-top: 8px;
+  color: #065f46;
+}
+.newsletter-error {
+  margin-top: 8px;
+  color: #b91c1c;
+}

@@ -1,14 +1,15 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '../components/SEOHead';
 import '../styles/legal.css';
 
 export default function PolitiqueCookies() {
   return (
     <div className="legal-page-container">
-      <Helmet>
-        <title>Politique de Cookies - Élisabeth Constantin</title>
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
+      <SEOHead
+        title="Politique de Cookies - Élisabeth Constantin"
+        description="Politique de cookies du site elisabeth-constantin.fr"
+        noindex={true}
+      />
       <div className="legal-content">
         <h1>Politique de Cookies</h1>
         
