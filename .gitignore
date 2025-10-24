@@ -88,3 +88,5 @@ workbox-*.js
 #Docker
 docker-compose.yml
 Dockerfile
+.dockerignore
+.env.docker
