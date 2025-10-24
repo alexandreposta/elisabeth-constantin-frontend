@@ -334,19 +334,66 @@
 .discover-container {
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  align-items: start;
+  gap: 2.5rem;
   padding: 0 2rem;
 }
-.discover-image { flex: 0.8; max-width: 400px; }
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+.discover-image { width: 100%; max-width: 420px; align-self: start; }
 .discover-image img {
   width: 100%;
   height: auto;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.1);
 }
-.discover-content { flex: 1.5; }
+/* discover-content uses default layout in right column */
+
+/* Newsletter box placed under the image, left of the text */
+.newsletter-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 6px 20px rgba(44,62,80,0.06);
+  border: 1px solid #f0f0f0;
+  max-width: 420px;
+}
+.newsletter-title {
+  font-size: 1.1rem;
+  margin: 0 0 0.25rem 0;
+  color: #2c3e50;
+  font-weight: 600;
+}
+.newsletter-sub {
+  margin: 0 0 0.75rem 0;
+  color: #6b7a89;
+  font-size: 0.95rem;
+}
+.newsletter-form { display: flex; flex-direction: column; gap: 0.6rem; }
+.newsletter-input {
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #e6e9ee;
+  font-size: 0.95rem;
+}
+.newsletter-consent { display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; color: #5a6c7d; }
+.newsletter-submit {
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  background: linear-gradient(90deg,#667eea,#764ba2);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+.newsletter-status { margin-top: 0.6rem; font-size: 0.95rem; }
+.newsletter-status.ok { color: #155724; }
+.newsletter-status.error { color: #721c24; }
 .discover-text {
   font-size: 1.2rem;
   color: #5a6c7d;
@@ -433,7 +480,7 @@
     min-width: 150px; min-height: 150px;
   }
   .discover-container {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 2rem;
     padding: 0 1rem;
   }
@@ -475,7 +522,7 @@
     max-width: 600px;
   }
   .discover-section { padding: 2rem 0; }
-  .discover-container { flex-direction: column; gap: 2rem; padding: 0 1rem; }
+  .discover-container { grid-template-columns: 1fr; gap: 2rem; padding: 0 1rem; }
   .discover-image, .discover-content { width: 100%; max-width: 100%; }
   .discover-image { flex: none; max-width: 60%; }
   .discover-content { padding: 2rem 1rem; }

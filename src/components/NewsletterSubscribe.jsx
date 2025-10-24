@@ -1,78 +1,110 @@
 import { useState } from 'react';
-import { API_URL } from '../api/config';
+import { subscribeToNewsletter } from '../api/newsletter';
 import '../styles/newsletter.css';
 
 export default function NewsletterSubscribe() {
   const [email, setEmail] = useState('');
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(null);
-  const [promo, setPromo] = useState(null);
-  const [error, setError] = useState(null);
+  const [status, setStatus] = useState(null); // 'success' | 'error' | null
+  const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!consent) {
+      setStatus('error');
+      setMessage('Vous devez accepter de recevoir des emails pour vous inscrire.');
+      return;
+    }
+
     setLoading(true);
-    setMessage(null);
-    setError(null);
-    setPromo(null);
+    setStatus(null);
+    setMessage('');
 
     try {
-      const res = await fetch(`${API_URL}/subscribe/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-
-      if (res.status === 409) {
-        setError('Cet email est déjà abonné.');
-        setLoading(false);
-        return;
-      }
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.detail || 'Erreur lors de l abonnement');
-      }
-
-      const data = await res.json();
-      setMessage('Merci ! Vous êtes abonné(e) à la newsletter.');
-      setPromo(data.promo_code || null);
+      const data = await subscribeToNewsletter(email, consent);
+      setStatus('success');
+      setMessage('📧 Email de confirmation envoyé ! Vérifiez votre boîte email pour confirmer votre inscription.');
       setEmail('');
+      setConsent(false);
     } catch (err) {
-      console.error(err);
-      setError(err.message || 'Erreur réseau');
+      setStatus('error');
+      if (err.message.includes('409') || err.message.includes('déjà abonné')) {
+        setMessage('Cet email est déjà inscrit à la newsletter.');
+      } else {
+        setMessage(err.message || 'Une erreur est survenue. Veuillez réessayer.');
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="newsletter-subscribe">
+    <div className="newsletter-container">
+      <div className="newsletter-header">
+        <h3 className="newsletter-title">Newsletter</h3>
+        <p className="newsletter-subtitle">
+          Recevez en avant-première les nouvelles œuvres et événements
+        </p>
+      </div>
+
       <form onSubmit={handleSubmit} className="newsletter-form">
-        <label htmlFor="newsletter-email">Inscrivez-vous à la newsletter</label>
-        <div className="newsletter-input-row">
+        <div className="newsletter-input-group">
           <input
-            id="newsletter-email"
             type="email"
-            placeholder="Votre email"
+            placeholder="votre@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="newsletter-input"
+            aria-label="Adresse email"
           />
-          <button type="submit" disabled={loading}>{loading ? 'Envoi...' : "S'abonner"}</button>
+          <button 
+            type="submit" 
+            disabled={loading || !email}
+            className="newsletter-button"
+          >
+            {loading ? (
+              <span className="newsletter-button-loading">
+                <svg className="spinner" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" fill="none" />
+                </svg>
+              </span>
+            ) : (
+              <span>S'inscrire</span>
+            )}
+          </button>
         </div>
+
+        <label className="newsletter-consent">
+          <input
+            type="checkbox"
+            checked={consent}
+            onChange={(e) => setConsent(e.target.checked)}
+            className="newsletter-checkbox"
+          />
+          <span className="newsletter-consent-text">
+            J'accepte de recevoir des emails et j'ai lu la{' '}
+            <a href="/politique-confidentialite" className="newsletter-link">
+              politique de confidentialité
+            </a>
+          </span>
+        </label>
+
+        {status && (
+          <div className={`newsletter-message newsletter-message-${status}`}>
+            <div className="newsletter-message-icon">
+              {status === 'success' ? '✓' : '!'}
+            </div>
+            <p className="newsletter-message-text">{message}</p>
+          </div>
+        )}
       </form>
 
-      {message && (
-        <div className="newsletter-success">
-          <p>{message}</p>
-          {promo && <p>Voici votre code promo : <strong>{promo}</strong> (10% sur votre prochaine commande)</p>}
-        </div>
-      )}
-
-      {error && (
-        <div className="newsletter-error">{error}</div>
-      )}
+      <p className="newsletter-footer-text">
+        Désabonnement possible à tout moment via le lien dans chaque email.
+      </p>
     </div>
   );
 }

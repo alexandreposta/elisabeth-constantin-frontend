@@ -15,6 +15,9 @@ import MentionsLegales from './pages/MentionsLegales';
 import PolitiqueConfidentialite from './pages/PolitiqueConfidentialite';
 import ConditionsGeneralesVente from './pages/ConditionsGeneralesVente';
 import PolitiqueCookies from './pages/PolitiqueCookies';
+import NewsletterConfirmed from './pages/NewsletterConfirmed';
+import NewsletterUnsubscribed from './pages/NewsletterUnsubscribed';
+import NewsletterError from './pages/NewsletterError';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -63,6 +66,11 @@ function AppContent() {
         <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
         <Route path="/conditions-generales-vente" element={<ConditionsGeneralesVente />} />
         <Route path="/politique-cookies" element={<PolitiqueCookies />} />
+        
+        {/* Pages Newsletter */}
+        <Route path="/newsletter/confirmed" element={<NewsletterConfirmed />} />
+        <Route path="/newsletter/unsubscribed" element={<NewsletterUnsubscribed />} />
+        <Route path="/newsletter/error" element={<NewsletterError />} />
         
         {/* Routes d'administration non protégées */}
         <Route path="/admin/login" element={<AdminLogin />} />

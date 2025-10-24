@@ -1,0 +1,252 @@
+/* Pages Newsletter - Design minimaliste moderne */
+.newsletter-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.newsletter-page-container {
+  max-width: 600px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  border: 1px solid rgba(44, 62, 80, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.newsletter-page-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter-page-icon svg {
+  width: 48px;
+  height: 48px;
+  stroke-width: 2;
+}
+
+.newsletter-page-icon.success {
+  background: rgba(6, 95, 70, 0.1);
+  color: #065f46;
+}
+
+.newsletter-page-icon.error {
+  background: rgba(185, 28, 28, 0.1);
+  color: #b91c1c;
+}
+
+.newsletter-page-icon.info {
+  background: rgba(44, 62, 80, 0.1);
+  color: #2c3e50;
+}
+
+.newsletter-page-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  color: #2c3e50;
+  margin: 0 0 1rem 0;
+}
+
+.newsletter-page-description {
+  font-size: 1.05rem;
+  color: #5a6c7d;
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+  font-weight: 300;
+}
+
+.newsletter-page-description.secondary {
+  font-size: 0.95rem;
+  color: #888;
+  font-style: italic;
+}
+
+/* Section code promo */
+.promo-code-section {
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.05) 0%, rgba(6, 95, 70, 0.1) 100%);
+  border: 2px dashed rgba(6, 95, 70, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+.promo-code-text {
+  font-size: 1rem;
+  color: #2c3e50;
+  margin: 0 0 1rem 0;
+  font-weight: 500;
+}
+
+.promo-code-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.promo-code {
+  font-family: 'Courier New', monospace;
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #065f46;
+  letter-spacing: 2px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: 2px solid rgba(6, 95, 70, 0.2);
+}
+
+.promo-code-copy {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #065f46;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.promo-code-copy:hover {
+  background: #064e3b;
+  transform: scale(1.05);
+}
+
+.promo-code-copy:active {
+  transform: scale(0.95);
+}
+
+.promo-code-copy svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5;
+}
+
+.promo-code-info {
+  font-size: 0.9rem;
+  color: #065f46;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Actions */
+.newsletter-page-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.newsletter-page-button {
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+}
+
+.newsletter-page-button.primary {
+  background: #2c3e50;
+  color: #fff;
+}
+
+.newsletter-page-button.primary:hover {
+  background: #1a252f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
+}
+
+.newsletter-page-button.secondary {
+  background: transparent;
+  color: #2c3e50;
+  border: 2px solid #2c3e50;
+}
+
+.newsletter-page-button.secondary:hover {
+  background: #2c3e50;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .newsletter-page {
+    padding: 1rem 0.5rem;
+  }
+
+  .newsletter-page-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .newsletter-page-title {
+    font-size: 1.5rem;
+  }
+
+  .newsletter-page-description {
+    font-size: 0.95rem;
+  }
+
+  .promo-code {
+    font-size: 1.5rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .newsletter-page-actions {
+    flex-direction: column;
+  }
+
+  .newsletter-page-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .newsletter-page-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .newsletter-page-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .newsletter-page-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .newsletter-page-title {
+    font-size: 1.35rem;
+  }
+
+  .promo-code {
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+  }
+}
