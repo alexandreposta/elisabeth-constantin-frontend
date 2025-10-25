@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/accueil.css";
 import { getAllArtworks } from "../api/artworks";
+import { getThumbnailFallback } from "../utils/image";
 import { useMosaicAnimation } from "../hooks/useMosaicAnimation";
 import SEO from "../components/SEO";
 import img1 from "../assets/Salon/1.jpg";
@@ -199,7 +200,7 @@ export default function Accueil() {
             >
               <img
                 className="gallery-image"
-                src={artwork.main_image}
+                src={getThumbnailFallback(artwork.main_image, artwork.thumbnail)}
                 alt={artwork.title}
                 loading="lazy"
               />

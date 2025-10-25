@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getArtworksByGallery } from '../api/artworks';
 import SortButton from '../components/SortButton';
+import { getThumbnailFallback } from '../utils/image';
 import SEO from '../components/SEO';
 import '../styles/galerieType.css';
 
@@ -186,7 +187,7 @@ export default function GalerieType() {
           <div key={artwork._id} className="artwork-card" onClick={() => handleArtworkClick(artwork)}>
             <div className="artwork-image-container">
               <img 
-                src={artwork.main_image} 
+                src={getThumbnailFallback(artwork.main_image, artwork.thumbnail)} 
                 alt={artwork.title} 
                 className="artwork-image" 
                 loading="lazy"
