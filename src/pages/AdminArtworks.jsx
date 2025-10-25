@@ -13,7 +13,6 @@ import {
   createArtwork,
   updateArtwork,
   deleteArtworkById,
-  getAllGalleryTypes,
 } from "../api/artworks";
 import { getAllArtworkTypes } from "../api/artworkTypes";
 
