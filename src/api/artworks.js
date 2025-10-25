@@ -75,7 +75,25 @@ export async function getAllGalleryTypes() {
 }
 
 export async function getArtworksByGallery(galleryType) {
-  const res = await fetch(`${API}/by-gallery/${encodeURIComponent(galleryType)}`);
+  // Décoder d'abord pour éviter le double-encodage si galleryType est déjà encodé
+  let decoded = galleryType;
+  try {
+    decoded = decodeURIComponent(galleryType);
+  } catch (e) {
+    // si decodeURIComponent échoue, on garde la valeur d'origine
+    decoded = galleryType;
+  }
+
+  const url = `${API}/by-gallery/${encodeURIComponent(decoded)}`;
+  const res = await fetch(url);
+  // Si la réponse est du HTML (index.html), probablement VITE_API_URL mal configurée ou rewrite qui sert le frontend
+  const contentType = res.headers.get('content-type') || '';
+  if (contentType.includes('text/html')) {
+    const body = await res.text();
+    console.error('API response is HTML (possible misconfigured API URL). Requested:', url);
+    console.error('Response body starts with:', body.slice(0, 200));
+    throw new Error('API misconfigured: received HTML instead of JSON. Check VITE_API_URL and vercel rewrites.');
+  }
   if (!res.ok) throw new Error("Impossible de récupérer les œuvres de cette galerie");
   return await res.json();
 }
