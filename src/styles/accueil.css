@@ -474,6 +474,31 @@
 .redistribute-btn:hover .trefle-icon:not(.spinning) { transform: scale(1.1); }
 
 /* Responsive styles */
+@media (min-width: 1025px) {
+  .discover-container {
+    grid-template-columns: 420px 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .discover-image {
+    max-width: 420px;
+    width: 100%;
+  }
+  .newsletter-container {
+    max-width: 420px;
+    width: 100%;
+  }
+  .discover-content {
+    width: 100%;
+  }
+}
+
 @media (max-width: 1024px) {
   .mosaic-item-absolute {
     max-width: 200px; max-height: 200px;
@@ -484,8 +509,27 @@
     gap: 2rem;
     padding: 0 1rem;
   }
-  .discover-image { flex: none; max-width: 60%; align-self: center; }
-  .discover-content { width: 100%; text-align: center; }
+  .left-column {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+  }
+  .discover-image { 
+    flex: none; 
+    max-width: 300px;
+    width: 100%;
+  }
+  .newsletter-container {
+    flex: none;
+    max-width: 400px;
+    width: 100%;
+  }
+  .discover-content { 
+    width: 100%; 
+    text-align: center; 
+  }
   .discover-text { font-size: 1.8rem; }
 }
 

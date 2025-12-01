@@ -5,6 +5,7 @@ import { getAllArtworks } from "../api/artworks";
 import { getThumbnailFallback } from "../utils/image";
 import { useMosaicAnimation } from "../hooks/useMosaicAnimation";
 import SEO from "../components/SEO";
+import NewsletterSubscribe from "../components/NewsletterSubscribe";
 import img1 from "../assets/Salon/1.jpg";
 import img2 from "../assets/Tableau_1/1.jpg";
 import img3 from "../assets/Salon/3.jpg";
@@ -18,9 +19,6 @@ import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 
 export default function Accueil() {
   const [artworks, setArtworks] = useState([]);
-  const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [newsletterConsent, setNewsletterConsent] = useState(false);
-  const [newsletterStatus, setNewsletterStatus] = useState(null);
   const mosaicImages = [img1, img2, img3, img4, img5, img6, img7];
   
   const { mosaicLayout, isAnimating, redistributeImages, imagesLoaded } = useMosaicAnimation(mosaicImages);
@@ -110,47 +108,7 @@ export default function Accueil() {
             <div className="newsletter-container">
               <h3 className="newsletter-title">Inscrivez-vous à la newsletter</h3>
               <p className="newsletter-sub">Recevez les nouveautés et offres exclusives.</p>
-              <form
-                className="newsletter-form"
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  setNewsletterStatus(null);
-                  try {
-                    const res = await fetch('/api/newsletter/subscribe', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ email: newsletterEmail, consent_accepted: newsletterConsent })
-                    });
-                    if (res.ok) {
-                      setNewsletterStatus({ ok: true, msg: 'Email envoyé. Vérifiez votre boîte pour confirmer.' });
-                    } else {
-                      const json = await res.json();
-                      setNewsletterStatus({ ok: false, msg: json.detail || 'Erreur lors de l\'envoi.' });
-                    }
-                  } catch (err) {
-                    setNewsletterStatus({ ok: false, msg: 'Erreur réseau. Veuillez réessayer.' });
-                  }
-                }}
-              >
-                <input
-                  type="email"
-                  placeholder="Votre email"
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  required
-                  className="newsletter-input"
-                />
-                <label className="newsletter-consent">
-                  <input type="checkbox" checked={newsletterConsent} onChange={(e) => setNewsletterConsent(e.target.checked)} />
-                  <span>J'accepte la politique de confidentialité</span>
-                </label>
-                <button className="newsletter-submit" type="submit">S'inscrire</button>
-              </form>
-              {newsletterStatus && (
-                <div className={`newsletter-status ${newsletterStatus.ok ? 'ok' : 'error'}`}>
-                  {newsletterStatus.msg}
-                </div>
-              )}
+              <NewsletterSubscribe />
             </div>
           </div>
 

@@ -12,9 +12,17 @@ export default function NewsletterSubscribe() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Validation de l'email côté frontend
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setStatus('error');
+      setMessage('Adresse email invalide.');
+      return;
+    }
+    
     if (!consent) {
       setStatus('error');
-      setMessage('Vous devez accepter de recevoir des emails pour vous inscrire.');
+      setMessage('Acceptez la politique de confidentialité.');
       return;
     }
 
@@ -25,23 +33,18 @@ export default function NewsletterSubscribe() {
     try {
       const data = await subscribeToNewsletter(email, consent);
       setStatus('success');
-      setMessage('📧 Email de confirmation envoyé ! Vérifiez votre boîte email pour confirmer votre inscription.');
+      setMessage(data.message || 'Email de vérification envoyé.');
       setEmail('');
       setConsent(false);
     } catch (err) {
       setStatus('error');
-      if (err.message.includes('409') || err.message.includes('déjà abonné')) {
-        setMessage('Cet email est déjà inscrit à la newsletter.');
-      } else {
-        setMessage(err.message || 'Une erreur est survenue. Veuillez réessayer.');
-      }
+      setMessage(err.message || 'Erreur lors de l\'inscription.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="newsletter-container">
       <form onSubmit={handleSubmit} className="newsletter-form">
         <div className="newsletter-input-group">
           <input
@@ -78,8 +81,8 @@ export default function NewsletterSubscribe() {
             className="newsletter-checkbox"
           />
           <span className="newsletter-consent-text">
-            J'accepte de recevoir des emails et j'ai lu la{' '}
-            <a href="/politique-confidentialite" className="newsletter-link">
+            J'accepte la{' '}
+            <a href="/politique-confidentialite" className="newsletter-link" target="_blank" rel="noopener noreferrer">
               politique de confidentialité
             </a>
           </span>
@@ -94,6 +97,5 @@ export default function NewsletterSubscribe() {
           </div>
         )}
       </form>
-    </div>
   );
 }
