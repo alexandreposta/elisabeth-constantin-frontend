@@ -32,7 +32,7 @@ const countryToIsoCode = {
 };
 
 // Composant pour le formulaire de paiement
-const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
+const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) => {
   const navigate = useNavigate();
   const { items, clearCart, getTotalPrice } = useCart();
   const stripe = useStripe();
@@ -44,6 +44,9 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [cardComplete, setCardComplete] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState(false); // Nouveau état pour éviter la redirection après paiement
+  const [discount, setDiscount] = useState(0); // Pourcentage de réduction
+  const [promoCode, setPromoCode] = useState(null); // Code promo de l'abonné
+  const [discountMessage, setDiscountMessage] = useState(''); // Message de confirmation
   
   const [buyerInfo, setBuyerInfo] = useState({
     email: '',
@@ -56,7 +59,43 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
     phone: '',
   });
 
-  const total = getTotalPrice();
+  const baseTotal = getTotalPrice();
+  const discountAmount = (baseTotal * discount) / 100;
+  const total = baseTotal - discountAmount;
+
+  // Vérifier si l'email est abonné quand il change
+  const checkSubscriberDiscount = async (email) => {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return;
+    }
+    
+    
+    try {
+      const url = `${API_URL}/newsletter/check-subscriber/${encodeURIComponent(email)}`;
+      
+      const response = await fetch(url);
+      
+      if (response.ok) {
+        const data = await response.json();
+        
+        if (data.is_subscriber && data.discount > 0) {
+          setDiscount(data.discount);
+          setPromoCode(data.promo_code);
+          setDiscountMessage(data.message || `Réduction de ${data.discount}% appliquée`);
+          
+        } else {
+          setDiscount(0);
+          setPromoCode(null);
+          setDiscountMessage(data.message || '');
+          
+        }
+      } else {
+        console.error('API error:', response.status, response.statusText);
+      }
+    } catch (err) {
+      console.error('Erreur lors de la vérification de l\'abonné:', err);
+    }
+  };
 
   useEffect(() => {
     // Rediriger vers le panier si celui-ci est vide ET que le paiement n'est pas terminé
@@ -66,10 +105,16 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
   }, [items, navigate, paymentCompleted]);
 
   const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setBuyerInfo({
       ...buyerInfo,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+    
+    // Vérifier l'abonné si c'est l'email qui change
+    if (name === 'email') {
+      checkSubscriberDiscount(value);
+    }
   };
 
   const handlePaymentMethodChange = (method) => {
@@ -178,6 +223,18 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
       if (paymentIntent && paymentIntent.status === 'succeeded') {
         // Marquer le paiement comme terminé pour éviter la redirection
         setPaymentCompleted(true);
+        
+        // Si un code promo a été utilisé, le marquer comme utilisé
+        if (discount > 0 && buyerInfo.email) {
+          try {
+            await fetch(`${API_URL}/newsletter/mark-promo-used/${encodeURIComponent(buyerInfo.email)}`, {
+              method: 'POST'
+            });
+            
+          } catch (err) {
+            console.error('Error marking promo as used:', err);
+          }
+        }
         
         // Stocker les détails de la commande avant de vider le panier
         const orderDetails = {
@@ -448,6 +505,14 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder }) => {
     </div>
   );
 
+  // Notifier le parent des changements de discount
+  React.useEffect(() => {
+    if (onDiscountChange) {
+      onDiscountChange({ discount, discountMessage, baseTotal });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [discount, discountMessage, baseTotal]);
+
   return (
     <div className="checkout-form">
       <div className="checkout-steps-indicator">
@@ -487,12 +552,17 @@ export default function Checkout() {
   const { items } = useCart();
   const navigate = useNavigate();
   const [confirmedOrder, setConfirmedOrder] = useState(null);
+  const [discountInfo, setDiscountInfo] = useState({ discount: 0, discountMessage: '', baseTotal: 0 });
   
   useEffect(() => {
     if (items.length === 0 && !confirmedOrder) {
       navigate('/panier');
     }
   }, [items, navigate, confirmedOrder]);
+  
+  const handleDiscountChange = React.useCallback((info) => {
+    setDiscountInfo(info);
+  }, []);
   
   return (
     <>
@@ -505,11 +575,20 @@ export default function Checkout() {
       <div className="checkout-main">
         <div className="checkout-content">
           <Elements stripe={stripePromise} options={stripeOptions}>
-            <CheckoutForm confirmedOrder={confirmedOrder} setConfirmedOrder={setConfirmedOrder} />
+            <CheckoutForm 
+              confirmedOrder={confirmedOrder} 
+              setConfirmedOrder={setConfirmedOrder}
+              onDiscountChange={handleDiscountChange}
+            />
           </Elements>
         </div>
         
-        <CheckoutSummary confirmedOrder={confirmedOrder} />
+        <CheckoutSummary 
+          confirmedOrder={confirmedOrder} 
+          discount={discountInfo.discount} 
+          discountMessage={discountInfo.discountMessage} 
+          baseTotal={discountInfo.baseTotal} 
+        />
       </div>
     </div>
     </>
@@ -517,12 +596,14 @@ export default function Checkout() {
 }
 
 // Composant séparé pour le résumé de commande
-const CheckoutSummary = ({ confirmedOrder }) => {
+const CheckoutSummary = ({ confirmedOrder, discount = 0, discountMessage = '', baseTotal = 0 }) => {
   const { items } = useCart();
   
   // Utiliser soit les items du panier, soit ceux de la commande confirmée
   const displayItems = confirmedOrder?.items || items;
-  const displayTotal = confirmedOrder?.total || items.reduce((sum, item) => sum + item.price, 0);
+  const calculatedBaseTotal = confirmedOrder ? confirmedOrder.total : (baseTotal || items.reduce((sum, item) => sum + item.price, 0));
+  const discountAmount = (calculatedBaseTotal * discount) / 100;
+  const displayTotal = calculatedBaseTotal - discountAmount;
   
   return (
     <div className="checkout-summary">
@@ -544,8 +625,14 @@ const CheckoutSummary = ({ confirmedOrder }) => {
       <div className="checkout-summary-totals">
         <div className="summary-row">
           <span>Sous-total</span>
-          <span>{displayTotal.toFixed(2)} €</span>
+          <span>{calculatedBaseTotal.toFixed(2)} €</span>
         </div>
+        {!confirmedOrder && discount > 0 && (
+          <div className="summary-row discount">
+            <span>🎉 {discountMessage} (-{discount}%)</span>
+            <span>-{discountAmount.toFixed(2)} €</span>
+          </div>
+        )}
         <div className="summary-row">
           <span>Livraison</span>
           <span>Offerte</span>

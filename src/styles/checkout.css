@@ -384,6 +384,19 @@
   color: #555;
 }
 
+.summary-row.discount {
+  color: #27ae60;
+  font-weight: 500;
+  background-color: #e8f8f0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+}
+
+.summary-row.discount span:first-child {
+  font-size: 0.85rem;
+}
+
 .summary-row.total {
   margin-top: 0.5rem;
   padding-top: 0.5rem;
