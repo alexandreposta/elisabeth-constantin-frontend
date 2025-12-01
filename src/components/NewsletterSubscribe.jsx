@@ -42,13 +42,6 @@ export default function NewsletterSubscribe() {
 
   return (
     <div className="newsletter-container">
-      <div className="newsletter-header">
-        <h3 className="newsletter-title">Newsletter</h3>
-        <p className="newsletter-subtitle">
-          Recevez en avant-première les nouvelles œuvres et événements
-        </p>
-      </div>
-
       <form onSubmit={handleSubmit} className="newsletter-form">
         <div className="newsletter-input-group">
           <input
@@ -101,10 +94,6 @@ export default function NewsletterSubscribe() {
           </div>
         )}
       </form>
-
-      <p className="newsletter-footer-text">
-        Désabonnement possible à tout moment via le lien dans chaque email.
-      </p>
     </div>
   );
 }

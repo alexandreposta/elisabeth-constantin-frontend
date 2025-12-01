@@ -8,11 +8,19 @@
   margin-top: 3rem;
 }
 
+.footer-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
 .footer-social {
   display: flex;
   justify-content: center;
   gap: 2.5rem;
-  margin-bottom: 1.2rem;
 }
 
 .footer-icon {
@@ -89,9 +97,13 @@
     padding: 2rem 0.5rem 1rem 0.5rem;
   }
   
+  .footer-top {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
   .footer-social {
     gap: 1.5rem;
-    margin-bottom: 1.5rem;
   }
   
   .footer-icon {

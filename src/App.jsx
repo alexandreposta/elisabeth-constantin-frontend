@@ -17,6 +17,7 @@ import ConditionsGeneralesVente from './pages/ConditionsGeneralesVente';
 import PolitiqueCookies from './pages/PolitiqueCookies';
 import NewsletterConfirmed from './pages/NewsletterConfirmed';
 import NewsletterUnsubscribed from './pages/NewsletterUnsubscribed';
+import NewsletterUnsubscribe from './pages/NewsletterUnsubscribe';
 import NewsletterError from './pages/NewsletterError';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -69,6 +70,7 @@ function AppContent() {
         
         {/* Pages Newsletter */}
         <Route path="/newsletter/confirmed" element={<NewsletterConfirmed />} />
+        <Route path="/newsletter/unsubscribe" element={<NewsletterUnsubscribe />} />
         <Route path="/newsletter/unsubscribed" element={<NewsletterUnsubscribed />} />
         <Route path="/newsletter/error" element={<NewsletterError />} />
         

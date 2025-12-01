@@ -5,10 +5,8 @@ import NewsletterSubscribe from './NewsletterSubscribe';
 export default function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-newsletter">
-        <NewsletterSubscribe />
-      </div>
-      <div className="footer-social">
+      <div className="footer-top">
+        <div className="footer-social">
         <a
           className="footer-icon"
           href="https://www.instagram.com/elisabeth_constantin/?hl=fr"
@@ -36,6 +34,10 @@ export default function Footer() {
         >
           <FaYoutube />
         </a>
+        </div>
+        <div className="footer-newsletter">
+          <NewsletterSubscribe />
+        </div>
       </div>
       <div className="footer-links">
         <a href="/mes-commandes" className="footer-link">
