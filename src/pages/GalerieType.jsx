@@ -44,10 +44,10 @@ export default function GalerieType() {
     }
   };
 
-  const formatGalleryTitle = (type) => {
+  function formatGalleryTitle(type) {
     if (!type) return '';
     return type.charAt(0).toUpperCase() + type.slice(1);
-  };
+  }
 
   const handleArtworkClick = (artwork) => {
     // Tracker la vue d'œuvre pour les analytics
