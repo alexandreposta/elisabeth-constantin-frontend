@@ -1,9 +1,11 @@
 import { API_URL } from './config';
+import { getCurrentLanguage, withLanguageQuery } from '../utils/language';
 
 const API = `${API_URL}/artworks`;
 
 export async function getAllArtworks() {
-  const res = await fetch(`${API}/`, {
+  const url = withLanguageQuery(`${API}/`, getCurrentLanguage());
+  const res = await fetch(url, {
     credentials: 'include',
   });
   if (!res.ok) throw new Error("Impossible de récupérer les œuvres");  
@@ -11,7 +13,8 @@ export async function getAllArtworks() {
 }
 
 export async function getArtworkById(id) {
-  const res = await fetch(`${API}/${id}`, {
+  const url = withLanguageQuery(`${API}/${id}`, getCurrentLanguage());
+  const res = await fetch(url, {
     credentials: 'include',
   });
   if (!res.ok) throw new Error("Œuvre introuvable");
@@ -84,7 +87,8 @@ export async function getArtworksByGallery(galleryType) {
     decoded = galleryType;
   }
 
-  const url = `${API}/by-gallery/${encodeURIComponent(decoded)}`;
+  const lang = getCurrentLanguage();
+  const url = withLanguageQuery(`${API}/by-gallery/${encodeURIComponent(decoded)}`, lang);
   const res = await fetch(url);
   // Si la réponse est du HTML (index.html), probablement VITE_API_URL mal configurée ou rewrite qui sert le frontend
   const contentType = res.headers.get('content-type') || '';

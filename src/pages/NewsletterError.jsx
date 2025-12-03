@@ -1,50 +1,20 @@
 import { useSearchParams, Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import '../styles/newsletterPages.css';
-
-const ERROR_MESSAGES = {
-  invalid_token: {
-    title: 'Lien invalide',
-    message: 'Ce lien de confirmation n\'est plus valide ou a déjà été utilisé.',
-    help: 'Le lien de confirmation expire après 48 heures. Vous pouvez demander un nouveau lien depuis notre formulaire d\'inscription.'
-  },
-  not_found: {
-    title: 'Email non trouvé',
-    message: 'Aucune inscription ne correspond à cet email.',
-    help: 'Veuillez vérifier que vous utilisez le bon lien ou réessayer de vous inscrire.'
-  },
-  update_failed: {
-    title: 'Erreur de mise à jour',
-    message: 'Une erreur est survenue lors de la mise à jour de votre inscription.',
-    help: 'Veuillez réessayer plus tard ou nous contacter si le problème persiste.'
-  },
-  invalid_unsubscribe_token: {
-    title: 'Lien de désinscription invalide',
-    message: 'Ce lien de désinscription n\'est plus valide.',
-    help: 'Veuillez utiliser le lien présent dans l\'email le plus récent que vous avez reçu.'
-  },
-  unsubscribe_failed: {
-    title: 'Erreur de désinscription',
-    message: 'Une erreur est survenue lors de la désinscription.',
-    help: 'Veuillez réessayer ou nous contacter directement.'
-  },
-  default: {
-    title: 'Une erreur est survenue',
-    message: 'Nous n\'avons pas pu traiter votre demande.',
-    help: 'Veuillez réessayer plus tard ou nous contacter si le problème persiste.'
-  }
-};
+import { useTranslation } from 'react-i18next';
 
 export default function NewsletterError() {
   const [searchParams] = useSearchParams();
   const reason = searchParams.get('reason') || 'default';
-  const error = ERROR_MESSAGES[reason] || ERROR_MESSAGES.default;
+  const { t } = useTranslation();
+  const errorMessages = t('newsletterPages.error.reasons', { returnObjects: true });
+  const error = errorMessages[reason] || errorMessages.default;
 
   return (
     <>
       <SEOHead
-        title="Erreur - Newsletter"
-        description="Une erreur est survenue"
+        title={t('newsletterPages.error.seoTitle')}
+        description={t('newsletterPages.error.seoDescription')}
         noindex={true}
       />
 
@@ -70,13 +40,13 @@ export default function NewsletterError() {
 
           <div className="newsletter-page-actions">
             <Link to="/" className="newsletter-page-button primary">
-              Retour à l'accueil
+              {t('newsletterPages.error.buttons.home')}
             </Link>
             <a 
               href="mailto:contact@elisabeth-constantin.fr" 
               className="newsletter-page-button secondary"
             >
-              Nous contacter
+              {t('newsletterPages.error.buttons.contact')}
             </a>
           </div>
         </div>

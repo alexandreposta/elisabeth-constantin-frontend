@@ -1,0 +1,464 @@
+{
+  "common": {},
+  "seo": {},
+  "header": {
+    "links": {
+      "home": "Accueil",
+      "gallery": "Galerie",
+      "events": "Événements",
+      "cart": "Panier"
+    },
+    "languageToggle": "Changer de langue",
+    "galleryTypes": {
+      "peinture": "Peinture",
+      "paint": "Peinture",
+      "plan_3d": "Plan 3D",
+      "plan3d": "Plan 3D",
+      "3d": "3D",
+      "tableau_3d": "Tableau 3D",
+      "sculpture": "Sculpture",
+      "aquarelle": "Aquarelle"
+    }
+  },
+  "footer": {
+    "links": {
+      "orders": "Suivi de commandes",
+      "mentions": "Mentions légales",
+      "privacy": "Politique de confidentialité",
+      "terms": "CGV",
+      "cookies": "Cookies",
+      "admin": "Dashboard Admin"
+    },
+    "contact": "Pour toute question, contactez-moi via les réseaux sociaux.",
+    "caption": "© {{year}} Elisabeth Constantin. Tous droits réservés."
+  },
+  "newsletterSubscribe": {
+    "placeholder": "votre@email.com",
+    "submit": "S'inscrire",
+    "loading": "Envoi en cours...",
+    "errors": {
+      "invalidEmail": "Adresse email invalide.",
+      "noConsent": "Acceptez la politique de confidentialité.",
+      "generic": "Erreur lors de l'inscription."
+    },
+    "success": "Email de vérification envoyé.",
+    "consent": "J'accepte la <0>politique de confidentialité</0>.",
+    "ariaLabel": "Adresse email"
+  },
+  "home": {
+    "seo": {
+      "title": "Accueil - Élisabeth Constantin | Artiste Peintre Multiplan 3D",
+      "description": "Découvrez l'univers artistique d'Élisabeth Constantin, artiste peintre spécialisée dans la technique unique du multiplan 3D. Explorez ses œuvres originales, peintures et créations événementielles.",
+      "keywords": "Elisabeth Constantin, artiste peintre, multiplan 3D, peinture, art contemporain, galerie art, œuvres originales, plan 3D"
+    },
+    "heroTitle": "Elisabeth Constantin",
+    "mosaic": {
+      "loading": "Chargement de la galerie..."
+    },
+    "redistribute": "Redistribuer les images",
+    "newsletter": {
+      "title": "Inscrivez-vous à la newsletter",
+      "subtitle": "Recevez les nouveautés et offres exclusives."
+    },
+    "discover": {
+      "title": "Mon univers",
+      "paragraphs": [
+        "Dès l'enfance, je suis attirée par l'art. Formée à Lyon, je construis depuis plus de 25 ans une œuvre ancrée dans le geste pictural, la couleur et l'observation du réel.",
+        "En 2017, un tournant majeur se produit : j'abandonne le support classique au profit d'un matériau transparent — le verre synthétique. Je l'apprivoise et le transforme en territoire d'expérimentation.",
+        "Ces strates transparentes, une fois superposées, donnent naissance à une image tridimensionnelle suspendue dans l'espace.",
+        "<strong>Procédé et perception</strong><br/>L'œuvre devient mouvement : elle vit à travers les déplacements du spectateur, les jeux d'ombre, de lumière et de transparence. Selon l'angle ou l'éclairage, les lignes se décalent, des formes apparaissent ou disparaissent, et la profondeur se modifie.",
+        "<strong>Le pourquoi</strong><br/>Mon travail s'inscrit dans une recherche visant à dépasser l'image fixe. Chaque œuvre interroge notre perception : elle devient à la fois image et volume, une peinture vivante et changeante. L'œuvre ne se lit pas d'un seul point de vue : elle se révèle dans le dialogue avec le regard."
+      ]
+    },
+    "gallery": {
+      "title": "Galerie",
+      "statusFallback": "Non défini"
+    }
+  },
+  "gallery": {
+    "loading": "Chargement des œuvres...",
+    "error": "Erreur lors du chargement des œuvres",
+    "back": "Retour à la page d'accueil",
+    "empty": {
+      "title": "Aucune œuvre disponible",
+      "description": "Cette galerie ne contient actuellement aucune œuvre."
+    },
+    "sort": {
+      "label": "Trier par :",
+      "title": "Nom",
+      "price": "Prix",
+      "size": "Taille"
+    },
+    "count": "{{count}} œuvre disponible",
+    "count_plural": "{{count}} œuvres disponibles",
+    "descriptions": {
+      "peinture": "Découvrez la collection de peintures originales d'Élisabeth Constantin, œuvres uniques et créations artistiques contemporaines.",
+      "plan_3d": "Explorez les œuvres en multiplan 3D d'Élisabeth Constantin, une technique unique qui donne vie et profondeur aux créations artistiques.",
+      "plan3d": "Explorez les œuvres en multiplan 3D d'Élisabeth Constantin, une technique unique qui donne vie et profondeur aux créations artistiques.",
+      "default": "Découvrez les œuvres de la galerie {{type}} d'Élisabeth Constantin."
+    },
+    "typeLabels": {
+      "paint": "Peinture",
+      "default": "Tableau 3D"
+    },
+    "statusFallback": "Non défini"
+  },
+  "events": {
+    "seo": {
+      "title": "Événements - Élisabeth Constantin | Expositions et Vernissages",
+      "description": "Découvrez les prochains événements d'Élisabeth Constantin : expositions, vernissages, ateliers artistiques et rencontres autour de l'art et de la technique multiplan 3D.",
+      "keywords": "événements, expositions, vernissages, ateliers, Elisabeth Constantin, art, galerie"
+    },
+    "breadcrumb": {
+      "home": "Accueil",
+      "self": "Événements"
+    },
+    "title": "Événements",
+    "subtitle": "Découvrez nos expositions, vernissages et ateliers artistiques",
+    "sort": {
+      "label": "Trier par :",
+      "date": "Date",
+      "title": "Titre",
+      "status": "Statut"
+    },
+    "status": {
+      "upcoming": "À venir",
+      "ongoing": "En cours",
+      "completed": "Terminé",
+      "cancelled": "Annulé"
+    },
+    "empty": {
+      "title": "Aucun événement disponible",
+      "description": "Cette section ne contient actuellement aucun événement.",
+      "cta": "Retour à l'accueil"
+    },
+    "fields": {
+      "date": "Date",
+      "time": "Horaires",
+      "location": "Lieu"
+    },
+    "rangeEnd": "au {{date}}",
+    "errors": {
+      "load": "Erreur lors du chargement des événements"
+    }
+  },
+  "artwork": {
+    "descriptionFallback": "Description non disponible pour cette œuvre.",
+    "dimensions": "Dimensions",
+    "technique": "Technique",
+    "availability": "Disponibilité",
+    "available": "En stock",
+    "unavailable": "Épuisé",
+    "buttons": {
+      "add": "Ajouter au panier",
+      "inCart": "Dans le panier",
+      "unavailable": "Indisponible"
+    },
+    "loading": "Chargement...",
+    "errors": {
+      "load": "Impossible de charger les détails de cette œuvre.",
+      "notFound": "Œuvre non trouvée."
+    },
+    "seo": {
+      "titleSuffix": "Élisabeth Constantin",
+      "keywordsSuffix": "œuvre art, Elisabeth Constantin"
+    }
+  },
+  "cart": {
+    "seo": {
+      "title": "Mon Panier - Élisabeth Constantin",
+      "description": "Consultez votre panier et finalisez votre commande d'œuvres d'art d'Élisabeth Constantin. Paiement sécurisé par Stripe."
+    },
+    "empty": {
+      "title": "Votre panier est vide",
+      "subtitle": "Découvrez nos œuvres uniques dans la galerie"
+    },
+    "header": "Mon Panier",
+    "summary": {
+      "title": "Récapitulatif",
+      "subtotal": "Sous-total",
+      "shipping": "Livraison",
+      "shippingValue": "Offerte",
+      "total": "Total",
+      "items": "œuvre",
+      "items_plural": "œuvres"
+    },
+    "security": {
+      "securePayment": "Paiement 100% sécurisé",
+      "shipping": "🚚 Livraison assurée et emballage professionnel",
+      "certificate": "📜 Certificat d'authenticité inclus"
+    },
+    "errors": {
+      "stripe": "Erreur lors du chargement du système de paiement:",
+      "stripeHelp": "Veuillez rafraîchir la page ou réessayer plus tard."
+    },
+    "actions": {
+      "checkout": "Procéder au paiement",
+      "remove": "Supprimer du panier"
+    }
+  },
+  "checkout": {
+    "seo": {
+      "title": "Paiement Sécurisé - Élisabeth Constantin",
+      "description": "Finalisez votre achat en toute sécurité. Paiement par carte bancaire sécurisé via Stripe."
+    },
+    "steps": {
+      "info": "Informations",
+      "payment": "Paiement",
+      "confirmation": "Confirmation"
+    },
+    "step1": {
+      "title": "Informations de livraison",
+      "fields": {
+        "email": "Email *",
+        "firstName": "Prénom *",
+        "lastName": "Nom *",
+        "phone": "Téléphone",
+        "address": "Adresse *",
+        "city": "Ville *",
+        "postalCode": "Code postal *",
+        "country": "Pays *"
+      },
+      "actions": {
+        "back": "Retour au panier",
+        "next": "Continuer vers le paiement"
+      }
+    },
+    "step2": {
+      "title": "Méthode de paiement",
+      "methods": {
+        "card": {
+          "title": "Carte bancaire",
+          "subtitle": "Visa, Mastercard, American Express"
+        },
+        "paypal": {
+          "title": "PayPal",
+          "subtitle": "Bientôt disponible"
+        }
+      },
+      "cardDetails": "Détails de la carte",
+      "secure": "Paiement sécurisé - Toutes vos données sont chiffrées",
+      "actions": {
+        "back": "Retour",
+        "submit": "Payer {{amount}} €",
+        "processing": "Traitement..."
+      }
+    },
+    "step3": {
+      "title": "Commande confirmée !",
+      "description": "Merci pour votre achat. Un email de confirmation a été envoyé à <0>{{email}}</0>.",
+      "secondary": "Vos œuvres seront préparées avec soin et expédiées dans les meilleurs délais.",
+      "detailsTitle": "Détails de votre commande",
+      "total": "Total payé:",
+      "reference": "Référence:",
+      "date": "Date:"
+    },
+    "summary": {
+      "title": "Récapitulatif de commande",
+      "subtotal": "Sous-total",
+      "shipping": "Livraison",
+      "shippingValue": "Offerte",
+      "total": "Total",
+      "confirmed": "✓ Commande confirmée"
+    },
+    "discount": {
+      "applied": "Réduction de {{discount}}% appliquée"
+    },
+    "countries": {
+      "France": "France",
+      "Belgique": "Belgique",
+      "Suisse": "Suisse",
+      "Espagne": "Espagne",
+      "Italie": "Italie"
+    },
+    "errors": {
+      "missingFields": "Veuillez remplir tous les champs obligatoires.",
+      "invalidEmail": "Veuillez entrer une adresse email valide.",
+      "stripeUnavailable": "Le système de paiement n'est pas encore prêt. Veuillez patienter.",
+      "cardIncomplete": "Veuillez compléter les informations de votre carte.",
+      "missingSecret": "Aucune clé secrète reçue du serveur",
+      "paymentFailed": "Le paiement n'a pas abouti. Statut: {{status}}",
+      "paymentGeneric": "Erreur de paiement: {{message}}"
+    }
+  },
+  "orders": {
+    "seo": {
+      "title": "Mes Commandes - Suivi de Commande | Élisabeth Constantin",
+      "description": "Suivez l'état de votre commande d'œuvres d'art d'Élisabeth Constantin. Consultez le statut de livraison et l'historique de vos achats."
+    },
+    "title": "Mes Commandes",
+    "instructions": "Entrez l'email utilisé lors de votre commande pour consulter son statut",
+    "form": {
+      "placeholder": "Votre email",
+      "submit": {
+        "idle": "Rechercher",
+        "loading": "Recherche..."
+      }
+    },
+    "errors": {
+      "load": "Impossible de récupérer vos commandes. Veuillez vérifier votre email."
+    },
+    "empty": "Aucune commande trouvée pour cet email.",
+    "listTitle": "Vos commandes",
+    "status": {
+      "pending": "En attente",
+      "paid": "Payée",
+      "shipped": "Expédiée",
+      "delivered": "Livrée",
+      "cancelled": "Annulée"
+    },
+    "details": {
+      "title": "Détails de la commande",
+      "shipping": "Informations de livraison",
+      "tracking": "Suivi de livraison",
+      "trackingInfo": "Votre commande a été expédiée et est en cours d'acheminement."
+    },
+    "help": {
+      "title": "Besoin d'aide avec votre commande ?",
+      "text": "N'hésitez pas à me contacter par email à <0>contact@elisabethconstantin.com</0> ou par téléphone au +33 6 85 50 09 73."
+    }
+  },
+  "monParcours": {
+    "seo": {
+      "title": "Mon Parcours - Élisabeth Constantin",
+      "description": "Découvrez le parcours artistique d'Élisabeth Constantin, sa démarche créative unique dans le multiplan 3D, ses influences et sa vision de l'art contemporain."
+    },
+    "heroTitle": "Ma Démarche",
+    "heroSubtitle": "Découvrez ma vision artistique, mon parcours et les influences qui nourrissent ma création",
+    "sections": [
+      {
+        "icon": "heart",
+        "title": "Pourquoi je fais ça ?",
+        "paragraphs": [
+          "[Expliquez votre motivation profonde, ce qui vous pousse à créer, l'émotion que vous souhaitez partager...]",
+          "[Décrivez l'impact que vous souhaitez avoir sur les spectateurs, ce que l'art représente pour vous...]",
+          "[Partagez votre vision personnelle de l'art et son rôle dans votre vie...]"
+        ]
+      },
+      {
+        "icon": "lightbulb",
+        "title": "Mes débuts",
+        "paragraphs": [
+          "[Racontez vos premiers pas dans l'art, votre découverte de cette passion, les circonstances qui vous ont menée vers cette voie...]",
+          "[Décrivez vos premières œuvres, vos premiers apprentissages, les défis que vous avez rencontrés...]",
+          "[Partagez les moments marquants de vos débuts, les personnes qui vous ont inspirée ou soutenue dans cette aventure...]"
+        ]
+      },
+      {
+        "icon": "palette",
+        "title": "Mon orientation artistique",
+        "paragraphs": [
+          "[Décrivez votre style artistique, vos techniques préférées, les influences qui façonnent votre travail...]",
+          "[Expliquez l'évolution de votre style au fil du temps, les expérimentations qui ont marqué votre parcours...]",
+          "[Partagez votre approche créative, votre processus de création, ce qui rend votre art unique...]"
+        ]
+      },
+      {
+        "icon": "certificate",
+        "title": "Mes certifications",
+        "paragraphs": [
+          "[Listez vos formations artistiques, diplômes, certifications qui ont enrichi votre pratique...]",
+          "[Décrivez les stages, workshops, formations continues qui ont contribué à votre développement artistique...]",
+          "[Mentionnez vos participations à des concours, prix reçus, reconnaissances officielles...]"
+        ]
+      },
+      {
+        "icon": "newspaper",
+        "title": "Mes articles de presse",
+        "paragraphs": [
+          "[Présentez les articles de presse qui ont parlé de votre travail, les interviews accordées, les reportages...]",
+          "[Partagez les moments de reconnaissance médiatique, les événements qui ont attiré l'attention des médias...]",
+          "[Décrivez l'impact de ces publications sur votre carrière, les opportunités qui en ont découlé...]"
+        ]
+      }
+    ],
+    "conclusionTitle": "Ma démarche aujourd'hui",
+    "conclusionParagraphs": [
+      "[Décrivez votre démarche artistique actuelle, vos projets en cours, votre évolution récente...]",
+      "[Partagez vos aspirations futures, vos objectifs artistiques, où vous souhaitez emmener votre art...]"
+    ]
+  },
+  "legal": {},
+  "newsletterPages": {
+    "confirmed": {
+      "seoTitle": "Inscription Confirmée - Newsletter",
+      "seoDescription": "Merci pour votre inscription à la newsletter d'Élisabeth Constantin",
+      "title": "Inscription confirmée !",
+      "titleAlready": "Déjà inscrit !",
+      "description": "Merci d'avoir confirmé votre inscription à notre newsletter ! Vous recevrez désormais en avant-première nos nouvelles œuvres et événements.",
+      "descriptionAlready": "Votre email était déjà confirmé. Vous recevrez nos prochaines actualités.",
+      "promoLabel": "Voici votre code promo de bienvenue :",
+      "promoInfo": "Bénéficiez de <strong>10% de réduction</strong> sur votre prochaine commande",
+      "buttons": {
+        "discover": "Découvrir les œuvres",
+        "events": "Voir les événements"
+      }
+    },
+    "unsubscribe": {
+      "seoTitle": "Se Désinscrire - Newsletter",
+      "seoDescription": "Confirmation de désinscription de la newsletter",
+      "invalidTitle": "Lien invalide",
+      "invalidDescription": "Le lien de désinscription est invalide ou a expiré.",
+      "confirmTitle": "Êtes-vous sûr de vouloir vous désinscrire ?",
+      "confirmDescription": "Vous ne recevrez plus nos actualités sur les nouvelles œuvres et événements à venir.",
+      "confirmSecondary": "Nous serions tristes de vous voir partir... Vous pourrez toujours vous réinscrire plus tard depuis notre site.",
+      "cta": {
+        "confirm": "Confirmer la désinscription",
+        "stay": "Non, rester abonné",
+        "back": "Retour à l'accueil",
+        "loading": "Désinscription en cours..."
+      },
+      "errors": {
+        "default": "Une erreur est survenue lors de la désinscription"
+      }
+    },
+    "unsubscribed": {
+      "seoTitle": "Désinscription Réussie - Newsletter",
+      "seoDescription": "Vous avez été désinscrit de la newsletter",
+      "title": "Désinscription réussie",
+      "description": "Vous avez été désinscrit de notre newsletter. Vous ne recevrez plus d'emails de notre part.",
+      "secondary": "Nous sommes désolés de vous voir partir. Si vous changez d'avis, vous pouvez vous réinscrire à tout moment depuis notre site.",
+      "button": "Retour à l'accueil"
+    },
+    "error": {
+      "seoTitle": "Erreur - Newsletter",
+      "seoDescription": "Une erreur est survenue",
+      "buttons": {
+        "home": "Retour à l'accueil",
+        "contact": "Nous contacter"
+      },
+      "reasons": {
+        "invalid_token": {
+          "title": "Lien invalide",
+          "message": "Ce lien de confirmation n'est plus valide ou a déjà été utilisé.",
+          "help": "Le lien de confirmation expire après 48 heures. Vous pouvez demander un nouveau lien depuis notre formulaire d'inscription."
+        },
+        "not_found": {
+          "title": "Email non trouvé",
+          "message": "Aucune inscription ne correspond à cet email.",
+          "help": "Veuillez vérifier que vous utilisez le bon lien ou réessayer de vous inscrire."
+        },
+        "update_failed": {
+          "title": "Erreur de mise à jour",
+          "message": "Une erreur est survenue lors de la mise à jour de votre inscription.",
+          "help": "Veuillez réessayer plus tard ou nous contacter si le problème persiste."
+        },
+        "invalid_unsubscribe_token": {
+          "title": "Lien de désinscription invalide",
+          "message": "Ce lien de désinscription n'est plus valide.",
+          "help": "Veuillez utiliser le lien présent dans l'email le plus récent que vous avez reçu."
+        },
+        "unsubscribe_failed": {
+          "title": "Erreur de désinscription",
+          "message": "Une erreur est survenue lors de la désinscription.",
+          "help": "Veuillez réessayer ou nous contacter directement."
+        },
+        "default": {
+          "title": "Une erreur est survenue",
+          "message": "Nous n'avons pas pu traiter votre demande.",
+          "help": "Veuillez réessayer plus tard ou nous contacter si le problème persiste."
+        }
+      }
+    }
+  }
+}

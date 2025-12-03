@@ -5,6 +5,8 @@ import logo from "../assets/logo.png";
 import { useCart } from "../context/CartContext";
 import { useState, useEffect } from "react";
 import { getAllArtworkTypes } from "../api/artworkTypes";
+import { useTranslation } from "react-i18next";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Header() {
   const location = useLocation();
@@ -14,6 +16,8 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isGalleryDropdownOpen, setIsGalleryDropdownOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const { t } = useTranslation();
+  const { language, toggleLanguage } = useLanguage();
   
   useEffect(() => {
     const fetchGalleryTypes = async () => {
@@ -60,14 +64,9 @@ export default function Header() {
   };
 
   const getGalleryDisplayName = (type) => {
-    const displayNames = {
-      'peinture': 'Peinture',
-      'paint': 'Peinture',
-      '3d': '3D', 
-      'sculpture': 'Sculpture',
-      'aquarelle': 'Aquarelle'
-    };
-    return displayNames[type.toLowerCase()] || type.charAt(0).toUpperCase() + type.slice(1);
+    const normalized = type.toLowerCase().replace(/\s+/g, '_');
+    const fallback = type.charAt(0).toUpperCase() + type.slice(1);
+    return t(`header.galleryTypes.${normalized}`, fallback);
   };
 
   const getGalleryPath = (type) => {
@@ -107,7 +106,7 @@ export default function Header() {
             className={`nav-link ${isActive("/accueil") ? `active ${getPastelClass()}` : ""}`}
             onClick={closeMobileMenu}
           >
-            Accueil
+            {t('header.links.home')}
           </Link>
           
           <div className="nav-dropdown">
@@ -119,7 +118,7 @@ export default function Header() {
               } ${isMobile ? 'no-underline' : ''}`}
               onClick={toggleGalleryDropdown}
             >
-              Galerie
+              {t('header.links.gallery')}
               <FaHeart className="dropdown-icon" />
             </span>
             <div className={`dropdown-content ${isGalleryDropdownOpen ? 'dropdown-open' : ''}`}>
@@ -143,7 +142,7 @@ export default function Header() {
             className={`nav-link ${isActive("/evenements") ? `active ${getPastelClass()}` : ""}`}
             onClick={closeMobileMenu}
           >
-            Événements
+            {t('header.links.events')}
           </Link>
           
           <Link
@@ -152,16 +151,28 @@ export default function Header() {
             onClick={closeMobileMenu}
           >
             <FaShoppingCart className="cart-icon" />
-            <span>Panier</span>
+            <span>{t('header.links.cart')}</span>
             {cartItemCount > 0 && (
               <span className="cart-badge">{cartItemCount}</span>
             )}
           </Link>
         </nav>
         
-        <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
-          {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
-        </button>
+        <div className="header-actions">
+          <button 
+            type="button" 
+            className={`language-toggle ${language}`} 
+            onClick={toggleLanguage}
+            aria-label={t('header.languageToggle')}
+          >
+            <span>FR</span>
+            <span>EN</span>
+            <span className="language-indicator" />
+          </button>
+          <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
+            {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
       </div>
     </header>
   );

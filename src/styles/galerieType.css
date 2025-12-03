@@ -128,6 +128,12 @@
   margin: 0 0 2rem 0; /* Plus d'espace en bas pour le statut */
 }
 
+.artwork-type {
+  margin: -1rem 0 1.5rem 0;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
 /* Style spécifique pour les pages de galerie - priorité sur adminArtworks.css */
 .galerie-page .artworks-grid .artwork-card .artwork-info .artwork-status {
   position: absolute !important;

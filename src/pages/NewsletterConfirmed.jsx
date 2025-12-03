@@ -3,12 +3,14 @@ import { useSearchParams, Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import '../styles/newsletter.css';
 import '../styles/newsletterPages.css';
+import { useTranslation } from 'react-i18next';
 
 export default function NewsletterConfirmed() {
   const [searchParams] = useSearchParams();
   const promoCode = searchParams.get('promo');
   const already = searchParams.get('already') === 'true';
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   const copyPromoCode = () => {
     if (promoCode) {
@@ -21,8 +23,8 @@ export default function NewsletterConfirmed() {
   return (
     <>
       <SEOHead
-        title="Inscription Confirmée - Newsletter"
-        description="Merci pour votre inscription à la newsletter d'Élisabeth Constantin"
+        title={t('newsletterPages.confirmed.seoTitle')}
+        description={t('newsletterPages.confirmed.seoDescription')}
         noindex={true}
       />
 
@@ -35,20 +37,20 @@ export default function NewsletterConfirmed() {
           </div>
 
           <h1 className="newsletter-page-title">
-            {already ? 'Déjà inscrit !' : 'Inscription confirmée !'}
+            {already ? t('newsletterPages.confirmed.titleAlready') : t('newsletterPages.confirmed.title')}
           </h1>
 
           <p className="newsletter-page-description">
             {already 
-              ? 'Votre email était déjà confirmé. Vous recevrez nos prochaines actualités.'
-              : 'Merci d\'avoir confirmé votre inscription à notre newsletter ! Vous recevrez désormais en avant-première nos nouvelles œuvres et événements.'
+              ? t('newsletterPages.confirmed.descriptionAlready')
+              : t('newsletterPages.confirmed.description')
             }
           </p>
 
           {promoCode && (
             <div className="promo-code-section">
               <p className="promo-code-text">
-                Voici votre code promo de bienvenue :
+                {t('newsletterPages.confirmed.promoLabel')}
               </p>
               <div className="promo-code-box">
                 <code className="promo-code">{promoCode}</code>
@@ -68,18 +70,16 @@ export default function NewsletterConfirmed() {
                   )}
                 </button>
               </div>
-              <p className="promo-code-info">
-                Bénéficiez de <strong>10% de réduction</strong> sur votre prochaine commande
-              </p>
+              <p className="promo-code-info" dangerouslySetInnerHTML={{ __html: t('newsletterPages.confirmed.promoInfo') }} />
             </div>
           )}
 
           <div className="newsletter-page-actions">
             <Link to="/" className="newsletter-page-button primary">
-              Découvrir les œuvres
+              {t('newsletterPages.confirmed.buttons.discover')}
             </Link>
             <Link to="/evenements" className="newsletter-page-button secondary">
-              Voir les événements
+              {t('newsletterPages.confirmed.buttons.events')}
             </Link>
           </div>
         </div>

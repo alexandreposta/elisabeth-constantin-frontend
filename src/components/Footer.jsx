@@ -1,8 +1,12 @@
 import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 import "../styles/footer.css";
 import NewsletterSubscribe from './NewsletterSubscribe';
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="footer">
       <div className="footer-top">
@@ -41,29 +45,29 @@ export default function Footer() {
       </div>
       <div className="footer-links">
         <a href="/mes-commandes" className="footer-link">
-          Suivi de commandes
+          {t('footer.links.orders')}
         </a>
         <a href="/mentions-legales" className="footer-link">
-          Mentions légales
+          {t('footer.links.mentions')}
         </a>
         <a href="/politique-confidentialite" className="footer-link">
-          Politique de confidentialité
+          {t('footer.links.privacy')}
         </a>
         <a href="/conditions-generales-vente" className="footer-link">
-          CGV
+          {t('footer.links.terms')}
         </a>
         <a href="/politique-cookies" className="footer-link">
-          Cookies
+          {t('footer.links.cookies')}
         </a>
         <a href="/admin/dashboard" className="footer-link admin-link">
-          Dashboard Admin
+          {t('footer.links.admin')}
         </a>
       </div>
       <div className="footer-copy">
-        © {new Date().getFullYear()} Elisabeth Constantin. Tous droits réservés.
+        {t('footer.caption', { year: currentYear })}
       </div>
       <div className="footer-oblig">
-        Pour toute question, contactez-moi via les réseaux sociaux.
+        {t('footer.contact')}
       </div>
     </footer>
   );

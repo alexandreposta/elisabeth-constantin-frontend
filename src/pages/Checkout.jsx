@@ -7,6 +7,7 @@ import { FaLock, FaCreditCard, FaPaypal, FaArrowLeft, FaCheck, FaExclamationTria
 import { API_URL } from '../api/config';
 import SEO from '../components/SEO';
 import '../styles/checkout.css';
+import { useTranslation, Trans } from 'react-i18next';
 
 // Récupérer la clé publique depuis les variables d'environnement
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -14,7 +15,6 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 // Options pour le formulaire Stripe
 const stripeOptions = {
   fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap' }],
-  locale: 'fr',
 };
 
 // Mappage des pays vers les codes ISO à 2 caractères pour Stripe
@@ -37,6 +37,8 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
   const { items, clearCart, getTotalPrice } = useCart();
   const stripe = useStripe();
   const elements = useElements();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'en' ? 'en-US' : 'fr-FR';
   
   const [step, setStep] = useState(1); // 1: Informations, 2: Paiement, 3: Confirmation
   const [loading, setLoading] = useState(false);
@@ -81,7 +83,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
         if (data.is_subscriber && data.discount > 0) {
           setDiscount(data.discount);
           setPromoCode(data.promo_code);
-          setDiscountMessage(data.message || `Réduction de ${data.discount}% appliquée`);
+          setDiscountMessage(data.message || t('checkout.discount.applied', { discount: data.discount }));
           
         } else {
           setDiscount(0);
@@ -126,13 +128,13 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
     const missing = required.filter(field => !buyerInfo[field]);
     
     if (missing.length > 0) {
-      setError('Veuillez remplir tous les champs obligatoires.');
+      setError(t('checkout.errors.missingFields'));
       return false;
     }
     
     // Validation email basique
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyerInfo.email)) {
-      setError('Veuillez entrer une adresse email valide.');
+      setError(t('checkout.errors.invalidEmail'));
       return false;
     }
     
@@ -151,12 +153,12 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
     e.preventDefault();
     
     if (!stripe || !elements) {
-      setError("Le système de paiement n'est pas encore prêt. Veuillez patienter.");
+      setError(t('checkout.errors.stripeUnavailable'));
       return;
     }
 
     if (paymentMethod === 'card' && !cardComplete) {
-      setError("Veuillez compléter les informations de votre carte.");
+      setError(t('checkout.errors.cardIncomplete'));
       return;
     }
     
@@ -192,7 +194,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
       const { client_secret } = responseData;
       
       if (!client_secret) {
-        throw new Error('Aucune clé secrète reçue du serveur');
+        throw new Error(t('checkout.errors.missingSecret'));
       }
 
       // Convertir le nom du pays en code ISO
@@ -263,11 +265,15 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
         }, 1000); // Réduire le délai à 1 seconde car on a sauvegardé les détails
         
       } else {
-        throw new Error(`Le paiement n'a pas abouti. Statut: ${paymentIntent?.status || 'inconnu'}`);
+        throw new Error(
+          t('checkout.errors.paymentFailed', { status: paymentIntent?.status || 'inconnu' })
+        );
       }
     } catch (err) {
       console.error('❌ Erreur complète de paiement:', err);
-      setError(`Erreur de paiement: ${err.message}`);
+      setError(
+        t('checkout.errors.paymentGeneric', { message: err.message || 'unknown' })
+      );
     } finally {
       setLoading(false);
     }
@@ -275,10 +281,10 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
 
   const renderStep1 = () => (
     <div className="checkout-step">
-      <h2>Informations de livraison</h2>
+      <h2>{t('checkout.step1.title')}</h2>
       <div className="form-grid">
         <div className="form-group">
-          <label htmlFor="email">Email *</label>
+          <label htmlFor="email">{t('checkout.step1.fields.email')}</label>
           <input
             type="email"
             id="email"
@@ -289,7 +295,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
           />
         </div>
         <div className="form-group">
-          <label htmlFor="firstName">Prénom *</label>
+          <label htmlFor="firstName">{t('checkout.step1.fields.firstName')}</label>
           <input
             type="text"
             id="firstName"
@@ -300,7 +306,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
           />
         </div>
         <div className="form-group">
-          <label htmlFor="lastName">Nom *</label>
+          <label htmlFor="lastName">{t('checkout.step1.fields.lastName')}</label>
           <input
             type="text"
             id="lastName"
@@ -311,7 +317,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
           />
         </div>
         <div className="form-group">
-          <label htmlFor="phone">Téléphone</label>
+          <label htmlFor="phone">{t('checkout.step1.fields.phone')}</label>
           <input
             type="tel"
             id="phone"
@@ -321,7 +327,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
           />
         </div>
         <div className="form-group full-width">
-          <label htmlFor="address">Adresse *</label>
+          <label htmlFor="address">{t('checkout.step1.fields.address')}</label>
           <input
             type="text"
             id="address"
@@ -332,7 +338,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
           />
         </div>
         <div className="form-group">
-          <label htmlFor="city">Ville *</label>
+          <label htmlFor="city">{t('checkout.step1.fields.city')}</label>
           <input
             type="text"
             id="city"
@@ -343,7 +349,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
           />
         </div>
         <div className="form-group">
-          <label htmlFor="postalCode">Code postal *</label>
+          <label htmlFor="postalCode">{t('checkout.step1.fields.postalCode')}</label>
           <input
             type="text"
             id="postalCode"
@@ -354,7 +360,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
           />
         </div>
         <div className="form-group">
-          <label htmlFor="country">Pays *</label>
+          <label htmlFor="country">{t('checkout.step1.fields.country')}</label>
           <select
             id="country"
             name="country"
@@ -362,20 +368,20 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
             onChange={handleInputChange}
             required
           >
-            <option value="France">France</option>
-            <option value="Belgique">Belgique</option>
-            <option value="Suisse">Suisse</option>
-            <option value="Espagne">Espagne</option>
-            <option value="Italie">Italie</option>
+            <option value="France">{t('checkout.countries.France')}</option>
+            <option value="Belgique">{t('checkout.countries.Belgique')}</option>
+            <option value="Suisse">{t('checkout.countries.Suisse')}</option>
+            <option value="Espagne">{t('checkout.countries.Espagne')}</option>
+            <option value="Italie">{t('checkout.countries.Italie')}</option>
           </select>
         </div>
       </div>
       <div className="checkout-actions">
         <button type="button" className="back-button" onClick={() => navigate('/panier')}>
-          <FaArrowLeft /> Retour au panier
+          <FaArrowLeft /> {t('checkout.step1.actions.back')}
         </button>
         <button type="button" className="next-button" onClick={goToStep2}>
-          Continuer vers le paiement
+          {t('checkout.step1.actions.next')}
         </button>
       </div>
     </div>
@@ -383,7 +389,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
 
   const renderStep2 = () => (
     <div className="checkout-step">
-      <h2>Méthode de paiement</h2>
+      <h2>{t('checkout.step2.title')}</h2>
       
       <div className="payment-methods">
         <div 
@@ -392,8 +398,8 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
         >
           <div className="payment-method-icon"><FaCreditCard /></div>
           <div className="payment-method-details">
-            <span>Carte bancaire</span>
-            <small>Visa, Mastercard, American Express</small>
+            <span>{t('checkout.step2.methods.card.title')}</span>
+            <small>{t('checkout.step2.methods.card.subtitle')}</small>
           </div>
           <div className="payment-method-check">
             {paymentMethod === 'card' && <FaCheck />}
@@ -404,15 +410,15 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
         <div className="payment-method disabled">
           <div className="payment-method-icon"><FaPaypal /></div>
           <div className="payment-method-details">
-            <span>PayPal</span>
-            <small>Bientôt disponible</small>
+            <span>{t('checkout.step2.methods.paypal.title')}</span>
+            <small>{t('checkout.step2.methods.paypal.subtitle')}</small>
           </div>
         </div>
       </div>
       
       {paymentMethod === 'card' && (
         <div className="card-section">
-          <h3>Détails de la carte</h3>
+          <h3>{t('checkout.step2.cardDetails')}</h3>
           <div className="card-element-container">
             <CardElement
               options={{
@@ -447,12 +453,12 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
       )}
       
       <div className="secure-payment-info">
-        <FaLock /> Paiement sécurisé - Toutes vos données sont chiffrées
+        <FaLock /> {t('checkout.step2.secure')}
       </div>
       
       <div className="checkout-actions">
         <button type="button" className="back-button" onClick={() => setStep(1)}>
-          <FaArrowLeft /> Retour
+          <FaArrowLeft /> {t('checkout.step2.actions.back')}
         </button>
         <button
           type="submit"
@@ -460,7 +466,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
           disabled={loading || (paymentMethod === 'card' && !cardComplete)}
           onClick={goToStep3}
         >
-          {loading ? 'Traitement...' : `Payer ${total.toFixed(2)} €`}
+          {loading ? t('checkout.step2.actions.processing') : t('checkout.step2.actions.submit', { amount: total.toFixed(2) })}
         </button>
       </div>
     </div>
@@ -469,14 +475,20 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
   const renderStep3 = () => (
     <div className="checkout-step success-step">
       <div className="success-icon">✓</div>
-      <h2>Commande confirmée !</h2>
-      <p>Merci pour votre achat. Un email de confirmation a été envoyé à <strong>{confirmedOrder?.buyerInfo?.email || buyerInfo.email}</strong>.</p>
-      <p>Vos œuvres seront préparées avec soin et expédiées dans les meilleurs délais.</p>
+      <h2>{t('checkout.step3.title')}</h2>
+      <p>
+        <Trans
+          i18nKey="checkout.step3.description"
+          values={{ email: confirmedOrder?.buyerInfo?.email || buyerInfo.email }}
+          components={[<strong key="email" />]}
+        />
+      </p>
+      <p>{t('checkout.step3.secondary')}</p>
       
       {/* Afficher les détails de la commande confirmée */}
       {confirmedOrder && (
         <div className="order-details">
-          <h3>Détails de votre commande</h3>
+          <h3>{t('checkout.step3.detailsTitle')}</h3>
           <div className="order-summary">
             <div className="order-items">
               {confirmedOrder.items.map(item => (
@@ -485,7 +497,7 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
                   <div className="item-details">
                     <h4>{item.title}</h4>
                     <div className="item-specs">
-                      {item.width}×{item.height} cm • {item.type === 'paint' ? 'Peinture' : 'Tableau 3D'}
+                      {item.width}×{item.height} cm • {getTypeLabel(item.type)}
                     </div>
                     <div className="item-price">{item.price.toFixed(2)} €</div>
                   </div>
@@ -493,11 +505,11 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
               ))}
             </div>
             <div className="order-total">
-              <strong>Total payé: {confirmedOrder.total.toFixed(2)} €</strong>
+              <strong>{t('checkout.step3.total')} {confirmedOrder.total.toFixed(2)} €</strong>
             </div>
             <div className="order-info">
-              <p><strong>Référence:</strong> {confirmedOrder.paymentId}</p>
-              <p><strong>Date:</strong> {new Date(confirmedOrder.orderDate).toLocaleString('fr-FR')}</p>
+              <p><strong>{t('checkout.step3.reference')}</strong> {confirmedOrder.paymentId}</p>
+              <p><strong>{t('checkout.step3.date')}</strong> {new Date(confirmedOrder.orderDate).toLocaleString(locale)}</p>
             </div>
           </div>
         </div>
@@ -518,17 +530,17 @@ const CheckoutForm = ({ confirmedOrder, setConfirmedOrder, onDiscountChange }) =
       <div className="checkout-steps-indicator">
         <div className={`step ${step >= 1 ? 'active' : ''} ${step > 1 ? 'completed' : ''}`}>
           <div className="step-number">1</div>
-          <div className="step-name">Informations</div>
+          <div className="step-name">{t('checkout.steps.info')}</div>
         </div>
         <div className="step-connector"></div>
         <div className={`step ${step >= 2 ? 'active' : ''} ${step > 2 ? 'completed' : ''}`}>
           <div className="step-number">2</div>
-          <div className="step-name">Paiement</div>
+          <div className="step-name">{t('checkout.steps.payment')}</div>
         </div>
         <div className="step-connector"></div>
         <div className={`step ${step >= 3 ? 'active' : ''}`}>
           <div className="step-number">3</div>
-          <div className="step-name">Confirmation</div>
+          <div className="step-name">{t('checkout.steps.confirmation')}</div>
         </div>
       </div>
       
@@ -553,6 +565,7 @@ export default function Checkout() {
   const navigate = useNavigate();
   const [confirmedOrder, setConfirmedOrder] = useState(null);
   const [discountInfo, setDiscountInfo] = useState({ discount: 0, discountMessage: '', baseTotal: 0 });
+  const { t, i18n } = useTranslation();
   
   useEffect(() => {
     if (items.length === 0 && !confirmedOrder) {
@@ -567,14 +580,14 @@ export default function Checkout() {
   return (
     <>
       <SEO 
-        title="Paiement Sécurisé - Élisabeth Constantin"
-        description="Finalisez votre achat en toute sécurité. Paiement par carte bancaire sécurisé via Stripe."
+        title={t('checkout.seo.title')}
+        description={t('checkout.seo.description')}
         url="https://elisabeth-constantin.fr/checkout"
       />
       <div className="checkout-container">
-      <div className="checkout-main">
+        <div className="checkout-main">
         <div className="checkout-content">
-          <Elements stripe={stripePromise} options={stripeOptions}>
+          <Elements stripe={stripePromise} options={{ ...stripeOptions, locale: i18n.language }}>
             <CheckoutForm 
               confirmedOrder={confirmedOrder} 
               setConfirmedOrder={setConfirmedOrder}
@@ -598,6 +611,7 @@ export default function Checkout() {
 // Composant séparé pour le résumé de commande
 const CheckoutSummary = ({ confirmedOrder, discount = 0, discountMessage = '', baseTotal = 0 }) => {
   const { items } = useCart();
+  const { t } = useTranslation();
   
   // Utiliser soit les items du panier, soit ceux de la commande confirmée
   const displayItems = confirmedOrder?.items || items;
@@ -605,9 +619,21 @@ const CheckoutSummary = ({ confirmedOrder, discount = 0, discountMessage = '', b
   const discountAmount = (calculatedBaseTotal * discount) / 100;
   const displayTotal = calculatedBaseTotal - discountAmount;
   
+  const getTypeLabel = (type) => {
+    if (!type) {
+      return t('gallery.typeLabels.default');
+    }
+    const normalized = type.toLowerCase().replace(/\s+/g, '_');
+    return t(`gallery.typeLabels.${normalized}`, {
+      defaultValue: type,
+    });
+  };
+
+  const appliedDiscountMessage = discountMessage || t('checkout.discount.applied', { discount });
+
   return (
     <div className="checkout-summary">
-      <h3>Récapitulatif de commande</h3>
+      <h3>{t('checkout.summary.title')}</h3>
       <div className="checkout-items">
         {displayItems.map(item => (
           <div className="checkout-item" key={item.id}>
@@ -615,7 +641,7 @@ const CheckoutSummary = ({ confirmedOrder, discount = 0, discountMessage = '', b
             <div className="item-details">
               <h4>{item.title}</h4>
               <div className="item-specs">
-                {item.width}×{item.height} cm • {item.type === 'paint' ? 'Peinture' : 'Tableau 3D'}
+                {item.width}×{item.height} cm • {getTypeLabel(item.type)}
               </div>
               <div className="item-price">{item.price.toFixed(2)} €</div>
             </div>
@@ -624,29 +650,38 @@ const CheckoutSummary = ({ confirmedOrder, discount = 0, discountMessage = '', b
       </div>
       <div className="checkout-summary-totals">
         <div className="summary-row">
-          <span>Sous-total</span>
+          <span>{t('checkout.summary.subtotal')}</span>
           <span>{calculatedBaseTotal.toFixed(2)} €</span>
         </div>
         {!confirmedOrder && discount > 0 && (
           <div className="summary-row discount">
-            <span>🎉 {discountMessage} (-{discount}%)</span>
+            <span>🎉 {appliedDiscountMessage} (-{discount}%)</span>
             <span>-{discountAmount.toFixed(2)} €</span>
           </div>
         )}
         <div className="summary-row">
-          <span>Livraison</span>
-          <span>Offerte</span>
+          <span>{t('checkout.summary.shipping')}</span>
+          <span>{t('checkout.summary.shippingValue')}</span>
         </div>
         <div className="summary-row total">
-          <span>Total</span>
+          <span>{t('checkout.summary.total')}</span>
           <span>{displayTotal.toFixed(2)} €</span>
         </div>
         {confirmedOrder && (
           <div className="summary-row confirmed">
-            <span>✓ Commande confirmée</span>
+            <span>{t('checkout.summary.confirmed')}</span>
           </div>
         )}
       </div>
     </div>
   );
 };
+  const getTypeLabel = (type) => {
+    if (!type) {
+      return t('gallery.typeLabels.default');
+    }
+    const normalized = type.toLowerCase().replace(/\s+/g, '_');
+    return t(`gallery.typeLabels.${normalized}`, {
+      defaultValue: type,
+    });
+  };

@@ -16,10 +16,13 @@ import img7 from "../assets/Tableau_6/3.jpg";
 import card from "../assets/card.jpg";
 import trefle from "../assets/trefle-a-quatre-feuilles.png";
 import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 export default function Accueil() {
   const [artworks, setArtworks] = useState([]);
   const mosaicImages = [img1, img2, img3, img4, img5, img6, img7];
+  const { t } = useTranslation();
+  const discoverParagraphs = t('home.discover.paragraphs');
   
   const { mosaicLayout, isAnimating, redistributeImages, imagesLoaded } = useMosaicAnimation(mosaicImages);
 
@@ -34,20 +37,20 @@ export default function Accueil() {
   return (
     <>
       <SEO 
-        title="Accueil - Élisabeth Constantin | Artiste Peintre Multiplan 3D"
-        description="Découvrez l'univers artistique d'Élisabeth Constantin, artiste peintre spécialisée dans la technique unique du multiplan 3D. Explorez ses œuvres originales, peintures et créations événementielles."
-        keywords="Elisabeth Constantin, artiste peintre, multiplan 3D, peinture, art contemporain, galerie art, œuvres originales, plan 3D"
+        title={t('home.seo.title')}
+        description={t('home.seo.description')}
+        keywords={t('home.seo.keywords')}
         image={img1}
         url="https://elisabeth-constantin.fr/accueil"
       />
       <div className="accueil">
-        <h1 className="hero-title">Elisabeth Constantin</h1>
+        <h1 className="hero-title">{t('home.heroTitle')}</h1>
 
       <div className="artwork-mosaic">
         {!imagesLoaded && (
           <div className="mosaic-loader">
             <div className="loader-spinner"></div>
-            <p>Chargement de la galerie...</p>
+            <p>{t('home.mosaic.loading')}</p>
           </div>
         )}
         {imagesLoaded && mosaicLayout.map((item, index) => (
@@ -85,7 +88,8 @@ export default function Accueil() {
             onClick={redistributeImages}
             disabled={isAnimating}
             className="redistribute-btn"
-            title="Redistribuer les images"
+            title={t('home.redistribute')}
+            aria-label={t('home.redistribute')}
           >
             <img 
               src={trefle}
@@ -106,32 +110,19 @@ export default function Accueil() {
             />
 
             <div className="newsletter-container">
-              <h3 className="newsletter-title">Inscrivez-vous à la newsletter</h3>
-              <p className="newsletter-sub">Recevez les nouveautés et offres exclusives.</p>
+              <h3 className="newsletter-title">{t('home.newsletter.title')}</h3>
+              <p className="newsletter-sub">{t('home.newsletter.subtitle')}</p>
               <NewsletterSubscribe />
             </div>
           </div>
 
           <div className="discover-content">
-            <h2 className="discover-title">Mon univers</h2>
-            <p className="discover-text">
-              Dès l'enfance, je suis attirée par l'art.
-              Formée à Lyon, je construis depuis plus de 25 ans une œuvre ancrée dans le geste pictural, la couleur et l'observation du réel.<br/><br/>
-              
-              En 2017, un tournant majeur se produit : j'abandonne le support classique au profit d'un matériau transparent — le verre synthétique.
-              Je l'apprivoise et le transforme en territoire d'expérimentation.<br/><br/>
-              
-              Ces strates transparentes, une fois superposées, donnent naissance à une image tridimensionnelle suspendue dans l'espace.<br/><br/>
-              
-              <strong>Procédé et perception</strong><br/>
-              L'œuvre devient mouvement : elle vit à travers les déplacements du spectateur, les jeux d'ombre, de lumière et de transparence.
-              Selon l'angle ou l'éclairage, les lignes se décalent, des formes apparaissent ou disparaissent, et la profondeur se modifie.<br/><br/>
-
-              <strong>Le pourquoi</strong><br/>
-              Mon travail s'inscrit dans une recherche visant à dépasser l'image fixe.
-              Chaque œuvre interroge notre perception : elle devient à la fois image et volume, une peinture vivante et changeante.
-              L'œuvre ne se lit pas d'un seul point de vue : elle se révèle dans le dialogue avec le regard.
-            </p>
+            <h2 className="discover-title">{t('home.discover.title')}</h2>
+            <div className="discover-text">
+              {Array.isArray(discoverParagraphs) && discoverParagraphs.map((paragraph, index) => (
+                <p key={`discover-${index}`} dangerouslySetInnerHTML={{ __html: paragraph }} />
+              ))}
+            </div>
             <div className="social-links">
               <a className="social-icon" href="https://www.instagram.com/elisabeth_constantin/?hl=fr" target="_blank" rel="noopener noreferrer">
                 <FaInstagram />
@@ -148,7 +139,7 @@ export default function Accueil() {
       </section>
 
       <section className="gallery-section">
-        <h2 className="gallery-main-title">Galerie</h2>
+        <h2 className="gallery-main-title">{t('home.gallery.title')}</h2>
         <div className="gallery-grid">
           {artworks.map((artwork) => (
             <Link 
@@ -165,7 +156,7 @@ export default function Accueil() {
               <h3 className="gallery-title">{artwork.title}</h3>
               <p className="gallery-price">{artwork.price} €</p>
               <div className={`gallery-status ${artwork.status?.toLowerCase()}`}>
-                {artwork.status || 'Non défini'}
+                {artwork.status || t('home.gallery.statusFallback')}
               </div>
             </Link>
           ))}

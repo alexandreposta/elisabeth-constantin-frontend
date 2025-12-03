@@ -5,6 +5,7 @@ import SortButton from '../components/SortButton';
 import { getThumbnailFallback } from '../utils/image';
 import SEO from '../components/SEO';
 import '../styles/galerieType.css';
+import { useTranslation } from 'react-i18next';
 
 export default function GalerieType() {
   const { galleryType } = useParams();
@@ -13,10 +14,21 @@ export default function GalerieType() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentSort, setCurrentSort] = useState({ field: "title", direction: "asc" });
+  const { t } = useTranslation();
+  const decodedGalleryType = decodeURIComponent(galleryType || '');
 
   useEffect(() => {
     loadArtworks();
-  }, [galleryType]);
+  }, [galleryType, t]);
+
+  const getGalleryDisplayName = (type) => {
+    if (!type) return '';
+    const normalized = type.toLowerCase().replace(/\s+/g, '_');
+    const fallback = formatGalleryTitle(type);
+    return t(`header.galleryTypes.${normalized}`, fallback);
+  };
+
+  const readableGalleryType = getGalleryDisplayName(decodedGalleryType);
 
   const loadArtworks = async () => {
     try {
@@ -25,7 +37,7 @@ export default function GalerieType() {
       const data = await getArtworksByGallery(galleryType);
       setArtworks(data);
     } catch (err) {
-      setError('Erreur lors du chargement des œuvres');
+      setError(t('gallery.error'));
       console.error(err);
     } finally {
       setLoading(false);
@@ -33,6 +45,7 @@ export default function GalerieType() {
   };
 
   const formatGalleryTitle = (type) => {
+    if (!type) return '';
     return type.charAt(0).toUpperCase() + type.slice(1);
   };
 
@@ -82,11 +95,11 @@ export default function GalerieType() {
     return (
       <div className="galerie-page">
         <div className="galerie-header">
-          <h1 className="galerie-title">{formatGalleryTitle(galleryType)}</h1>
+          <h1 className="galerie-title">{readableGalleryType}</h1>
         </div>
         <div className="loading-container">
           <div className="loading-spinner"></div>
-          <p>Chargement des œuvres...</p>
+          <p>{t('gallery.loading')}</p>
         </div>
       </div>
     );
@@ -96,12 +109,12 @@ export default function GalerieType() {
     return (
       <div className="galerie-page">
         <div className="galerie-header">
-          <h1 className="galerie-title">{formatGalleryTitle(galleryType)}</h1>
+          <h1 className="galerie-title">{readableGalleryType}</h1>
         </div>
         <div className="error-container">
           <p>{error}</p>
           <button onClick={() => navigate('/')} className="back-button">
-            Retour à la page d'accueil
+            {t('gallery.back')}
           </button>
         </div>
       </div>
@@ -112,13 +125,13 @@ export default function GalerieType() {
     return (
       <div className="galerie-page">
         <div className="galerie-header">
-          <h1 className="galerie-title">{formatGalleryTitle(galleryType)}</h1>
+          <h1 className="galerie-title">{readableGalleryType}</h1>
         </div>
         <div className="no-artworks">
-          <h3>Aucune œuvre disponible</h3>
-          <p>Cette galerie ne contient actuellement aucune œuvre.</p>
+          <h3>{t('gallery.empty.title')}</h3>
+          <p>{t('gallery.empty.description')}</p>
           <button onClick={() => navigate('/')} className="back-button">
-            Retour à la page d'accueil
+            {t('gallery.back')}
           </button>
         </div>
       </div>
@@ -128,38 +141,46 @@ export default function GalerieType() {
   const sortedArtworks = getSortedArtworks();
 
   const getGalleryDescription = (type) => {
-    const descriptions = {
-      'peinture': 'Découvrez la collection de peintures originales d\'Élisabeth Constantin, œuvres uniques et créations artistiques contemporaines.',
-      'plan 3d': 'Explorez les œuvres en multiplan 3D d\'Élisabeth Constantin, une technique unique qui donne vie et profondeur aux créations artistiques.',
-      'plan3d': 'Explorez les œuvres en multiplan 3D d\'Élisabeth Constantin, une technique unique qui donne vie et profondeur aux créations artistiques.'
-    };
-    return descriptions[type] || `Découvrez les œuvres de la galerie ${type} d'Élisabeth Constantin`;
+    const normalized = (type || '').toLowerCase().replace(/\s+/g, '_');
+    return t(`gallery.descriptions.${normalized}`, {
+      defaultValue: t('gallery.descriptions.default', { type: readableGalleryType }),
+    });
+  };
+
+  const getTypeLabel = (type) => {
+    if (!type) {
+      return t('gallery.typeLabels.default');
+    }
+    const normalized = type.toLowerCase().replace(/\s+/g, '_');
+    return t(`gallery.typeLabels.${normalized}`, {
+      defaultValue: t('gallery.typeLabels.default'),
+    });
   };
 
   return (
     <>
       <SEO 
-        title={`${formatGalleryTitle(galleryType)} - Galerie Élisabeth Constantin`}
-        description={getGalleryDescription(galleryType)}
-        keywords={`${galleryType}, galerie art, Elisabeth Constantin, œuvres, peinture, multiplan 3D`}
+        title={`${readableGalleryType} - Galerie Élisabeth Constantin`}
+        description={getGalleryDescription(decodedGalleryType)}
+        keywords={`${decodedGalleryType}, galerie art, Elisabeth Constantin, œuvres, peinture, multiplan 3D`}
         url={`https://elisabeth-constantin.fr/galerie/${galleryType}`}
       />
       <div className="galerie-page">
       <div className="galerie-header">
-        <h1 className="galerie-title">{formatGalleryTitle(galleryType)}</h1>
+        <h1 className="galerie-title">{readableGalleryType}</h1>
         <p className="galerie-subtitle">
-          {artworks.length} œuvre{artworks.length > 1 ? 's' : ''} disponible{artworks.length > 1 ? 's' : ''}
+          {t('gallery.count', { count: artworks.length })}
         </p>
       </div>
 
       <div className="galerie-controls">
         <div className="sort-buttons-group">
-          <span className="sort-buttons-label">Trier par :</span>
+          <span className="sort-buttons-label">{t('gallery.sort.label')}</span>
           <SortButton
             field="title"
             currentSort={currentSort}
             onSort={handleSort}
-            label="Nom"
+            label={t('gallery.sort.title')}
             size="small"
             className="rounded"
           />
@@ -167,7 +188,7 @@ export default function GalerieType() {
             field="price"
             currentSort={currentSort}
             onSort={handleSort}
-            label="Prix"
+            label={t('gallery.sort.price')}
             size="small"
             className="rounded"
           />
@@ -175,7 +196,7 @@ export default function GalerieType() {
             field="size"
             currentSort={currentSort}
             onSort={handleSort}
-            label="Taille"
+            label={t('gallery.sort.size')}
             size="small"
             className="rounded"
           />
@@ -196,8 +217,9 @@ export default function GalerieType() {
             <div className="artwork-info">
               <h3 className="artwork-title">{artwork.title}</h3>
               <p className="artwork-dimensions">{artwork.width} x {artwork.height} cm</p>
+              <p className="artwork-type">{getTypeLabel(artwork.type)}</p>
               <div className={`artwork-status ${artwork.status?.toLowerCase()}`}>
-                {artwork.status || 'Non défini'}
+                {artwork.status || t('gallery.statusFallback')}
               </div>
             </div>
           </div>

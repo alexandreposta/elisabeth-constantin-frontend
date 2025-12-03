@@ -6,12 +6,16 @@ import SEO from '../components/SEO';
 import EventSchema from '../components/EventSchema';
 import BreadcrumbSchema from '../components/BreadcrumbSchema';
 import '../styles/evenements.css';
+import { useTranslation } from 'react-i18next';
 
 export default function Evenements() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentSort, setCurrentSort] = useState({ field: "date", direction: "asc" });
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'en' ? 'en-US' : 'fr-FR';
+  const statusLabels = t('events.status', { returnObjects: true });
 
   useEffect(() => {
     loadEvents();
@@ -27,7 +31,7 @@ export default function Evenements() {
         .sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
       setEvents(activeEvents);
     } catch (err) {
-      setError('Erreur lors du chargement des événements');
+      setError(t('events.errors.load'));
       console.error(err);
     } finally {
       setLoading(false);
@@ -35,7 +39,7 @@ export default function Evenements() {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    return new Date(dateString).toLocaleDateString(locale, {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -44,20 +48,14 @@ export default function Evenements() {
   };
 
   const formatDateShort = (dateString) => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    return new Date(dateString).toLocaleDateString(locale, {
       day: 'numeric',
       month: 'short'
     });
   };
 
   const getStatusLabel = (status) => {
-    switch (status) {
-      case 'upcoming': return 'À venir';
-      case 'ongoing': return 'En cours';
-      case 'completed': return 'Terminé';
-      case 'cancelled': return 'Annulé';
-      default: return status;
-    }
+    return statusLabels?.[status] || status;
   };
 
   const getSortedEvents = () => {
@@ -97,29 +95,29 @@ export default function Evenements() {
   return (
     <>
       <SEO 
-        title="Événements - Élisabeth Constantin | Expositions et Vernissages"
-        description="Découvrez les prochains événements d'Élisabeth Constantin : expositions, vernissages, ateliers artistiques et rencontres autour de l'art et de la technique multiplan 3D."
-        keywords="événements, expositions, vernissages, ateliers, Elisabeth Constantin, art, galerie"
+        title={t('events.seo.title')}
+        description={t('events.seo.description')}
+        keywords={t('events.seo.keywords')}
         url="https://elisabeth-constantin.fr/evenements"
       />
       <BreadcrumbSchema items={[
-        { name: 'Accueil', url: 'https://elisabeth-constantin.fr' },
-        { name: 'Événements', url: 'https://elisabeth-constantin.fr/evenements' }
+        { name: t('events.breadcrumb.home'), url: 'https://elisabeth-constantin.fr' },
+        { name: t('events.breadcrumb.self'), url: 'https://elisabeth-constantin.fr/evenements' }
       ]} />
       <div className="evenements-page">
         <div className="events-header">
-          <h1 className="events-main-title">Événements</h1>
+          <h1 className="events-main-title">{t('events.title')}</h1>
           <p className="events-subtitle">
-            Découvrez nos expositions, vernissages et ateliers artistiques
+            {t('events.subtitle')}
           </p>
         
         <div className="sort-buttons-group">
-          <span className="sort-buttons-label">Trier par :</span>
+          <span className="sort-buttons-label">{t('events.sort.label')}</span>
           <SortButton
             field="date"
             currentSort={currentSort}
             onSort={handleSort}
-            label="Date"
+            label={t('events.sort.date')}
             size="small"
             className="rounded"
           />
@@ -127,7 +125,7 @@ export default function Evenements() {
             field="title"
             currentSort={currentSort}
             onSort={handleSort}
-            label="Titre"
+            label={t('events.sort.title')}
             size="small"
             className="rounded"
           />
@@ -135,7 +133,7 @@ export default function Evenements() {
             field="status"
             currentSort={currentSort}
             onSort={handleSort}
-            label="Statut"
+            label={t('events.sort.status')}
             size="small"
             className="rounded"
           />
@@ -148,10 +146,10 @@ export default function Evenements() {
         <div className="events-container">
           {sortedEvents.length === 0 ? (
             <div className="no-events">
-              <h3>Aucun événement disponible</h3>
-              <p>Cette section ne contient actuellement aucun événement.</p>
+              <h3>{t('events.empty.title')}</h3>
+              <p>{t('events.empty.description')}</p>
               <button onClick={() => window.location.href = '/'} className="back-button">
-                Retour à l'accueil
+                {t('events.empty.cta')}
               </button>
             </div>
           ) : (
@@ -197,10 +195,10 @@ export default function Evenements() {
                     <div className="event-detail">
                       <span className="detail-icon">📅</span>
                       <div className="detail-content">
-                        <strong>Date</strong>
+                        <strong>{t('events.fields.date')}</strong>
                         <p>{formatDate(event.start_date)}</p>
                         {event.start_date !== event.end_date && (
-                          <p>au {formatDate(event.end_date)}</p>
+                          <p>{t('events.rangeEnd', { date: formatDate(event.end_date) })}</p>
                         )}
                       </div>
                     </div>
@@ -208,7 +206,7 @@ export default function Evenements() {
                     <div className="event-detail">
                       <span className="detail-icon">🕒</span>
                       <div className="detail-content">
-                        <strong>Horaires</strong>
+                        <strong>{t('events.fields.time')}</strong>
                         <p>{event.start_time} - {event.end_time}</p>
                       </div>
                     </div>
@@ -216,7 +214,7 @@ export default function Evenements() {
                     <div className="event-detail">
                       <span className="detail-icon">📍</span>
                       <div className="detail-content">
-                        <strong>Lieu</strong>
+                        <strong>{t('events.fields.location')}</strong>
                         <p>{event.location}</p>
                       </div>
                     </div>

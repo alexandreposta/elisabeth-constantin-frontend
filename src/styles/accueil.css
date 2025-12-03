@@ -22,7 +22,7 @@
   margin-top: 40px;
 }
 
-.hero-title, .discover-title, .gallery-main-title {
+.hero-title, .gallery-main-title {
   font-family: 'Dancing Script', cursive;
   font-size: 5rem !important;
   font-weight: 500;
@@ -30,6 +30,15 @@
   margin: 3rem 0;
   color: #2c3e50;
   letter-spacing: 2px;
+}
+.discover-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 4.4rem; /* slightly smaller than hero */
+  font-weight: 500;
+  text-align: center;
+  margin: 0.6rem 0 1rem 0; /* reduce gap above and below */
+  color: #2c3e50;
+  letter-spacing: 1px;
 }
 
 /* Styles de base pour l'accueil */
@@ -335,22 +344,32 @@
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1.6fr;
-  align-items: start;
-  gap: 2.5rem;
-  padding: 0 2rem;
+  /* Mobile-first: stack everything vertically (image, newsletter, content) */
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "left"
+    "content";
+  /* center vertically so left-column centers relative to content when possible */
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 1rem;
 }
 .left-column {
   display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
+  flex-direction: column; /* default: image above newsletter */
+  gap: 1rem;
+  grid-area: left;
+  align-items: center; /* center children horizontally on mobile */
+  justify-content: center;
 }
-.discover-image { width: 100%; max-width: 420px; align-self: start; }
+.discover-image { width: 100%; max-width: 420px; align-self: center; }
 .discover-image img {
   width: 100%;
   height: auto;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  display: block;
+  margin: 0 auto;
 }
 /* discover-content uses default layout in right column */
 
@@ -474,64 +493,78 @@
 .redistribute-btn:hover .trefle-icon:not(.spinning) { transform: scale(1.1); }
 
 /* Responsive styles */
-@media (min-width: 1025px) {
+/* Medium screens: place image and newsletter side-by-side ABOVE the text */
+@media (min-width: 769px) and (max-width: 1199px) {
   .discover-container {
-    grid-template-columns: 420px 1fr;
-    gap: 3rem;
-    align-items: center;
+    /* keep single column so left-column spans full width, then switch left-column to row */
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1.5rem;
   }
   .left-column {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    align-items: center;
+    flex-direction: row; /* image and newsletter side-by-side */
+    align-items: center; /* vertically center image and newsletter inside the row */
+    justify-content: center; /* center horizontally */
+    gap: 1.2rem;
   }
   .discover-image {
-    max-width: 420px;
-    width: 100%;
+    flex: 0 0 auto;
+    /* medium: slightly reduced and centered */
+    max-width: 320px;
+    width: 42%;
+    align-self: center;
   }
   .newsletter-container {
-    max-width: 420px;
-    width: 100%;
+    width: 48%;
+    max-width: none;
   }
   .discover-content {
     width: 100%;
+    margin-top: 0; /* removed extra top spacing to help vertical centering */
   }
 }
 
-@media (max-width: 1024px) {
-  .mosaic-item-absolute {
-    max-width: 200px; max-height: 200px;
-    min-width: 150px; min-height: 150px;
-  }
+/* Large screens: left column (image + newsletter stacked) on the left, text on the right */
+@media (min-width: 1200px) {
   .discover-container {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 0 1rem;
+    grid-template-columns: 420px 1fr;
+    grid-template-areas: "left content";
+    gap: 3rem;
+    padding: 0 2rem;
+    /* center grid items vertically so the midpoint of left-column aligns with the midpoint of content */
+    align-items: center;
   }
   .left-column {
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column; /* stack image above newsletter */
+    gap: 1.5rem;
+    align-items: center; /* center items horizontally in the left column */
+    padding-top: 100px;
+    justify-content: center; /* center vertically within the left column */
   }
-  .discover-image { 
-    flex: none; 
+  .discover-image {
+    /* large: reduce size a bit for better visual balance */
     max-width: 300px;
     width: 100%;
+    align-self: center;
   }
   .newsletter-container {
-    flex: none;
-    max-width: 400px;
+    max-width: 360px;
     width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    align-self: center; /* ensure newsletter centers within the left column */
   }
-  .discover-content { 
-    width: 100%; 
-    text-align: center; 
+  .discover-content {
+    width: 100%;
+    /* ensure the text column centers its inner content vertically to match the left column */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 0; /* remove any default top padding that could shift center */
   }
-  .discover-text { font-size: 1.8rem; }
 }
+
+
 
 @media (max-width: 992px) {
   /* suppression des règles grid inopérantes sur .artwork-mosaic */
@@ -568,7 +601,7 @@
   .discover-section { padding: 2rem 0; }
   .discover-container { grid-template-columns: 1fr; gap: 2rem; padding: 0 1rem; }
   .discover-image, .discover-content { width: 100%; max-width: 100%; }
-  .discover-image { flex: none; max-width: 60%; }
+  .discover-image { flex: none; max-width: 40%; align-self: center; margin-top: 0; margin-bottom: 0; }
   .discover-content { padding: 2rem 1rem; }
   .discover-text { font-size: 1.1rem; }
   .redistribute-btn { width: 50px; height: 50px; }
@@ -591,7 +624,7 @@
   }
   .discover-section { padding: 1.5rem 0; }
   .discover-container { padding: 0 0.5rem; }
-  .discover-image { max-width: 70%; }
+  .discover-image { max-width: 70%; align-self: center; margin-top: 0; margin-bottom: 0; }
   .discover-text { font-size: 1.2rem; line-height: 1.5; }
   .discover-content .social-links { gap: 1.5rem; justify-content: center; }
   .social-links a { font-size: 1.2rem; width: 35px; height: 35px; }

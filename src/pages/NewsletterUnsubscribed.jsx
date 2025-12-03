@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import '../styles/newsletterPages.css';
+import { useTranslation } from 'react-i18next';
 
 export default function NewsletterUnsubscribed() {
+  const { t } = useTranslation();
+
   return (
     <>
       <SEOHead
-        title="Désinscription Réussie - Newsletter"
-        description="Vous avez été désinscrit de la newsletter"
+        title={t('newsletterPages.unsubscribed.seoTitle')}
+        description={t('newsletterPages.unsubscribed.seoDescription')}
         noindex={true}
       />
 
@@ -20,20 +23,20 @@ export default function NewsletterUnsubscribed() {
           </div>
 
           <h1 className="newsletter-page-title">
-            Désinscription réussie
+            {t('newsletterPages.unsubscribed.title')}
           </h1>
 
           <p className="newsletter-page-description">
-            Vous avez été désinscrit de notre newsletter. Vous ne recevrez plus d'emails de notre part.
+            {t('newsletterPages.unsubscribed.description')}
           </p>
 
           <p className="newsletter-page-description secondary">
-            Nous sommes désolés de vous voir partir. Si vous changez d'avis, vous pouvez vous réinscrire à tout moment depuis notre site.
+            {t('newsletterPages.unsubscribed.secondary')}
           </p>
 
           <div className="newsletter-page-actions">
             <Link to="/" className="newsletter-page-button primary">
-              Retour à l'accueil
+              {t('newsletterPages.unsubscribed.button')}
             </Link>
           </div>
         </div>

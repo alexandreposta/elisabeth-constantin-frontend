@@ -3,6 +3,7 @@ import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { unsubscribeFromNewsletter } from '../api/newsletter';
 import SEOHead from '../components/SEOHead';
 import '../styles/newsletterPages.css';
+import { useTranslation } from 'react-i18next';
 
 export default function NewsletterUnsubscribe() {
   const [searchParams] = useSearchParams();
@@ -11,10 +12,11 @@ export default function NewsletterUnsubscribe() {
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   const handleUnsubscribe = async () => {
     if (!token) {
-      setError('Token de désinscription invalide');
+      setError(t('newsletterPages.unsubscribe.errors.default'));
       return;
     }
 
@@ -25,7 +27,7 @@ export default function NewsletterUnsubscribe() {
       await unsubscribeFromNewsletter(token);
       navigate('/newsletter/unsubscribed');
     } catch (err) {
-      setError(err.message || 'Une erreur est survenue lors de la désinscription');
+      setError(err.message || t('newsletterPages.unsubscribe.errors.default'));
       setLoading(false);
     }
   };
@@ -34,8 +36,8 @@ export default function NewsletterUnsubscribe() {
     return (
       <>
         <SEOHead
-          title="Erreur - Désinscription Newsletter"
-          description="Lien de désinscription invalide"
+          title={t('newsletterPages.unsubscribe.seoTitle')}
+          description={t('newsletterPages.unsubscribe.seoDescription')}
           noindex={true}
         />
         <div className="newsletter-page">
@@ -45,13 +47,13 @@ export default function NewsletterUnsubscribe() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h1 className="newsletter-page-title">Lien invalide</h1>
+            <h1 className="newsletter-page-title">{t('newsletterPages.unsubscribe.invalidTitle')}</h1>
             <p className="newsletter-page-description">
-              Le lien de désinscription est invalide ou a expiré.
+              {t('newsletterPages.unsubscribe.invalidDescription')}
             </p>
             <div className="newsletter-page-actions">
               <Link to="/" className="newsletter-page-button primary">
-                Retour à l'accueil
+                {t('newsletterPages.unsubscribe.cta.back')}
               </Link>
             </div>
           </div>
@@ -63,8 +65,8 @@ export default function NewsletterUnsubscribe() {
   return (
     <>
       <SEOHead
-        title="Se Désinscrire - Newsletter"
-        description="Confirmation de désinscription de la newsletter"
+        title={t('newsletterPages.unsubscribe.seoTitle')}
+        description={t('newsletterPages.unsubscribe.seoDescription')}
         noindex={true}
       />
 
@@ -77,15 +79,15 @@ export default function NewsletterUnsubscribe() {
           </div>
 
           <h1 className="newsletter-page-title">
-            Êtes-vous sûr de vouloir vous désinscrire ?
+            {t('newsletterPages.unsubscribe.confirmTitle')}
           </h1>
 
           <p className="newsletter-page-description">
-            Vous ne recevrez plus nos actualités sur les nouvelles œuvres et événements à venir.
+            {t('newsletterPages.unsubscribe.confirmDescription')}
           </p>
 
           <p className="newsletter-page-description secondary">
-            Nous serions tristes de vous voir partir... Vous pourrez toujours vous réinscrire plus tard depuis notre site.
+            {t('newsletterPages.unsubscribe.confirmSecondary')}
           </p>
 
           {error && (
@@ -108,14 +110,14 @@ export default function NewsletterUnsubscribe() {
                   <svg className="newsletter-page-spinner" viewBox="0 0 24 24">
                     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" fill="none" />
                   </svg>
-                  <span>Désinscription en cours...</span>
+                  <span>{t('newsletterPages.unsubscribe.cta.loading')}</span>
                 </>
               ) : (
-                'Confirmer la désinscription'
+                t('newsletterPages.unsubscribe.cta.confirm')
               )}
             </button>
             <Link to="/" className="newsletter-page-button secondary">
-              Non, rester abonné
+              {t('newsletterPages.unsubscribe.cta.stay')}
             </Link>
           </div>
         </div>

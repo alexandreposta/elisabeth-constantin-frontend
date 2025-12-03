@@ -1,0 +1,464 @@
+{
+  "common": {},
+  "seo": {},
+  "header": {
+    "links": {
+      "home": "Home",
+      "gallery": "Gallery",
+      "events": "Events",
+      "cart": "Cart"
+    },
+    "languageToggle": "Change language",
+    "galleryTypes": {
+      "peinture": "Painting",
+      "paint": "Painting",
+      "plan_3d": "3D Panel",
+      "plan3d": "3D Panel",
+      "3d": "3D",
+      "tableau_3d": "3D Artwork",
+      "sculpture": "Sculpture",
+      "aquarelle": "Watercolor"
+    }
+  },
+  "footer": {
+    "links": {
+      "orders": "Track orders",
+      "mentions": "Legal notice",
+      "privacy": "Privacy policy",
+      "terms": "Terms & Conditions",
+      "cookies": "Cookies",
+      "admin": "Admin dashboard"
+    },
+    "contact": "For any question, reach out through social media.",
+    "caption": "© {{year}} Elisabeth Constantin. All rights reserved."
+  },
+  "newsletterSubscribe": {
+    "placeholder": "your@email.com",
+    "submit": "Subscribe",
+    "loading": "Sending...",
+    "errors": {
+      "invalidEmail": "Invalid email address.",
+      "noConsent": "Please accept the privacy policy.",
+      "generic": "Unable to complete the subscription."
+    },
+    "success": "Verification email sent.",
+    "consent": "I accept the <0>privacy policy</0>.",
+    "ariaLabel": "Email address"
+  },
+  "home": {
+    "seo": {
+      "title": "Home - Élisabeth Constantin | 3D Multiplane Painter",
+      "description": "Step inside the artistic universe of Élisabeth Constantin, a painter specialising in the unique multiplane 3D technique. Explore original artworks, paintings, and immersive creations.",
+      "keywords": "Elisabeth Constantin, painter, multiplane 3D, painting, contemporary art, art gallery, original artworks, 3D panel"
+    },
+    "heroTitle": "Elisabeth Constantin",
+    "mosaic": {
+      "loading": "Loading the gallery..."
+    },
+    "redistribute": "Shuffle the images",
+    "newsletter": {
+      "title": "Join the newsletter",
+      "subtitle": "Receive news and exclusive offers."
+    },
+    "discover": {
+      "title": "My universe",
+      "paragraphs": [
+        "Art has fascinated me since childhood. Trained in Lyon, I have spent more than 25 years building a body of work rooted in gesture, colour, and close observation of reality.",
+        "In 2017 everything changed: I left traditional supports behind in favour of a transparent material — acrylic glass. I tamed it and turned it into a genuine field of experimentation.",
+        "Once layered, these transparent strata create a tridimensional image suspended in space.",
+        "<strong>Process and perception</strong><br/>The artwork becomes movement: it lives through the visitor's steps, through shadows, light, and transparency. Depending on the angle or lighting, lines shift, shapes appear or fade, and depth transforms.",
+        "<strong>The intention</strong><br/>My practice aims to go beyond a fixed image. Every piece questions perception: it is both surface and volume, a living, ever-changing painting. It cannot be read from a single viewpoint — it reveals itself through a dialogue with the gaze."
+      ]
+    },
+    "gallery": {
+      "title": "Gallery",
+      "statusFallback": "Not specified"
+    }
+  },
+  "gallery": {
+    "loading": "Loading artworks...",
+    "error": "Unable to load artworks",
+    "back": "Back to home page",
+    "empty": {
+      "title": "No artwork available",
+      "description": "This gallery does not contain any artwork at the moment."
+    },
+    "sort": {
+      "label": "Sort by:",
+      "title": "Name",
+      "price": "Price",
+      "size": "Size"
+    },
+    "count": "{{count}} artwork available",
+    "count_plural": "{{count}} artworks available",
+    "descriptions": {
+      "peinture": "Discover the collection of original paintings by Élisabeth Constantin, unique pieces and contemporary creations.",
+      "plan_3d": "Explore Élisabeth Constantin's multiplane 3D pieces, a unique technique that brings depth and movement to each creation.",
+      "plan3d": "Explore Élisabeth Constantin's multiplane 3D pieces, a unique technique that brings depth and movement to each creation.",
+      "default": "Discover the {{type}} gallery curated by Élisabeth Constantin."
+    },
+    "typeLabels": {
+      "paint": "Painting",
+      "default": "3D Artwork"
+    },
+    "statusFallback": "Not specified"
+  },
+  "events": {
+    "seo": {
+      "title": "Events - Élisabeth Constantin | Exhibitions & Openings",
+      "description": "Discover Élisabeth Constantin's upcoming events: exhibitions, openings, artistic workshops, and encounters around her 3D multiplane technique.",
+      "keywords": "events, exhibitions, openings, workshops, Elisabeth Constantin, art, gallery"
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "self": "Events"
+    },
+    "title": "Events",
+    "subtitle": "Discover our exhibitions, openings, and creative workshops",
+    "sort": {
+      "label": "Sort by:",
+      "date": "Date",
+      "title": "Title",
+      "status": "Status"
+    },
+    "status": {
+      "upcoming": "Upcoming",
+      "ongoing": "Ongoing",
+      "completed": "Finished",
+      "cancelled": "Cancelled"
+    },
+    "empty": {
+      "title": "No event yet",
+      "description": "There is no scheduled event in this section for the moment.",
+      "cta": "Back to home"
+    },
+    "fields": {
+      "date": "Date",
+      "time": "Schedule",
+      "location": "Location"
+    },
+    "rangeEnd": "to {{date}}",
+    "errors": {
+      "load": "Unable to load events"
+    }
+  },
+  "artwork": {
+    "descriptionFallback": "No description is available for this artwork.",
+    "dimensions": "Dimensions",
+    "technique": "Technique",
+    "availability": "Availability",
+    "available": "In stock",
+    "unavailable": "Sold out",
+    "buttons": {
+      "add": "Add to cart",
+      "inCart": "In the cart",
+      "unavailable": "Unavailable"
+    },
+    "loading": "Loading...",
+    "errors": {
+      "load": "Unable to load this artwork.",
+      "notFound": "Artwork not found."
+    },
+    "seo": {
+      "titleSuffix": "Élisabeth Constantin",
+      "keywordsSuffix": "artwork, Elisabeth Constantin"
+    }
+  },
+  "cart": {
+    "seo": {
+      "title": "My Cart - Élisabeth Constantin",
+      "description": "Review your cart and finalise your order of Élisabeth Constantin's artworks. Secure payment by Stripe."
+    },
+    "empty": {
+      "title": "Your cart is empty",
+      "subtitle": "Browse our unique artworks in the gallery"
+    },
+    "header": "My Cart",
+    "summary": {
+      "title": "Summary",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "shippingValue": "Free",
+      "total": "Total",
+      "items": "artwork",
+      "items_plural": "artworks"
+    },
+    "security": {
+      "securePayment": "🔒 100% secure payment",
+      "shipping": "🚚 Insured delivery and professional packaging",
+      "certificate": "📜 Certificate of authenticity included"
+    },
+    "errors": {
+      "stripe": "Payment system error:",
+      "stripeHelp": "Please refresh the page or try again later."
+    },
+    "actions": {
+      "checkout": "Go to checkout",
+      "remove": "Remove from cart"
+    }
+  },
+  "checkout": {
+    "seo": {
+      "title": "Secure Checkout - Élisabeth Constantin",
+      "description": "Complete your purchase securely. Stripe processed credit card payment."
+    },
+    "steps": {
+      "info": "Information",
+      "payment": "Payment",
+      "confirmation": "Confirmation"
+    },
+    "step1": {
+      "title": "Shipping information",
+      "fields": {
+        "email": "Email *",
+        "firstName": "First name *",
+        "lastName": "Last name *",
+        "phone": "Phone",
+        "address": "Address *",
+        "city": "City *",
+        "postalCode": "Postal code *",
+        "country": "Country *"
+      },
+      "actions": {
+        "back": "Back to cart",
+        "next": "Continue to payment"
+      }
+    },
+    "step2": {
+      "title": "Payment method",
+      "methods": {
+        "card": {
+          "title": "Credit card",
+          "subtitle": "Visa, Mastercard, American Express"
+        },
+        "paypal": {
+          "title": "PayPal",
+          "subtitle": "Coming soon"
+        }
+      },
+      "cardDetails": "Card details",
+      "secure": "Secure payment – all data is encrypted",
+      "actions": {
+        "back": "Back",
+        "submit": "Pay {{amount}} €",
+        "processing": "Processing..."
+      }
+    },
+    "step3": {
+      "title": "Order confirmed!",
+      "description": "Thank you for your purchase. A confirmation email has been sent to <0>{{email}}</0>.",
+      "secondary": "Your artworks will be carefully prepared and shipped as soon as possible.",
+      "detailsTitle": "Your order details",
+      "total": "Total paid:",
+      "reference": "Reference:",
+      "date": "Date:"
+    },
+    "summary": {
+      "title": "Order summary",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "shippingValue": "Free",
+      "total": "Total",
+      "confirmed": "✓ Order confirmed"
+    },
+    "discount": {
+      "applied": "{{discount}}% discount applied"
+    },
+    "countries": {
+      "France": "France",
+      "Belgique": "Belgium",
+      "Suisse": "Switzerland",
+      "Espagne": "Spain",
+      "Italie": "Italy"
+    },
+    "errors": {
+      "missingFields": "Please fill out all required fields.",
+      "invalidEmail": "Please enter a valid email address.",
+      "stripeUnavailable": "The payment system is not ready yet. Please wait a moment.",
+      "cardIncomplete": "Please complete your card information.",
+      "missingSecret": "No client secret received from the server",
+      "paymentFailed": "Payment was not completed. Status: {{status}}",
+      "paymentGeneric": "Payment error: {{message}}"
+    }
+  },
+  "orders": {
+    "seo": {
+      "title": "My Orders - Order Tracking | Élisabeth Constantin",
+      "description": "Track the status of your order of Élisabeth Constantin's artworks. Check delivery progress and your purchase history."
+    },
+    "title": "My Orders",
+    "instructions": "Enter the email used for your order to check its status",
+    "form": {
+      "placeholder": "Your email",
+      "submit": {
+        "idle": "Search",
+        "loading": "Searching..."
+      }
+    },
+    "errors": {
+      "load": "Unable to retrieve your orders. Please double-check your email."
+    },
+    "empty": "No order found for this email address.",
+    "listTitle": "Your orders",
+    "status": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "details": {
+      "title": "Order details",
+      "shipping": "Shipping information",
+      "tracking": "Delivery tracking",
+      "trackingInfo": "Your order has been shipped and is on its way."
+    },
+    "help": {
+      "title": "Need help with your order?",
+      "text": "Feel free to contact me at <0>contact@elisabethconstantin.com</0> or by phone at +33 6 85 50 09 73."
+    }
+  },
+  "monParcours": {
+    "seo": {
+      "title": "My Journey - Élisabeth Constantin",
+      "description": "Explore the artistic journey of Élisabeth Constantin, her unique 3D multiplane approach, influences, and vision of contemporary art."
+    },
+    "heroTitle": "My Approach",
+    "heroSubtitle": "Discover my artistic vision, my journey, and the influences that fuel my creation",
+    "sections": [
+      {
+        "icon": "heart",
+        "title": "Why I create",
+        "paragraphs": [
+          "[Share your deep motivation, what drives you to create, the emotion you want to convey...]",
+          "[Describe the impact you want to have on viewers, what art represents for you...]",
+          "[Explain your personal vision of art and the role it plays in your life...]"
+        ]
+      },
+      {
+        "icon": "lightbulb",
+        "title": "My beginnings",
+        "paragraphs": [
+          "[Tell the story of your first steps in art, how you discovered this passion, what led you down this path...]",
+          "[Describe your first artworks, your early lessons, the challenges you encountered...]",
+          "[Share the memorable moments of your beginnings, the people who inspired or supported you along the way...]"
+        ]
+      },
+      {
+        "icon": "palette",
+        "title": "Artistic direction",
+        "paragraphs": [
+          "[Describe your artistic style, your favourite techniques, the influences that shape your work...]",
+          "[Explain how your style has evolved over time, the experiments that have marked your journey...]",
+          "[Share your creative approach, your process, what makes your art unique...]"
+        ]
+      },
+      {
+        "icon": "certificate",
+        "title": "Certifications",
+        "paragraphs": [
+          "[List the artistic training, diplomas, and certifications that enriched your practice...]",
+          "[Describe the workshops, residencies, and continuing education that helped your development...]",
+          "[Mention competitions entered, awards received, and official recognitions...]"
+        ]
+      },
+      {
+        "icon": "newspaper",
+        "title": "Press coverage",
+        "paragraphs": [
+          "[Highlight press articles about your work, interviews granted, media reports...]",
+          "[Share moments of media recognition, events that drew attention to your art...]",
+          "[Explain how these publications impacted your career and the opportunities they opened...]"
+        ]
+      }
+    ],
+    "conclusionTitle": "My approach today",
+    "conclusionParagraphs": [
+      "[Describe your current artistic practice, ongoing projects, recent evolutions...]",
+      "[Share your future ambitions, artistic goals, and where you wish to take your art next...]"
+    ]
+  },
+  "legal": {},
+  "newsletterPages": {
+    "confirmed": {
+      "seoTitle": "Subscription Confirmed - Newsletter",
+      "seoDescription": "Thank you for joining Élisabeth Constantin's newsletter",
+      "title": "Subscription confirmed!",
+      "titleAlready": "Already subscribed!",
+      "description": "Thank you for confirming your subscription! You will now receive our latest artworks and events in preview.",
+      "descriptionAlready": "Your email was already confirmed. You will keep receiving our updates.",
+      "promoLabel": "Here is your welcome promo code:",
+      "promoInfo": "Enjoy <strong>10% off</strong> your next order.",
+      "buttons": {
+        "discover": "Browse artworks",
+        "events": "See events"
+      }
+    },
+    "unsubscribe": {
+      "seoTitle": "Unsubscribe - Newsletter",
+      "seoDescription": "Confirm your newsletter unsubscription",
+      "invalidTitle": "Invalid link",
+      "invalidDescription": "The unsubscribe link is invalid or has expired.",
+      "confirmTitle": "Are you sure you want to unsubscribe?",
+      "confirmDescription": "You will no longer receive news about new artworks and upcoming events.",
+      "confirmSecondary": "We would be sad to see you go... You can subscribe again anytime on our website.",
+      "cta": {
+        "confirm": "Confirm unsubscription",
+        "stay": "No, keep me subscribed",
+        "back": "Back to home",
+        "loading": "Unsubscribing..."
+      },
+      "errors": {
+        "default": "An error occurred during unsubscription"
+      }
+    },
+    "unsubscribed": {
+      "seoTitle": "Unsubscribed - Newsletter",
+      "seoDescription": "You have been unsubscribed from the newsletter",
+      "title": "Unsubscription successful",
+      "description": "You have been unsubscribed from our newsletter. You will no longer receive emails from us.",
+      "secondary": "We're sorry to see you go. If you change your mind, you can subscribe again anytime from our website.",
+      "button": "Back to home"
+    },
+    "error": {
+      "seoTitle": "Error - Newsletter",
+      "seoDescription": "An error occurred",
+      "buttons": {
+        "home": "Back to home",
+        "contact": "Contact us"
+      },
+      "reasons": {
+        "invalid_token": {
+          "title": "Invalid link",
+          "message": "This confirmation link is no longer valid or has already been used.",
+          "help": "The confirmation link expires after 48 hours. You can request a new link from our subscription form."
+        },
+        "not_found": {
+          "title": "Email not found",
+          "message": "No subscription matches this email address.",
+          "help": "Please make sure you are using the correct link or try subscribing again."
+        },
+        "update_failed": {
+          "title": "Update error",
+          "message": "We could not update your subscription.",
+          "help": "Please try again later or contact us if the issue persists."
+        },
+        "invalid_unsubscribe_token": {
+          "title": "Invalid unsubscribe link",
+          "message": "This unsubscribe link is no longer valid.",
+          "help": "Please use the link contained in the most recent email you received."
+        },
+        "unsubscribe_failed": {
+          "title": "Unsubscribe error",
+          "message": "We could not complete your unsubscription.",
+          "help": "Please try again or contact us directly."
+        },
+        "default": {
+          "title": "An error occurred",
+          "message": "We were unable to process your request.",
+          "help": "Please try again later or contact us if the issue persists."
+        }
+      }
+    }
+  }
+}

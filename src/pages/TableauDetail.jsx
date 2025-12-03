@@ -6,6 +6,7 @@ import { FaShoppingCart, FaCheck } from 'react-icons/fa';
 import SEO from '../components/SEO';
 import ArtworkSchema from '../components/ArtworkSchema';
 import '../styles/tableauDetail.css';
+import { useTranslation } from 'react-i18next';
 
 export default function TableauDetail() {
   const { id } = useParams();
@@ -16,11 +17,22 @@ export default function TableauDetail() {
   const [isZooming, setIsZooming] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   // Scroll vers le haut à chaque changement d'ID
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [id]);
+
+  const getTechniqueLabel = (type) => {
+    if (!type) {
+      return t('gallery.typeLabels.default');
+    }
+    const normalized = type.toLowerCase().replace(/\s+/g, '_');
+    return t(`gallery.typeLabels.${normalized}`, {
+      defaultValue: type,
+    });
+  };
 
   useEffect(() => {
     // Faire défiler vers le haut de la page à chaque fois qu'on arrive sur cette page
@@ -36,13 +48,13 @@ export default function TableauDetail() {
           id: artwork._id,  // Utiliser _id comme id
           titre: artwork.title,
           prix: artwork.price,
-          description: artwork.description || "Description non disponible pour cette œuvre.",
+          description: artwork.description || t('artwork.descriptionFallback'),
           images: [
             artwork.main_image,
             ...(artwork.other_images || [])
           ].filter(img => img), // Filtrer les images null/undefined
           dimensions: artwork.width && artwork.height ? `${artwork.width} x ${artwork.height} cm` : "Dimensions non spécifiées",
-          technique: artwork.type === "3D" ? "Tableau 3 dimensions" : "Peinture",
+          technique: getTechniqueLabel(artwork.type),
           type: artwork.type,
           disponible: artwork.status ? artwork.status === 'Disponible' : artwork.is_available !== false // Nouveau statut ou fallback
         };
@@ -50,7 +62,7 @@ export default function TableauDetail() {
         setTableau(tableauData);
       } catch (error) {
         console.error('Erreur lors du chargement du tableau:', error);
-        setError('Impossible de charger les détails de cette œuvre.');
+        setError(t('artwork.errors.load'));
       } finally {
         setLoading(false);
       }
@@ -59,7 +71,7 @@ export default function TableauDetail() {
     if (id) {
       fetchTableau();
     }
-  }, [id]);
+  }, [id, t]);
 
   const handleMouseMove = (e) => {
     if (!isZooming) return;
@@ -90,7 +102,7 @@ export default function TableauDetail() {
   if (loading) {
     return (
       <div className="tableau-detail">
-        <div className="loading">Chargement...</div>
+        <div className="loading">{t('artwork.loading')}</div>
       </div>
     );
   }
@@ -106,7 +118,7 @@ export default function TableauDetail() {
   if (!tableau) {
     return (
       <div className="tableau-detail">
-        <div className="loading">Œuvre non trouvée.</div>
+        <div className="loading">{t('artwork.errors.notFound')}</div>
       </div>
     );
   }
@@ -114,9 +126,9 @@ export default function TableauDetail() {
   return (
     <>
       <SEO 
-        title={`${tableau.titre} - Élisabeth Constantin`}
+        title={`${tableau.titre} - ${t('artwork.seo.titleSuffix')}`}
         description={tableau.description}
-        keywords={`${tableau.titre}, ${tableau.type}, œuvre art, Elisabeth Constantin, ${tableau.technique}`}
+        keywords={`${tableau.titre}, ${tableau.type}, ${t('artwork.seo.keywordsSuffix')}, ${tableau.technique}`}
         image={tableau.images[0]}
         url={`https://elisabeth-constantin.fr/tableau/${tableau.id}`}
       />
@@ -178,17 +190,17 @@ export default function TableauDetail() {
 
           <div className="tableau-details">
             <div className="detail-item">
-              <span className="detail-label">Dimensions :</span>
+              <span className="detail-label">{t('artwork.dimensions')} :</span>
               <span className="detail-value">{tableau.dimensions}</span>
             </div>
             <div className="detail-item">
-              <span className="detail-label">Technique :</span>
+              <span className="detail-label">{t('artwork.technique')} :</span>
               <span className="detail-value">{tableau.technique}</span>
             </div>
             <div className="detail-item">
-              <span className="detail-label">Disponibilité :</span>
+              <span className="detail-label">{t('artwork.availability')} :</span>
               <span className={`detail-value ${tableau.disponible ? 'disponible' : 'indisponible'}`}>
-                {tableau.disponible ? 'En stock' : 'Épuisé'}
+                {tableau.disponible ? t('artwork.available') : t('artwork.unavailable')}
               </span>
             </div>
           </div>
@@ -201,18 +213,18 @@ export default function TableauDetail() {
           <div className="tableau-action">
             {!tableau.disponible ? (
               <button className="add-to-cart-btn unavailable" disabled>
-                Indisponible
+                {t('artwork.buttons.unavailable')}
               </button>
             ) : isInCart(tableau.id) ? (
               <button className="add-to-cart-btn in-cart" disabled>
-                <FaCheck /> Dans le panier
+                <FaCheck /> {t('artwork.buttons.inCart')}
               </button>
             ) : (
               <button 
                 className="add-to-cart-btn"
                 onClick={handleAddToCart}
               >
-                <FaShoppingCart /> Ajouter au panier
+                <FaShoppingCart /> {t('artwork.buttons.add')}
               </button>
             )}
           </div>

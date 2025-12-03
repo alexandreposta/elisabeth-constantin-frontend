@@ -1,11 +1,13 @@
 import { API_URL } from './config';
+import { getCurrentLanguage, withLanguageQuery } from '../utils/language';
 
 const API_BASE_URL = API_URL;
 
 export const eventsAPI = {
   // Récupérer tous les événements
   getAllEvents: async () => {
-    const response = await fetch(`${API_BASE_URL}/events/`, {
+    const url = withLanguageQuery(`${API_BASE_URL}/events/`, getCurrentLanguage());
+    const response = await fetch(url, {
       credentials: 'include',
     });
     if (!response.ok) {
@@ -16,7 +18,8 @@ export const eventsAPI = {
 
   // Récupérer un événement par ID
   getEventById: async (id) => {
-    const response = await fetch(`${API_BASE_URL}/events/${id}`, {
+    const url = withLanguageQuery(`${API_BASE_URL}/events/${id}`, getCurrentLanguage());
+    const response = await fetch(url, {
       credentials: 'include',
     });
     if (!response.ok) {
