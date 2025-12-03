@@ -44,7 +44,7 @@ const ImageUpload = ({
 
   return (
     <div className={`image-upload ${className} ${showInCanvas ? 'canvas-mode' : ''}`}>
-      {label && <label className="image-upload-label">{label}</label>}
+      {label && label !== "" && <label className="image-upload-label">{label}</label>}
       
       <div className="image-upload-container">
         {multiple ? (

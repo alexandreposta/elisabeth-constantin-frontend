@@ -11,6 +11,7 @@ import AdminOrders from './pages/AdminOrders';
 import AdminLogin from './pages/AdminLogin';
 import Dashboard from './pages/Dashboard';
 import MesCommandes from './pages/MesCommandes';
+import AdminArtworkDetail from './pages/AdminArtworkDetail';
 import MentionsLegales from './pages/MentionsLegales';
 import PolitiqueConfidentialite from './pages/PolitiqueConfidentialite';
 import ConditionsGeneralesVente from './pages/ConditionsGeneralesVente';
@@ -86,6 +87,11 @@ function AppContent() {
         <Route path="/admin/artworks" element={
           <ProtectedRoute>
             <AdminArtworks />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/artworks/:id" element={
+          <ProtectedRoute>
+            <AdminArtworkDetail />
           </ProtectedRoute>
         } />
         <Route path="/admin/events" element={

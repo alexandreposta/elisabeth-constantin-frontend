@@ -5,8 +5,16 @@ import { useCart } from '../context/CartContext';
 import { FaShoppingCart, FaCheck } from 'react-icons/fa';
 import SEO from '../components/SEO';
 import ArtworkSchema from '../components/ArtworkSchema';
+import MarkdownContent from '../components/MarkdownContent';
 import '../styles/tableauDetail.css';
 import { useTranslation } from 'react-i18next';
+import removeMarkdown from 'remove-markdown';
+
+const sanitizeDescription = (value) => {
+  if (!value) return '';
+  const withoutMarkdown = removeMarkdown(value);
+  return withoutMarkdown.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+};
 
 export default function TableauDetail() {
   const { id } = useParams();
@@ -123,11 +131,13 @@ export default function TableauDetail() {
     );
   }
 
+  const seoDescription = sanitizeDescription(tableau.description) || t('artwork.descriptionFallback');
+
   return (
     <>
       <SEO 
         title={`${tableau.titre} - ${t('artwork.seo.titleSuffix')}`}
-        description={tableau.description}
+        description={seoDescription}
         keywords={`${tableau.titre}, ${tableau.type}, ${t('artwork.seo.keywordsSuffix')}, ${tableau.technique}`}
         image={tableau.images[0]}
         url={`https://elisabeth-constantin.fr/tableau/${tableau.id}`}
@@ -207,7 +217,7 @@ export default function TableauDetail() {
 
           <div className="tableau-description">
             <h3>Description</h3>
-            <p>{tableau.description}</p>
+            <MarkdownContent content={tableau.description} className="markdown-content" />
           </div>
 
           <div className="tableau-action">

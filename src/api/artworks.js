@@ -77,6 +77,38 @@ export async function getAllGalleryTypes() {
   return await res.json();
 }
 
+export async function translateDescription(artworkId, descriptionFr) {
+  const res = await fetch(`${API}/translate-description`, {
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      artwork_id: artworkId,
+      description_fr: descriptionFr
+    })
+  });
+  if (!res.ok) throw new Error("Échec de la traduction");
+  return await res.json();
+}
+
+export async function updateDescriptionEn(artworkId, descriptionEn) {
+  const res = await fetch(`${API}/update-description-en`, {
+    method: "PUT",
+    credentials: 'include',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      artwork_id: artworkId,
+      description_en: descriptionEn
+    })
+  });
+  if (!res.ok) throw new Error("Échec de la mise à jour");
+  return await res.json();
+}
+
 export async function getArtworksByGallery(galleryType) {
   // Décoder d'abord pour éviter le double-encodage si galleryType est déjà encodé
   let decoded = galleryType;
