@@ -494,6 +494,33 @@
 
 /* Responsive styles */
 /* Medium screens: place image and newsletter side-by-side ABOVE the text */
+/* Additional breakpoint: keep image + newsletter side-by-side on larger phones
+   (e.g. iPhone 11 ~414px) up to tablets. This ensures horizontal alignment
+   instead of vertical stacking on those devices. */
+@media (min-width: 400px) and (max-width: 768px) {
+  .discover-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1.5rem;
+  }
+  .left-column {
+    flex-direction: row; /* image and newsletter side-by-side */
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+  }
+  .discover-image {
+    flex: 0 0 auto;
+    max-width: 320px;
+    width: 42%;
+    align-self: center;
+  }
+  .newsletter-container {
+    width: 48%;
+    max-width: none;
+  }
+}
+
 @media (min-width: 769px) and (max-width: 1199px) {
   .discover-container {
     /* keep single column so left-column spans full width, then switch left-column to row */
