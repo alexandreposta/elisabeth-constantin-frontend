@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getArtworkById, createArtwork, updateArtwork, deleteArtworkById, translateDescription, updateDescriptionEn } from '../api/artworks';
 import { getAllArtworkTypes } from '../api/artworkTypes';
-import { FaTrash, FaSave, FaArrowLeft, FaShoppingCart, FaLanguage, FaSync } from 'react-icons/fa';
+import { FaTrash, FaSave, FaArrowLeft, FaLanguage, FaSync } from 'react-icons/fa';
 import AdminHeader from '../components/AdminHeader';
 import ImageUpload from '../components/ImageUpload';
 import '../styles/adminArtworkDetail.css';
@@ -664,12 +664,6 @@ useEffect(() => {
                 </p>
               )}
 
-            </div>
-
-            <div className="tableau-action">
-              <button className="add-to-cart-btn" disabled>
-                <FaShoppingCart /> Ajouter au panier
-              </button>
             </div>
           </div>
         </div>
