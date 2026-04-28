@@ -85,8 +85,6 @@ coverage/
 sw.js
 workbox-*.js
 
-#Docker
-docker-compose.yml
-Dockerfile
-.dockerignore
+# Docker artifacts (Dockerfile, nginx.conf, .dockerignore) are tracked alongside the code.
+# docker-compose.yml lives at the parent dir for local-dev orchestration.
 .env.docker

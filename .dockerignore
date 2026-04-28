@@ -1,0 +1,25 @@
+.git/
+.gitignore
+.github/
+.vercel/
+.vscode/
+.idea/
+
+node_modules/
+dist/
+build/
+.cache/
+.vite/
+.eslintcache
+
+.env
+.env.*
+!.env.example
+
+coverage/
+*.log
+*.md
+*.tsbuildinfo
+
+# Lockfile concurrent : on utilise package-lock.json côté Docker (npm ci).
+pnpm-lock.yaml
