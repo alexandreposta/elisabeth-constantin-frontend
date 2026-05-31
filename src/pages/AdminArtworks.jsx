@@ -55,8 +55,8 @@ export default function Admin() {
         result = new Date(b.created_at || b.createdAt || Date.now()) - new Date(a.created_at || a.createdAt || Date.now());
         break;
       case "status":
-        // Tri par statut : Disponible > Indisponible > Vendu
-        const statusOrder = { "Disponible": 3, "Indisponible": 2, "Vendu": 1 };
+        // Tri par statut : Disponible > Réservé > Indisponible > Vendu
+        const statusOrder = { "Disponible": 4, "Réservé": 3, "Indisponible": 2, "Vendu": 1 };
         const statusA = artwork => artwork.status || (artwork.is_available ? "Disponible" : "Vendu");
         const statusB = artwork => artwork.status || (artwork.is_available ? "Disponible" : "Vendu");
         result = (statusOrder[statusA(b)] || 0) - (statusOrder[statusA(a)] || 0);
@@ -140,6 +140,7 @@ export default function Admin() {
               }}
               statusIndicator={
                 artwork.status === 'Disponible' ? 'available' : 
+                artwork.status === 'Réservé' ? 'reserved' :
                 artwork.status === 'Vendu' ? 'sold' : 
                 artwork.status === 'Indisponible' ? 'unavailable' :
                 artwork.is_available ? 'available' : 'sold'  // Fallback pour compatibilité

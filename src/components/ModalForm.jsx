@@ -95,6 +95,7 @@ export default function ModalForm({
                     onChange={handleInputChange}
                   >
                     <option value="Disponible">Disponible</option>
+                    <option value="Réservé">Réservé</option>
                     <option value="Vendu">Vendu</option>
                     <option value="Indisponible">Indisponible</option>
                   </select>

@@ -539,6 +539,7 @@ useEffect(() => {
                   onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                 >
                   <option value="Disponible">Disponible</option>
+                  <option value="Réservé">Réservé</option>
                   <option value="Indisponible">Indisponible</option>
                   <option value="Vendu">Vendu</option>
                 </select>
